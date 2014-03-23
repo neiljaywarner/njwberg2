@@ -75,8 +75,16 @@ public class AssessmentActivity extends Activity {
 
       mTitleText.setText(cursor.getString(cursor
           .getColumnIndexOrThrow(TodoTable.COLUMN_SUMMARY)));
-      int q1 = cursor.getInt(cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q1));
-      mEditBoxes.get(0).setText(String.valueOf(q1));
+      int colIndexQ1=cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q1);
+      for (int i=0; i < 2; i++) {
+    	  try {
+    		  int answer = cursor.getInt(colIndexQ1+i);
+        	  mEditBoxes.get(i).setText(String.valueOf(answer));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    	 
+      }
      // mBodyText.setText(String.valueOf(cursor.getInt(cursor
      //     .getColumnIndexOrThrow(TodoTable.COLUMN_Q1))));
 
@@ -99,14 +107,24 @@ public class AssessmentActivity extends Activity {
 
   private void saveState() {
     String title = mTitleText.getText().toString();
-    int q1 = Integer.valueOf(mEditBoxes.get(0).getText().toString().trim());
+    
     if ( title.length() == 0) {
       return;
     }
 
     ContentValues values = new ContentValues();
     values.put(TodoTable.COLUMN_SUMMARY, title);
-    values.put(TodoTable.COLUMN_Q1, q1);
+    for (int i = 1; i <= 2; i++) {
+    	//TODO: Refactor!  exceptions bad, halfway puling away from constants=bad.
+    	try {
+    		int ans = Integer.valueOf(mEditBoxes.get(0).getText().toString().trim());
+    		//if blank of not an integer, exception, don't add.
+			values.put("q"+i, ans);
+		} catch (Exception e) {
+			// do nothing, don't put in there.
+		}
+    }
+    
 
     if (todoUri == null) {
       // New todo
