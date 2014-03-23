@@ -61,7 +61,7 @@ public class ToDoDetailActivity extends Activity {
 
   private void fillData(Uri uri) {
     String[] projection = { TodoTable.COLUMN_SUMMARY,
-        TodoTable.COLUMN_DESCRIPTION };
+        TodoTable.COLUMN_Q1 };
     Cursor cursor = getContentResolver().query(uri, projection, null, null,
         null);
     if (cursor != null) {
@@ -70,8 +70,8 @@ public class ToDoDetailActivity extends Activity {
 
       mTitleText.setText(cursor.getString(cursor
           .getColumnIndexOrThrow(TodoTable.COLUMN_SUMMARY)));
-      mBodyText.setText(cursor.getString(cursor
-          .getColumnIndexOrThrow(TodoTable.COLUMN_DESCRIPTION)));
+      mBodyText.setText(String.valueOf(cursor.getInt(cursor
+          .getColumnIndexOrThrow(TodoTable.COLUMN_Q1))));
 
       // always close the cursor
       cursor.close();
@@ -103,7 +103,7 @@ public class ToDoDetailActivity extends Activity {
 
     ContentValues values = new ContentValues();
     values.put(TodoTable.COLUMN_SUMMARY, summary);
-    values.put(TodoTable.COLUMN_DESCRIPTION, description);
+    values.put(TodoTable.COLUMN_Q1, description);
 
     if (todoUri == null) {
       // New todo

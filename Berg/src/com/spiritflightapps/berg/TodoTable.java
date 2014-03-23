@@ -14,8 +14,8 @@ public class TodoTable {
   // Database table
   public static final String TABLE_TODO = "todo";
   public static final String COLUMN_ID = "_id";
-  public static final String COLUMN_SUMMARY = "summary";
-  public static final String COLUMN_DESCRIPTION = "description";
+  public static final String COLUMN_SUMMARY = "patient_ref"; //ie initials+city
+  public static final String COLUMN_Q1 = "q1";
 
   // Database creation SQL statement
   private static final String DATABASE_CREATE = "create table " 
@@ -23,8 +23,7 @@ public class TodoTable {
       + "(" 
       + COLUMN_ID + " integer primary key autoincrement, " 
       + COLUMN_SUMMARY + " text not null," 
-      + COLUMN_DESCRIPTION
-      + " text not null" 
+      + COLUMN_Q1 + " integer"
       + ");";
 
   public static void onCreate(SQLiteDatabase database) {
