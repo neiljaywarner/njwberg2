@@ -1,4 +1,4 @@
-package com.spiritflightapps.berg.contentprovider;
+package com.spiritflightapps.berg;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -15,7 +15,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 public class MyToDoContentProvider extends ContentProvider {
 
@@ -26,7 +25,7 @@ public class MyToDoContentProvider extends ContentProvider {
   private static final int TODOS = 10;
   private static final int TODO_ID = 20;
 
-  private static final String AUTHORITY = "com.spritflightapps.berg.contentprovider.MyToDoContentProvider";
+  private static final String AUTHORITY = "com.spiritflightapps.berg";
 
   private static final String BASE_PATH = "todos";
   public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
@@ -45,7 +44,6 @@ public class MyToDoContentProvider extends ContentProvider {
 
   @Override
   public boolean onCreate() {
-	Log.i("NJW","in oncreate of contetprovider");
     database = new TodoDatabaseHelper(getContext());
     return false;
   }
@@ -173,23 +171,20 @@ public class MyToDoContentProvider extends ContentProvider {
     getContext().getContentResolver().notifyChange(uri, null);
     return rowsUpdated;
   }
-//TODO: IS this really  needed..
+
   private void checkColumns(String[] projection) {
-    String[] available = { 
-        TodoTable.COLUMN_SUMMARY, TodoTable.COLUMN_Q1, TodoTable.COLUMN_Q2, TodoTable.COLUMN_Q3, TodoTable.COLUMN_Q4, TodoTable.COLUMN_Q5,
-        TodoTable.COLUMN_Q6, TodoTable.COLUMN_Q7, TodoTable.COLUMN_Q8, TodoTable.COLUMN_Q9, TodoTable.COLUMN_Q10, TodoTable.COLUMN_Q11,
-        TodoTable.COLUMN_Q12,
-        TodoTable.COLUMN_Q13,
-        TodoTable.COLUMN_Q14,
-        TodoTable.COLUMN_ID };
-    if (projection != null) {
-      HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
-      HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));
-      // check if all columns which are requested are available
-      if (!availableColumns.containsAll(requestedColumns)) {
-        throw new IllegalArgumentException("Unknown columns in projection");
-      }
-    }
+	  //This seems like a bit of a pain for an "extra"
+//    String[] available = { 
+//        TodoTable.COLUMN_SUMMARY, TodoTable.COLUMN_DESCRIPTION,
+//        TodoTable.COLUMN_ID };
+//    if (projection != null) {
+//      HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
+//      HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));
+//      // check if all columns which are requested are available
+//      if (!availableColumns.containsAll(requestedColumns)) {
+//        throw new IllegalArgumentException("Unknown columns in projection");
+//      }
+//    }
   }
 
 } 
