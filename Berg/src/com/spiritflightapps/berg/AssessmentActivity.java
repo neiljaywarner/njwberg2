@@ -67,7 +67,22 @@ public class AssessmentActivity extends Activity {
 
   private void fillData(Uri uri) {
     String[] projection = { TodoTable.COLUMN_SUMMARY,
-        TodoTable.COLUMN_Q1 };
+        TodoTable.COLUMN_Q1,
+        TodoTable.COLUMN_Q2,
+        TodoTable.COLUMN_Q3,
+        TodoTable.COLUMN_Q4,
+        TodoTable.COLUMN_Q5,
+        TodoTable.COLUMN_Q6,
+        TodoTable.COLUMN_Q7,
+        TodoTable.COLUMN_Q8,
+        TodoTable.COLUMN_Q9,
+        TodoTable.COLUMN_Q10,
+        TodoTable.COLUMN_Q11,
+        TodoTable.COLUMN_Q12,
+        TodoTable.COLUMN_Q13,
+        TodoTable.COLUMN_Q14
+
+    };
     Cursor cursor = getContentResolver().query(uri, projection, null, null,
         null);
     if (cursor != null) {
@@ -76,7 +91,7 @@ public class AssessmentActivity extends Activity {
       mTitleText.setText(cursor.getString(cursor
           .getColumnIndexOrThrow(TodoTable.COLUMN_SUMMARY)));
       int colIndexQ1=cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q1);
-      for (int i=0; i < 2; i++) {
+      for (int i=0; i < mEditBoxes.size(); i++) {
     	  try {
     		  int answer = cursor.getInt(colIndexQ1+i);
         	  mEditBoxes.get(i).setText(String.valueOf(answer));
@@ -93,17 +108,17 @@ public class AssessmentActivity extends Activity {
     }
   }
 
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    saveState();
-    outState.putParcelable(MyToDoContentProvider.CONTENT_ITEM_TYPE, todoUri);
-  }
-
-  @Override
-  protected void onPause() {
-    super.onPause();
-    saveState();
-  }
+//  protected void onSaveInstanceState(Bundle outState) {
+//    super.onSaveInstanceState(outState);
+//    saveState();
+//    outState.putParcelable(MyToDoContentProvider.CONTENT_ITEM_TYPE, todoUri);
+//  }
+//
+//  @Override
+//  protected void onPause() {
+//    super.onPause();
+//    saveState();
+//  }
 
   private void saveState() {
     String title = mTitleText.getText().toString();
@@ -114,7 +129,7 @@ public class AssessmentActivity extends Activity {
 
     ContentValues values = new ContentValues();
     values.put(TodoTable.COLUMN_SUMMARY, title);
-    for (int i = 1; i <= 2; i++) {
+    for (int i = 1; i <= mEditBoxes.size(); i++) {
     	//TODO: Refactor!  exceptions bad, halfway puling away from constants=bad.
     	try {
     		int ans = Integer.valueOf(mEditBoxes.get(0).getText().toString().trim());
@@ -171,6 +186,7 @@ public class AssessmentActivity extends Activity {
                   }
                   Toast.makeText(AssessmentActivity.this.getApplicationContext(), "Total Score=" + total, Toast.LENGTH_LONG).show();
                   tvTotal.setText(String.valueOf(total));
+                  saveState();
 
               } catch (Exception e) {
                   Toast.makeText(AssessmentActivity.this.getApplicationContext(), "Please put a value  of 0-4 for every field", Toast.LENGTH_LONG).show();
