@@ -1,0 +1,526 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/scrollView"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+      
+        android:orientation="vertical"
+        tools:context=".MainActivity"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent">
+
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:src="@android:drawable/ic_dialog_info"
+                android:contentDescription="Instructions"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/buttonQ1"
+                />
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:text="1.SITTING TO STANDING"
+                />
+
+
+
+            <EditText
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:tag="1"
+                android:id="@+id/editTextQ1"
+                />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent">
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:src="@android:drawable/ic_dialog_info"
+                android:contentDescription="Instructions"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/buttonQ2"
+                />
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:text="2.STANDING UNSUPPORTED"
+                />
+
+            <EditText
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:tag="2"
+                android:id="@+id/editTextQ2"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent">
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:src="@android:drawable/ic_dialog_info"
+                android:contentDescription="Instructions"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/buttonQ3"
+                />
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:text="3.SIT W/BACK UNSUP. FEET SUP"
+                />
+
+            <EditText
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:tag="3"
+                android:id="@+id/editTextQ3"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent">
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:src="@android:drawable/ic_dialog_info"
+                android:contentDescription="Instructions"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/buttonQ4"
+                />
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:text="4.STANDING TO SITTING"
+                />
+
+            <EditText
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:tag="4"
+                android:id="@+id/editTextQ4"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent">
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:src="@android:drawable/ic_dialog_info"
+                android:contentDescription="Instructions"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/buttonQ5"
+                />
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewQ5"
+                android:text="5.TRANSFERS"
+                />
+
+            <EditText
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:tag="5"
+                android:id="@+id/editTextQ5"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent">
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:src="@android:drawable/ic_dialog_info"
+                android:contentDescription="Instructions"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/buttonQ6"
+                />
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewQ6"
+                android:tag="Q6"
+                android:text="6.STAND UNSUP W/EYES CLOSED"
+                />
+
+            <EditText
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:tag="6"
+                android:id="@+id/editTextQ6"
+                />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent">
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:src="@android:drawable/ic_dialog_info"
+                android:contentDescription="Instructions"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/buttonQ7"
+                />
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="50dp"
+                android:id="@+id/textViewQ7"
+                android:tag="Q7"
+                android:text="7.STAND UNSUP W/FEET TOGETHER"
+                />
+
+            <EditText
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:tag="7"
+                android:id="@+id/editTextQ7"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent">
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:src="@android:drawable/ic_dialog_info"
+                android:contentDescription="Instructions"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/buttonQ8"
+                />
+
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewQ8"
+                android:tag="Q8"
+                android:text="8.STAND-REACH FWD W/ARM"
+                />
+
+            <EditText
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:tag="7"
+                android:id="@+id/editTextQ8"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent">
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:src="@android:drawable/ic_dialog_info"
+                android:contentDescription="Instructions"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/buttonQ9"
+                />
+
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="50dp"
+                android:id="@+id/textViewQ9"
+                android:tag="Q9"
+                android:text="9.STAND-PICKUP OBJECT FROM FLOOR"
+                />
+
+            <EditText
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:tag="9"
+                android:id="@+id/editTextQ9"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent">
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:src="@android:drawable/ic_dialog_info"
+                android:contentDescription="Instructions"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/buttonQ10"
+                />
+
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="50dp"
+                android:id="@+id/textViewQ10"
+                android:tag="Q10"
+                android:text="10.STAND-LOOK BEHIND SHOULDERS"
+                />
+
+            <EditText
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:tag="10"
+                android:id="@+id/editTextQ10"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent">
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:src="@android:drawable/ic_dialog_info"
+                android:contentDescription="Instructions"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/buttonQ11"
+                />
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewQ11"
+                android:tag="Q11"
+                android:text="11.TURN 360 DEGREES"
+                />
+
+            <EditText
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:tag="11"
+                android:id="@+id/editTextQ11"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent">
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:src="@android:drawable/ic_dialog_info"
+                android:contentDescription="Instructions"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/buttonQ12"
+                />
+
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="50dp"
+                android:id="@+id/textViewQ1"
+                android:tag="Q12"
+                android:text="12.PLACE ALT FOOT ON STEP WHILE UNSUPPORTED"
+                />
+
+            <EditText
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:tag="12"
+                android:id="@+id/editTextQ12"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent">
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:src="@android:drawable/ic_dialog_info"
+                android:contentDescription="Instructions"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/buttonQ13"
+                />
+
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="50dp"
+                android:id="@+id/textViewQ13"
+                android:tag="Q13"
+                android:text="13.STANDING UNSUPPORTED ONE FOOT IN FRONT"
+                />
+
+            <EditText
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:tag="13"
+                android:id="@+id/editTextQ13"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent">
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:src="@android:drawable/ic_dialog_info"
+                android:contentDescription="Instructions"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/buttonQ14"
+                />
+
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewQ14"
+                android:tag="Q14"
+                android:text="14.STANDING ON ONE LEG"
+                />
+
+            <EditText
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:tag="14"
+                android:id="@+id/editTextQ14"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="TOTAL"
+                android:longClickable="true"/>
+
+            <TextView
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="___"
+                android:id="@+id/textViewTotal"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:gravity="center">
+
+
+            <ImageButton
+                android:src="@drawable/cooltext_button_calculate"
+                android:contentDescription="Calculate"
+                android:layout_width="120dp"
+                android:background="@android:color/transparent"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonCalculate"
+                />
+
+            <ImageButton
+                android:src="@drawable/cooltext_button_clear"
+                android:layout_width="120dp"
+                android:contentDescription="Clear"
+                android:background="@android:color/transparent"
+
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonClear"
+                />
+
+
+        </LinearLayout>
+
+        <WebView
+            android:layout_width="wrap_content"
+            android:layout_height="5dp"
+
+            android:id="@+id/webView"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please rank 0-4.\nFor Instructions see: \nhttp://www.fallpreventiontaskforce.org/pdf/BergBalanceScale.pdf"
+            android:autoLink="all"
+            android:linksClickable="true"
+
+            />
+
+    </LinearLayout>
+</ScrollView>
+
