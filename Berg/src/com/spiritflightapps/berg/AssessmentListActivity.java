@@ -28,7 +28,7 @@ import android.widget.SimpleCursorAdapter;
  * You can delete existing ones via a long press on the item
  */
 
-public class TestListActivity extends ListActivity implements
+public class AssessmentListActivity extends ListActivity implements
     LoaderManager.LoaderCallbacks<Cursor> {
   private static final int ACTIVITY_CREATE = 0;
   private static final int ACTIVITY_EDIT = 1;
@@ -83,7 +83,7 @@ public class TestListActivity extends ListActivity implements
   }
 
   private void createTodo() {
-    Intent i = new Intent(this, ToDoDetailActivity.class);
+    Intent i = new Intent(this, AssessmentActivity.class);
     startActivity(i);
   }
 
@@ -91,7 +91,7 @@ public class TestListActivity extends ListActivity implements
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
-    Intent i = new Intent(this, ToDoDetailActivity.class);
+    Intent i = new Intent(this, AssessmentActivity.class);
     Uri todoUri = Uri.parse(MyToDoContentProvider.CONTENT_URI + "/" + id);
     i.putExtra(MyToDoContentProvider.CONTENT_ITEM_TYPE, todoUri);
 

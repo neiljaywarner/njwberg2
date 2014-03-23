@@ -19,7 +19,7 @@
             
           
         <activity
-            android:name=".TestListActivity"
+            android:name=".AssessmentListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ToDoDetailActivity"
+            android:name=".AssessmentActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
 

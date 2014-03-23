@@ -17,7 +17,7 @@ import android.widget.Toast;
  * TodoDetailActivity allows to enter a new todo item 
  * or to change an existing
  */
-public class ToDoDetailActivity extends Activity {
+public class AssessmentActivity extends Activity {
   private EditText mTitleText;
   private EditText mBodyText;
 
@@ -66,7 +66,6 @@ public class ToDoDetailActivity extends Activity {
         null);
     if (cursor != null) {
       cursor.moveToFirst();
-     //tod: remvoe cat
 
       mTitleText.setText(cursor.getString(cursor
           .getColumnIndexOrThrow(TodoTable.COLUMN_SUMMARY)));
@@ -115,7 +114,7 @@ public class ToDoDetailActivity extends Activity {
   }
 
   private void makeToast() {
-    Toast.makeText(ToDoDetailActivity.this, "Please maintain a summary",
+    Toast.makeText(AssessmentActivity.this, "Please maintain a summary",
         Toast.LENGTH_LONG).show();
   }
 } 
