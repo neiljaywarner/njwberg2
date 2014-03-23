@@ -17,7 +17,7 @@ public class MainActivity extends Activity {
     ArrayList<EditText> editBoxes;
     ArrayList<ImageButton> instructionButtons;
     ArrayList<String> mInstructions;
-
+// icon from http://www.flaticon.com/free-icon/falling-man-silhouette_11015
 
     TextView tvTotal;
 
