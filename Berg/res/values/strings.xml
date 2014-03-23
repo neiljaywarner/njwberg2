@@ -3,6 +3,8 @@
 
     <string name="app_name">EZ Berg
     </string>
+     <string name="patient_empty_message">No tests yet, please create one
+    </string>
     <string name="action_settings">Settings
     </string>
 
