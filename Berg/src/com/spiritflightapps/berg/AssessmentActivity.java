@@ -1,16 +1,23 @@
 package com.spiritflightapps.berg;
 
+import java.util.ArrayList;
+
 import com.spiritflightapps.berg.contentprovider.MyToDoContentProvider;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /*
@@ -19,45 +26,44 @@ import android.widget.Toast;
  */
 public class AssessmentActivity extends Activity {
   private EditText mTitleText;
-  private EditText mBodyText;
 
   private Uri todoUri;
 
-  @Override
-  protected void onCreate(Bundle bundle) {
-    super.onCreate(bundle);
-    setContentView(R.layout.edit);
-
-    mTitleText = (EditText) findViewById(R.id.todo_edit_summary);
-    mBodyText = (EditText) findViewById(R.id.todo_edit_description);
-    Button confirmButton = (Button) findViewById(R.id.todo_edit_button);
-
-    Bundle extras = getIntent().getExtras();
-
-    // check from the saved Instance
-    todoUri = (bundle == null) ? null : (Uri) bundle
-        .getParcelable(MyToDoContentProvider.CONTENT_ITEM_TYPE);
-
-    // Or passed from the other activity
-    if (extras != null) {
-      todoUri = extras
-          .getParcelable(MyToDoContentProvider.CONTENT_ITEM_TYPE);
-
-      fillData(todoUri);
-    }
-
-    confirmButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View view) {
-        if (TextUtils.isEmpty(mTitleText.getText().toString())) {
-          makeToast();
-        } else {
-          setResult(RESULT_OK);
-          finish();
-        }
-      }
-
-    });
-  }
+//  @Override
+//  protected void onCreate(Bundle bundle) {
+//    super.onCreate(bundle);
+//    setContentView(R.layout.edit);
+//
+//    mTitleText = (EditText) findViewById(R.id.todo_edit_summary);
+//    mBodyText = (EditText) findViewById(R.id.todo_edit_description);
+//    Button confirmButton = (Button) findViewById(R.id.todo_edit_button);
+//
+//    Bundle extras = getIntent().getExtras();
+//
+//    // check from the saved Instance
+//    todoUri = (bundle == null) ? null : (Uri) bundle
+//        .getParcelable(MyToDoContentProvider.CONTENT_ITEM_TYPE);
+//
+//    // Or passed from the other activity
+//    if (extras != null) {
+//      todoUri = extras
+//          .getParcelable(MyToDoContentProvider.CONTENT_ITEM_TYPE);
+//
+//      fillData(todoUri);
+//    }
+//
+//    confirmButton.setOnClickListener(new View.OnClickListener() {
+//      public void onClick(View view) {
+//        if (TextUtils.isEmpty(mTitleText.getText().toString())) {
+//          makeToast();
+//        } else {
+//          setResult(RESULT_OK);
+//          finish();
+//        }
+//      }
+//
+//    });
+//  }
 
   private void fillData(Uri uri) {
     String[] projection = { TodoTable.COLUMN_SUMMARY,
@@ -69,8 +75,10 @@ public class AssessmentActivity extends Activity {
 
       mTitleText.setText(cursor.getString(cursor
           .getColumnIndexOrThrow(TodoTable.COLUMN_SUMMARY)));
-      mBodyText.setText(String.valueOf(cursor.getInt(cursor
-          .getColumnIndexOrThrow(TodoTable.COLUMN_Q1))));
+      int q1 = cursor.getInt(cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q1));
+      mEditBoxes.get(0).setText(String.valueOf(q1));
+     // mBodyText.setText(String.valueOf(cursor.getInt(cursor
+     //     .getColumnIndexOrThrow(TodoTable.COLUMN_Q1))));
 
       // always close the cursor
       cursor.close();
@@ -90,19 +98,15 @@ public class AssessmentActivity extends Activity {
   }
 
   private void saveState() {
-    String summary = mTitleText.getText().toString();
-    String description = mBodyText.getText().toString();
-
-    // only save if either summary or description
-    // is available
-
-    if (description.length() == 0 && summary.length() == 0) {
+    String title = mTitleText.getText().toString();
+    int q1 = Integer.valueOf(mEditBoxes.get(0).getText().toString().trim());
+    if ( title.length() == 0) {
       return;
     }
 
     ContentValues values = new ContentValues();
-    values.put(TodoTable.COLUMN_SUMMARY, summary);
-    values.put(TodoTable.COLUMN_Q1, description);
+    values.put(TodoTable.COLUMN_SUMMARY, title);
+    values.put(TodoTable.COLUMN_Q1, q1);
 
     if (todoUri == null) {
       // New todo
@@ -113,8 +117,170 @@ public class AssessmentActivity extends Activity {
     }
   }
 
-  private void makeToast() {
-    Toast.makeText(AssessmentActivity.this, "Please maintain a summary",
-        Toast.LENGTH_LONG).show();
+  
+  
+  ArrayList<EditText> mEditBoxes;
+  ArrayList<ImageButton> instructionButtons;
+  ArrayList<String> mInstructions;
+//icon from http://www.flaticon.com/free-icon/falling-man-silhouette_11015
+
+  TextView tvTotal;
+
+  @Override
+  protected void onCreate(Bundle bundle) {
+      super.onCreate(bundle);
+      setContentView(R.layout.activity_main);
+      mTitleText = (EditText) findViewById(R.id.todo_edit_summary);
+
+      ImageButton buttonCalculate = (ImageButton) findViewById(R.id.buttonCalculate);
+      ImageButton buttonClear = (ImageButton) findViewById(R.id.buttonClear);
+      tvTotal = (TextView) findViewById(R.id.textViewTotal);
+      initializeEditBoxes();
+      initializeInstructionButtons();
+      initializeInstructionStrings();
+      buttonCalculate.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              int total = 0;
+              int score = 0;
+              try {
+                  for (EditText editBox : mEditBoxes) {
+                      score = Integer.parseInt(editBox.getText().toString());
+                      if (score > 4) {
+                          throw (new Exception()); //TODO: Detail which one via tag in xml
+                      }
+                      total += score;
+                  }
+                  Toast.makeText(AssessmentActivity.this.getApplicationContext(), "Total Score=" + total, Toast.LENGTH_LONG).show();
+                  tvTotal.setText(String.valueOf(total));
+
+              } catch (Exception e) {
+                  Toast.makeText(AssessmentActivity.this.getApplicationContext(), "Please put a value  of 0-4 for every field", Toast.LENGTH_LONG).show();
+
+              }
+          }
+      });
+
+      buttonClear.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              Toast.makeText(AssessmentActivity.this.getApplicationContext(), "clear", Toast.LENGTH_LONG).show();
+              for (EditText editText : mEditBoxes) {
+                  editText.setText("");
+              }
+          }
+      });
+
+      Bundle extras = getIntent().getExtras();
+
+      // check from the saved Instance
+      todoUri = (bundle == null) ? null : (Uri) bundle
+          .getParcelable(MyToDoContentProvider.CONTENT_ITEM_TYPE);
+
+      // Or passed from the other activity
+      if (extras != null) {
+        todoUri = extras
+            .getParcelable(MyToDoContentProvider.CONTENT_ITEM_TYPE);
+
+        fillData(todoUri);
+      }
+
+
   }
+
+  private void initializeInstructionStrings() {
+      mInstructions = new ArrayList<String>();
+      int numButtons = instructionButtons.size();
+      for (int i = 0; i < numButtons; i++) {
+          mInstructions.add(this.getResources().getStringArray(R.array.instructions)[i]);
+
+      }
+
+  }
+
+  private void initializeEditBoxes() {
+      //TODO: autocalculate when all of them complete, autoclear when entered, etc.
+      mEditBoxes = new ArrayList<EditText>();
+      mEditBoxes.add((EditText) findViewById(R.id.editTextQ1));
+      mEditBoxes.add((EditText) findViewById(R.id.editTextQ2));
+      mEditBoxes.add((EditText) findViewById(R.id.editTextQ3));
+      mEditBoxes.add((EditText) findViewById(R.id.editTextQ4));
+
+      mEditBoxes.add((EditText) findViewById(R.id.editTextQ5));
+      mEditBoxes.add((EditText) findViewById(R.id.editTextQ6));
+      mEditBoxes.add((EditText) findViewById(R.id.editTextQ7));
+      mEditBoxes.add((EditText) findViewById(R.id.editTextQ8));
+      mEditBoxes.add((EditText) findViewById(R.id.editTextQ9));
+      mEditBoxes.add((EditText) findViewById(R.id.editTextQ10));
+      mEditBoxes.add((EditText) findViewById(R.id.editTextQ11));
+      mEditBoxes.add((EditText) findViewById(R.id.editTextQ12));
+      mEditBoxes.add((EditText) findViewById(R.id.editTextQ13));
+      mEditBoxes.add((EditText) findViewById(R.id.editTextQ14));
+
+  }
+      //would an action bar ? icon be better if in the field?
+  //TODO: Find by tag for more readable code, or child or something?
+  private void initializeInstructionButtons() {
+      instructionButtons = new ArrayList<ImageButton>();
+      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ1));
+
+      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ2));
+      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ3));
+      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ4));
+
+      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ5));
+      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ6));
+      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ7));
+      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ8));
+      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ9));
+      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ10));
+      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ11));
+      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ12));
+      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ13));
+      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ14));
+
+
+
+      for (int i = 0; i < instructionButtons.size(); i++) {
+          Log.i("NJW", "in loop of instruction buttons.");
+          final int buttonNum = i;
+          final int questionNum = i + 1;
+          instructionButtons.get(i).setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  Log.i("NJW","in onclick");
+                  //TODO: Use Fragments
+                  AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                          view.getContext());
+
+                  // set title
+                  alertDialogBuilder.setTitle("Instructions for Question " + questionNum);
+
+                  // set dialog message
+                  alertDialogBuilder
+                          .setMessage( mInstructions.get(buttonNum))
+                          .setCancelable(false)
+                          .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                              public void onClick(DialogInterface dialog,int id) {
+
+                                  dialog.dismiss();;
+                              }
+                          })
+                          ;
+
+                  // create alert dialog
+                  AlertDialog alertDialog = alertDialogBuilder.create();
+
+                  // show it
+                  alertDialog.show();
+              }
+
+          });
+      }
+
+  }
+
+
+
+ 
 } 
