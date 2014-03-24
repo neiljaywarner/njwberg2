@@ -3,11 +3,12 @@
 
     <string name="app_name">EZ Berg
     </string>
-     <string name="patient_empty_message">No tests yet, please create one
+     <string name="patient_empty_message">No tests yet, please create one \nby clicking the + in the upper right.
     </string>
     <string name="action_settings">Settings
     </string>
-
+    <string name="menu_new">NEW</string>
+    
 
     <!-- for button instructions
     Tinetti could be separate app by same user or similar
@@ -162,6 +163,7 @@
     \n0 - unable to try or needs assist to prevent fall
         </item>
         </string-array>
+
     </resources>
 
 
