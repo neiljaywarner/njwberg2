@@ -46,6 +46,9 @@ public class AssessmentListActivity extends ListActivity implements
     this.getListView().setDividerHeight(2);
     fillData();
     registerForContextMenu(getListView());
+    if (this.adapter.getCount() == 0) {
+    	createTodo();
+    }
   }
 
   // create the menu based on the XML defintion
