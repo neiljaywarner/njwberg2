@@ -3,7 +3,7 @@ package com.spiritflightapps.berg.contentprovider;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import com.spiritflightapps.berg.TodoDatabaseHelper;
+import com.spiritflightapps.berg.BergDatabaseHelper;
 import com.spiritflightapps.berg.AssessmentTable;
 
 import android.content.ContentProvider;
@@ -20,7 +20,7 @@ import android.util.Log;
 public class MyToDoContentProvider extends ContentProvider {
 
   // database
-  private TodoDatabaseHelper database;
+  private BergDatabaseHelper database;
 
   // used for the UriMacher
   private static final int TODOS = 10;
@@ -46,7 +46,7 @@ public class MyToDoContentProvider extends ContentProvider {
   @Override
   public boolean onCreate() {
 	Log.i("NJW","in oncreate of contetprovider");
-    database = new TodoDatabaseHelper(getContext());
+    database = new BergDatabaseHelper(getContext());
     return false;
   }
 

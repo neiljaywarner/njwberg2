@@ -5,12 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class TodoDatabaseHelper extends SQLiteOpenHelper {
+public class BergDatabaseHelper extends SQLiteOpenHelper {
 
   private static final String DATABASE_NAME = "todotable.db";
   private static final int DATABASE_VERSION = 1;
 
-  public TodoDatabaseHelper(Context context) {
+  public BergDatabaseHelper(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	Log.i("NJW","dbhelper constructor");
 
