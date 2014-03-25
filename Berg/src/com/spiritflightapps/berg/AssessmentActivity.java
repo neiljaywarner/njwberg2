@@ -227,15 +227,35 @@ public class AssessmentActivity extends Activity {
       
       for ( int i=0; i < mEditBoxes.size(); i++) {
     	  final int next = i+1;
-    	  EditText e = mEditBoxes.get(i);
+    	  final EditText e = mEditBoxes.get(i);
     	  e.addTextChangedListener(new TextWatcher() {
 			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				int answer = Integer.MIN_VALUE;
+				String error = "";
+				if (s.length() == 0) {
+					return; //backspace to correct
+				}
+				try {
+					answer = Integer.parseInt(s.toString());
+				} catch (Exception e) {
+					error = "Please enter a number.";
+				}
+				  	//TODO: strings.xml
+				if (answer > 4) {
+					error = "Please enter 0-4.";
+				}
 				
-				if (next < mEditBoxes.size()) {
-					EditText nextEditBox = mEditBoxes.get(next);
-					nextEditBox.requestFocus();
+				if (error.length() > 0) {
+		              Toast.makeText(AssessmentActivity.this.getApplicationContext(), error, Toast.LENGTH_LONG).show();
+
+				} else {
+					//autoadvance
+					if (next < mEditBoxes.size()) {
+						EditText nextEditBox = mEditBoxes.get(next);
+						nextEditBox.requestFocus();
+					}
 				}
 			}
 			
