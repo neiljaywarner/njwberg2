@@ -11,6 +11,8 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -222,6 +224,36 @@ public class AssessmentActivity extends Activity {
       mEditBoxes.add((EditText) findViewById(R.id.editTextQ12));
       mEditBoxes.add((EditText) findViewById(R.id.editTextQ13));
       mEditBoxes.add((EditText) findViewById(R.id.editTextQ14));
+      
+      for ( int i=0; i < mEditBoxes.size(); i++) {
+    	  final int next = i+1;
+    	  EditText e = mEditBoxes.get(i);
+    	  e.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				
+				if (next < mEditBoxes.size()) {
+					EditText nextEditBox = mEditBoxes.get(next);
+					nextEditBox.requestFocus();
+				}
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+      }
+     
 
   }
       //would an action bar ? icon be better if in the field?
