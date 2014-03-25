@@ -17,7 +17,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-public class MyToDoContentProvider extends ContentProvider {
+public class MyContentProvider extends ContentProvider {
 
   // database
   private BergDatabaseHelper database;

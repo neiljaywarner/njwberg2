@@ -1,6 +1,6 @@
 package com.spiritflightapps.berg;
 
-import com.spiritflightapps.berg.contentprovider.MyToDoContentProvider;
+import com.spiritflightapps.berg.contentprovider.MyContentProvider;
 
 import android.app.ListActivity;
 import android.app.LoaderManager;
@@ -76,7 +76,7 @@ public class AssessmentListActivity extends ListActivity implements
     case DELETE_ID:
       AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
           .getMenuInfo();
-      Uri uri = Uri.parse(MyToDoContentProvider.CONTENT_URI + "/"
+      Uri uri = Uri.parse(MyContentProvider.CONTENT_URI + "/"
           + info.id);
       getContentResolver().delete(uri, null, null);
       fillData();
@@ -95,8 +95,8 @@ public class AssessmentListActivity extends ListActivity implements
   protected void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
     Intent i = new Intent(this, AssessmentActivity.class);
-    Uri todoUri = Uri.parse(MyToDoContentProvider.CONTENT_URI + "/" + id);
-    i.putExtra(MyToDoContentProvider.CONTENT_ITEM_TYPE, todoUri);
+    Uri todoUri = Uri.parse(MyContentProvider.CONTENT_URI + "/" + id);
+    i.putExtra(MyContentProvider.CONTENT_ITEM_TYPE, todoUri);
 
     startActivity(i);
   }
@@ -131,7 +131,7 @@ public class AssessmentListActivity extends ListActivity implements
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     String[] projection = { AssessmentTable.COLUMN_ID, AssessmentTable.COLUMN_SUMMARY };
     CursorLoader cursorLoader = new CursorLoader(this,
-        MyToDoContentProvider.CONTENT_URI, projection, null, null, null);
+        MyContentProvider.CONTENT_URI, projection, null, null, null);
     return cursorLoader;
   }
 

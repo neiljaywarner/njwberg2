@@ -35,7 +35,7 @@
        
         
         <provider
-      android:name="com.spiritflightapps.berg.contentprovider.MyToDoContentProvider"
+      android:name="com.spiritflightapps.berg.contentprovider.MyContentProvider"
       android:authorities="com.spritflightapps.berg.contentprovider.MyToDoContentProvider" >
    </provider>
     </application>
