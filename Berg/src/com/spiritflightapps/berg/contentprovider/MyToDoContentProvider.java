@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import com.spiritflightapps.berg.TodoDatabaseHelper;
-import com.spiritflightapps.berg.TodoTable;
+import com.spiritflightapps.berg.AssessmentTable;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -61,7 +61,7 @@ public class MyToDoContentProvider extends ContentProvider {
     checkColumns(projection);
 
     // Set the table
-    queryBuilder.setTables(TodoTable.TABLE_TODO);
+    queryBuilder.setTables(AssessmentTable.TABLE_TODO);
 
     int uriType = sURIMatcher.match(uri);
     switch (uriType) {
@@ -69,7 +69,7 @@ public class MyToDoContentProvider extends ContentProvider {
       break;
     case TODO_ID:
       // adding the ID to the original query
-      queryBuilder.appendWhere(TodoTable.COLUMN_ID + "="
+      queryBuilder.appendWhere(AssessmentTable.COLUMN_ID + "="
           + uri.getLastPathSegment());
       break;
     default:
@@ -98,7 +98,7 @@ public class MyToDoContentProvider extends ContentProvider {
     long id = 0;
     switch (uriType) {
     case TODOS:
-      id = sqlDB.insert(TodoTable.TABLE_TODO, null, values);
+      id = sqlDB.insert(AssessmentTable.TABLE_TODO, null, values);
       break;
     default:
       throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -114,18 +114,18 @@ public class MyToDoContentProvider extends ContentProvider {
     int rowsDeleted = 0;
     switch (uriType) {
     case TODOS:
-      rowsDeleted = sqlDB.delete(TodoTable.TABLE_TODO, selection,
+      rowsDeleted = sqlDB.delete(AssessmentTable.TABLE_TODO, selection,
           selectionArgs);
       break;
     case TODO_ID:
       String id = uri.getLastPathSegment();
       if (TextUtils.isEmpty(selection)) {
-        rowsDeleted = sqlDB.delete(TodoTable.TABLE_TODO,
-            TodoTable.COLUMN_ID + "=" + id, 
+        rowsDeleted = sqlDB.delete(AssessmentTable.TABLE_TODO,
+            AssessmentTable.COLUMN_ID + "=" + id, 
             null);
       } else {
-        rowsDeleted = sqlDB.delete(TodoTable.TABLE_TODO,
-            TodoTable.COLUMN_ID + "=" + id 
+        rowsDeleted = sqlDB.delete(AssessmentTable.TABLE_TODO,
+            AssessmentTable.COLUMN_ID + "=" + id 
             + " and " + selection,
             selectionArgs);
       }
@@ -146,7 +146,7 @@ public class MyToDoContentProvider extends ContentProvider {
     int rowsUpdated = 0;
     switch (uriType) {
     case TODOS:
-      rowsUpdated = sqlDB.update(TodoTable.TABLE_TODO, 
+      rowsUpdated = sqlDB.update(AssessmentTable.TABLE_TODO, 
           values, 
           selection,
           selectionArgs);
@@ -154,14 +154,14 @@ public class MyToDoContentProvider extends ContentProvider {
     case TODO_ID:
       String id = uri.getLastPathSegment();
       if (TextUtils.isEmpty(selection)) {
-        rowsUpdated = sqlDB.update(TodoTable.TABLE_TODO, 
+        rowsUpdated = sqlDB.update(AssessmentTable.TABLE_TODO, 
             values,
-            TodoTable.COLUMN_ID + "=" + id, 
+            AssessmentTable.COLUMN_ID + "=" + id, 
             null);
       } else {
-        rowsUpdated = sqlDB.update(TodoTable.TABLE_TODO, 
+        rowsUpdated = sqlDB.update(AssessmentTable.TABLE_TODO, 
             values,
-            TodoTable.COLUMN_ID + "=" + id 
+            AssessmentTable.COLUMN_ID + "=" + id 
             + " and " 
             + selection,
             selectionArgs);
@@ -176,12 +176,12 @@ public class MyToDoContentProvider extends ContentProvider {
 //TODO: IS this really  needed..
   private void checkColumns(String[] projection) {
     String[] available = { 
-        TodoTable.COLUMN_SUMMARY, TodoTable.COLUMN_Q1, TodoTable.COLUMN_Q2, TodoTable.COLUMN_Q3, TodoTable.COLUMN_Q4, TodoTable.COLUMN_Q5,
-        TodoTable.COLUMN_Q6, TodoTable.COLUMN_Q7, TodoTable.COLUMN_Q8, TodoTable.COLUMN_Q9, TodoTable.COLUMN_Q10, TodoTable.COLUMN_Q11,
-        TodoTable.COLUMN_Q12,
-        TodoTable.COLUMN_Q13,
-        TodoTable.COLUMN_Q14,
-        TodoTable.COLUMN_ID };
+        AssessmentTable.COLUMN_SUMMARY, AssessmentTable.COLUMN_Q1, AssessmentTable.COLUMN_Q2, AssessmentTable.COLUMN_Q3, AssessmentTable.COLUMN_Q4, AssessmentTable.COLUMN_Q5,
+        AssessmentTable.COLUMN_Q6, AssessmentTable.COLUMN_Q7, AssessmentTable.COLUMN_Q8, AssessmentTable.COLUMN_Q9, AssessmentTable.COLUMN_Q10, AssessmentTable.COLUMN_Q11,
+        AssessmentTable.COLUMN_Q12,
+        AssessmentTable.COLUMN_Q13,
+        AssessmentTable.COLUMN_Q14,
+        AssessmentTable.COLUMN_ID };
     if (projection != null) {
       HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
       HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));

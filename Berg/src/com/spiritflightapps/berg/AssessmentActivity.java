@@ -68,21 +68,21 @@ public class AssessmentActivity extends Activity {
   
   //TODO: Refactor to 'default projection' under table class
   private void fillData(Uri uri) {
-    String[] projection = { TodoTable.COLUMN_SUMMARY,
-        TodoTable.COLUMN_Q1,
-        TodoTable.COLUMN_Q2,
-        TodoTable.COLUMN_Q3,
-        TodoTable.COLUMN_Q4,
-        TodoTable.COLUMN_Q5,
-        TodoTable.COLUMN_Q6,
-        TodoTable.COLUMN_Q7,
-        TodoTable.COLUMN_Q8,
-        TodoTable.COLUMN_Q9,
-        TodoTable.COLUMN_Q10,
-        TodoTable.COLUMN_Q11,
-        TodoTable.COLUMN_Q12,
-        TodoTable.COLUMN_Q13,
-        TodoTable.COLUMN_Q14,
+    String[] projection = { AssessmentTable.COLUMN_SUMMARY,
+        AssessmentTable.COLUMN_Q1,
+        AssessmentTable.COLUMN_Q2,
+        AssessmentTable.COLUMN_Q3,
+        AssessmentTable.COLUMN_Q4,
+        AssessmentTable.COLUMN_Q5,
+        AssessmentTable.COLUMN_Q6,
+        AssessmentTable.COLUMN_Q7,
+        AssessmentTable.COLUMN_Q8,
+        AssessmentTable.COLUMN_Q9,
+        AssessmentTable.COLUMN_Q10,
+        AssessmentTable.COLUMN_Q11,
+        AssessmentTable.COLUMN_Q12,
+        AssessmentTable.COLUMN_Q13,
+        AssessmentTable.COLUMN_Q14,
 
 
 
@@ -94,22 +94,22 @@ public class AssessmentActivity extends Activity {
       cursor.moveToFirst();
 
       mTitleText.setText(cursor.getString(cursor
-          .getColumnIndexOrThrow(TodoTable.COLUMN_SUMMARY)));
+          .getColumnIndexOrThrow(AssessmentTable.COLUMN_SUMMARY)));
       
-      mEditBoxes.get(0).setText(cursor.getString(cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q1)));
-      mEditBoxes.get(1).setText(cursor.getString(cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q2)));
-      mEditBoxes.get(2).setText(cursor.getString(cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q3)));
-      mEditBoxes.get(3).setText(cursor.getString(cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q4)));
-      mEditBoxes.get(4).setText(cursor.getString(cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q5)));
-      mEditBoxes.get(5).setText(cursor.getString(cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q6)));
-      mEditBoxes.get(6).setText(cursor.getString(cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q7)));
-      mEditBoxes.get(7).setText(cursor.getString(cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q8)));
-      mEditBoxes.get(8).setText(cursor.getString(cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q9)));
-      mEditBoxes.get(9).setText(cursor.getString(cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q10)));
-      mEditBoxes.get(10).setText(cursor.getString(cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q11)));
-      mEditBoxes.get(11).setText(cursor.getString(cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q12)));
-      mEditBoxes.get(12).setText(cursor.getString(cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q13)));
-      mEditBoxes.get(13).setText(cursor.getString(cursor.getColumnIndexOrThrow(TodoTable.COLUMN_Q14)));
+      mEditBoxes.get(0).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q1)));
+      mEditBoxes.get(1).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q2)));
+      mEditBoxes.get(2).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q3)));
+      mEditBoxes.get(3).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q4)));
+      mEditBoxes.get(4).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q5)));
+      mEditBoxes.get(5).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q6)));
+      mEditBoxes.get(6).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q7)));
+      mEditBoxes.get(7).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q8)));
+      mEditBoxes.get(8).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q9)));
+      mEditBoxes.get(9).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q10)));
+      mEditBoxes.get(10).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q11)));
+      mEditBoxes.get(11).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q12)));
+      mEditBoxes.get(12).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q13)));
+      mEditBoxes.get(13).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q14)));
 
       
      // mBodyText.setText(String.valueOf(cursor.getInt(cursor
@@ -140,21 +140,21 @@ public class AssessmentActivity extends Activity {
     }
 
     ContentValues values = new ContentValues();
-    values.put(TodoTable.COLUMN_SUMMARY, title);
-    values.put(TodoTable.COLUMN_Q1, mEditBoxes.get(0).getText().toString().trim());
-    values.put(TodoTable.COLUMN_Q2, mEditBoxes.get(1).getText().toString().trim());
-    values.put(TodoTable.COLUMN_Q3, mEditBoxes.get(2).getText().toString().trim());
-    values.put(TodoTable.COLUMN_Q4, mEditBoxes.get(3).getText().toString().trim());
-    values.put(TodoTable.COLUMN_Q5, mEditBoxes.get(4).getText().toString().trim());
-    values.put(TodoTable.COLUMN_Q6, mEditBoxes.get(5).getText().toString().trim());
-    values.put(TodoTable.COLUMN_Q7, mEditBoxes.get(6).getText().toString().trim());
-    values.put(TodoTable.COLUMN_Q8, mEditBoxes.get(7).getText().toString().trim());
-    values.put(TodoTable.COLUMN_Q9, mEditBoxes.get(8).getText().toString().trim());
-    values.put(TodoTable.COLUMN_Q10, mEditBoxes.get(9).getText().toString().trim());
-    values.put(TodoTable.COLUMN_Q11, mEditBoxes.get(10).getText().toString().trim());
-    values.put(TodoTable.COLUMN_Q12, mEditBoxes.get(11).getText().toString().trim());
-    values.put(TodoTable.COLUMN_Q13, mEditBoxes.get(12).getText().toString().trim());
-    values.put(TodoTable.COLUMN_Q14, mEditBoxes.get(13).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_SUMMARY, title);
+    values.put(AssessmentTable.COLUMN_Q1, mEditBoxes.get(0).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q2, mEditBoxes.get(1).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q3, mEditBoxes.get(2).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q4, mEditBoxes.get(3).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q5, mEditBoxes.get(4).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q6, mEditBoxes.get(5).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q7, mEditBoxes.get(6).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q8, mEditBoxes.get(7).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q9, mEditBoxes.get(8).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q10, mEditBoxes.get(9).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q11, mEditBoxes.get(10).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q12, mEditBoxes.get(11).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q13, mEditBoxes.get(12).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q14, mEditBoxes.get(13).getText().toString().trim());
 
 
     if (todoUri == null) {

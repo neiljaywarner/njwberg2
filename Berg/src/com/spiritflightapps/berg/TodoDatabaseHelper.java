@@ -21,7 +21,7 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper {
   public void onCreate(SQLiteDatabase database) {
 		Log.i("NJW","oncreate in dbhelper");
 
-    TodoTable.onCreate(database);
+    AssessmentTable.onCreate(database);
   }
 
   // Method is called during an upgrade of the database,
@@ -29,7 +29,7 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper {
   @Override
   public void onUpgrade(SQLiteDatabase database, int oldVersion,
       int newVersion) {
-    TodoTable.onUpgrade(database, oldVersion, newVersion);
+    AssessmentTable.onUpgrade(database, oldVersion, newVersion);
   }
 }
  
