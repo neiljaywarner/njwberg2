@@ -505,6 +505,7 @@
                 android:background="@android:color/transparent"
                 android:layout_height="wrap_content"
                 android:id="@+id/buttonCalculate"
+                android:visibility="gone"
                 />
 
             <ImageButton

@@ -146,36 +146,16 @@ public class AssessmentActivity extends Activity {
       initializeEditBoxes();
       initializeInstructionButtons();
       initializeInstructionStrings();
-      buttonCalculate.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-              int total = 0;
-              int score = 0;
-              try {
-                  for (EditText editBox : mEditBoxes) {
-                      score = Integer.parseInt(editBox.getText().toString());
-                      if (score > 4) {
-                          throw (new Exception()); //TODO: Detail which one via tag in xml
-                      }
-                      total += score;
-                  }
-                  Toast.makeText(AssessmentActivity.this.getApplicationContext(), "Total Score=" + total, Toast.LENGTH_LONG).show();
-                  tvTotal.setText(String.valueOf(total));
-
-              } catch (Exception e) {
-                  Toast.makeText(AssessmentActivity.this.getApplicationContext(), "Please put a value  of 0-4 for every field", Toast.LENGTH_LONG).show();
-
-              }
-          }
-      });
+      //TODO: Remove calculate button, move clear button to action bar?
 
       buttonClear.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
-              Toast.makeText(AssessmentActivity.this.getApplicationContext(), "clear", Toast.LENGTH_LONG).show();
+              Toast.makeText(AssessmentActivity.this.getApplicationContext(), "Clear", Toast.LENGTH_LONG).show();
               for (EditText editText : mEditBoxes) {
                   editText.setText("");
               }
+              tvTotal.setText("");
           }
       });
 
@@ -193,6 +173,7 @@ public class AssessmentActivity extends Activity {
         fillData(todoUri);
       }
 
+      calculateTotalIfAllFilledIn();
 
   }
 
@@ -207,7 +188,7 @@ public class AssessmentActivity extends Activity {
   }
 
   private void initializeEditBoxes() {
-      //TODO: autocalculate when all of them complete, autoclear when entered, etc.
+	  	//TODO: Blank 2nd column, autofill goal column
       mEditBoxes = new ArrayList<EditText>();
       mEditBoxes.add((EditText) findViewById(R.id.editTextQ1));
       mEditBoxes.add((EditText) findViewById(R.id.editTextQ2));
@@ -256,7 +237,12 @@ public class AssessmentActivity extends Activity {
 						EditText nextEditBox = mEditBoxes.get(next);
 						nextEditBox.requestFocus();
 					}
+					//autocalculate
+
+					calculateTotalIfAllFilledIn();
 				}
+				
+				
 			}
 			
 			@Override
@@ -276,7 +262,29 @@ public class AssessmentActivity extends Activity {
      
 
   }
-      //would an action bar ? icon be better if in the field?
+      protected void calculateTotalIfAllFilledIn() {
+	
+    	  int total = 0;
+          int score = 0;
+          try {
+              for (EditText editBox : mEditBoxes) {
+                  score = Integer.parseInt(editBox.getText().toString());
+                  if (score > 4) {
+                      throw (new Exception()); //TODO: Detail which one via tag in xml
+                  }
+                  total += score;
+              }
+              Toast.makeText(AssessmentActivity.this.getApplicationContext(), "Total Score=" + total, Toast.LENGTH_LONG).show();
+              tvTotal.setText(String.valueOf(total));
+
+          } catch (Exception e) {
+             //Validation done in each field. if blank or one missing, do nothing
+        	 
+          }
+
+}
+
+//would an action bar ? icon be better if in the field?
   //TODO: Find by tag for more readable code, or child or something?
   private void initializeInstructionButtons() {
       instructionButtons = new ArrayList<ImageButton>();
