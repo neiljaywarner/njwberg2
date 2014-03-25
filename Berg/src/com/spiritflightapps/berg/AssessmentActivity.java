@@ -11,59 +11,20 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/*
- * TodoDetailActivity allows to enter a new todo item 
- * or to change an existing
- */
+
 public class AssessmentActivity extends Activity {
   private EditText mTitleText;
 
   private Uri todoUri;
 
-//  @Override
-//  protected void onCreate(Bundle bundle) {
-//    super.onCreate(bundle);
-//    setContentView(R.layout.edit);
-//
-//    mTitleText = (EditText) findViewById(R.id.todo_edit_summary);
-//    mBodyText = (EditText) findViewById(R.id.todo_edit_description);
-//    Button confirmButton = (Button) findViewById(R.id.todo_edit_button);
-//
-//    Bundle extras = getIntent().getExtras();
-//
-//    // check from the saved Instance
-//    todoUri = (bundle == null) ? null : (Uri) bundle
-//        .getParcelable(MyToDoContentProvider.CONTENT_ITEM_TYPE);
-//
-//    // Or passed from the other activity
-//    if (extras != null) {
-//      todoUri = extras
-//          .getParcelable(MyToDoContentProvider.CONTENT_ITEM_TYPE);
-//
-//      fillData(todoUri);
-//    }
-//
-//    confirmButton.setOnClickListener(new View.OnClickListener() {
-//      public void onClick(View view) {
-//        if (TextUtils.isEmpty(mTitleText.getText().toString())) {
-//          makeToast();
-//        } else {
-//          setResult(RESULT_OK);
-//          finish();
-//        }
-//      }
-//
-//    });
-//  }
+
 
   
   //TODO: Refactor to 'default projection' under table class
@@ -110,10 +71,6 @@ public class AssessmentActivity extends Activity {
       mEditBoxes.get(11).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q12)));
       mEditBoxes.get(12).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q13)));
       mEditBoxes.get(13).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q14)));
-
-      
-     // mBodyText.setText(String.valueOf(cursor.getInt(cursor
-     //     .getColumnIndexOrThrow(TodoTable.COLUMN_Q1))));
 
       // always close the cursor
       cursor.close();
