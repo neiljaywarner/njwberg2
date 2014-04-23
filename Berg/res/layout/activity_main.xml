@@ -7,10 +7,10 @@
     android:id="@+id/scrollView"
     android:layout_gravity="center">
 
+    <!-- as of 4-22-2014 includes instructions. fix? -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-      
         android:orientation="vertical"
         tools:context=".MainActivity"
         android:gravity="center_vertical">
@@ -29,6 +29,20 @@
             android:imeOptions="actionNext" >
         </EditText>
     </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:id="@+id/vgLastVisit1PlusInstructions"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_width="wrap_content">
+
+
+
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="fill_parent">
@@ -470,10 +484,14 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
 
-            android:gravity="center">
+           >
+
+            <!-- TODO: FIX THE BELOW, BAD DESIGN, magic#, no table, etc at some point custom control so adapter. maybe
+            -->
 
             <TextView
-                android:layout_width="220dp"
+                android:layout_width="198dp"
+                android:layout_marginLeft="40dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="TOTAL"
@@ -489,7 +507,164 @@
 
 
         </LinearLayout>
+</LinearLayout>
 
+
+            <LinearLayout
+                android:id="@+id/vgLastVisit2"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_width="wrap_content">
+
+
+
+
+
+                <EditText
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="12"
+                    />
+
+                <EditText
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="13"
+                    />
+
+                <EditText
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="13"
+                    />
+                <EditText
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="13"
+                    />
+
+                <EditText
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="13"
+                    />
+
+                <EditText
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="13"
+                    />
+
+                <EditText
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="13"
+                    />
+
+                <EditText
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="13"
+                    />
+
+                <EditText
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="13"
+                    />
+
+                <EditText
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="13"
+                    />
+
+                <EditText
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="13"
+                    />
+
+                <EditText
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="13"
+                    />
+
+                <EditText
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="13"
+                    />
+
+                <EditText
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="13"
+                    />
+
+                <EditText
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="13"
+                    />
+
+
+
+
+                    <EditText
+                        android:layout_width="35dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:ems="10"
+                        android:tag="14"
+                        />
+
+
+
+
+                    <TextView
+                        android:layout_width="35dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="___"
+                        android:id="@+id/textViewTotalV2"
+                        />
+
+
+            </LinearLayout>
+
+        </LinearLayout> <!-- all visits -->
         <LinearLayout
             android:layout_margin="10dp"
             android:layout_width="fill_parent"
@@ -498,6 +673,7 @@
             android:gravity="center">
 
 
+            <!-- TODO: REMOVE calculate button , maybe add make them next/previous buttons? -->
             <ImageButton
                 android:src="@drawable/cooltext_button_calculate"
                 android:contentDescription="Calculate"
@@ -508,12 +684,18 @@
                 android:visibility="gone"
                 />
 
+
+
+
+
+
+            <!-- TODO: Remove or revise so it makes sense -->
             <ImageButton
                 android:src="@drawable/cooltext_button_clear"
                 android:layout_width="120dp"
                 android:contentDescription="Clear"
                 android:background="@android:color/transparent"
-
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:id="@+id/buttonClear"
                 />
