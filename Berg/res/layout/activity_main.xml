@@ -11,6 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="5dp"
         android:orientation="vertical"
         tools:context=".MainActivity"
         android:gravity="center_vertical">
@@ -43,6 +44,25 @@
 
 
 
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:gravity="right"
+                >
+
+                <EditText
+                    android:layout_marginRight="20dp"
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="Date"
+                    android:text="IE"
+                    android:id="@+id/editTextDateV1"
+                    />
+                </LinearLayout>
+
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="fill_parent">
@@ -58,7 +78,7 @@
                 />
 
             <TextView
-                android:layout_width="220dp"
+                android:layout_width="215dp"
                 android:layout_height="wrap_content"
                 android:text="1.SITTING TO STANDING"
                 />
@@ -66,7 +86,7 @@
 
 
             <EditText
-                android:layout_width="35dp"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
@@ -74,6 +94,8 @@
                 android:id="@+id/editTextQ1"
                 />
         </LinearLayout>
+
+
 
 
         <LinearLayout
@@ -90,13 +112,13 @@
                 />
 
             <TextView
-                android:layout_width="220dp"
+                android:layout_width="215dp"
                 android:layout_height="wrap_content"
                 android:text="2.STANDING UNSUPPORTED"
                 />
 
             <EditText
-                android:layout_width="35dp"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
@@ -119,13 +141,13 @@
                 />
 
             <TextView
-                android:layout_width="220dp"
+                android:layout_width="215dp"
                 android:layout_height="wrap_content"
                 android:text="3.SIT W/BACK UNSUP. FEET SUP"
                 />
 
             <EditText
-                android:layout_width="35dp"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
@@ -148,13 +170,13 @@
                 />
 
             <TextView
-                android:layout_width="220dp"
+                android:layout_width="215dp"
                 android:layout_height="wrap_content"
                 android:text="4.STANDING TO SITTING"
                 />
 
             <EditText
-                android:layout_width="35dp"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
@@ -177,14 +199,14 @@
                 />
 
             <TextView
-                android:layout_width="220dp"
+                android:layout_width="215dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewQ5"
                 android:text="5.TRANSFERS"
                 />
 
             <EditText
-                android:layout_width="35dp"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
@@ -207,7 +229,7 @@
                 />
 
             <TextView
-                android:layout_width="220dp"
+                android:layout_width="215dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewQ6"
                 android:tag="Q6"
@@ -215,7 +237,7 @@
                 />
 
             <EditText
-                android:layout_width="35dp"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
@@ -239,7 +261,7 @@
                 />
 
             <TextView
-                android:layout_width="220dp"
+                android:layout_width="215dp"
                 android:layout_height="50dp"
                 android:id="@+id/textViewQ7"
                 android:tag="Q7"
@@ -247,7 +269,7 @@
                 />
 
             <EditText
-                android:layout_width="35dp"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
@@ -271,7 +293,7 @@
 
 
             <TextView
-                android:layout_width="220dp"
+                android:layout_width="215dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewQ8"
                 android:tag="Q8"
@@ -279,7 +301,7 @@
                 />
 
             <EditText
-                android:layout_width="35dp"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
@@ -303,7 +325,7 @@
 
 
             <TextView
-                android:layout_width="220dp"
+                android:layout_width="215dp"
                 android:layout_height="50dp"
                 android:id="@+id/textViewQ9"
                 android:tag="Q9"
@@ -311,7 +333,7 @@
                 />
 
             <EditText
-                android:layout_width="35dp"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
@@ -335,7 +357,7 @@
 
 
             <TextView
-                android:layout_width="220dp"
+                android:layout_width="215dp"
                 android:layout_height="50dp"
                 android:id="@+id/textViewQ10"
                 android:tag="Q10"
@@ -343,7 +365,7 @@
                 />
 
             <EditText
-                android:layout_width="35dp"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
@@ -366,7 +388,7 @@
                 />
 
             <TextView
-                android:layout_width="220dp"
+                android:layout_width="215dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewQ11"
                 android:tag="Q11"
@@ -374,7 +396,7 @@
                 />
 
             <EditText
-                android:layout_width="35dp"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
@@ -398,7 +420,7 @@
 
 
             <TextView
-                android:layout_width="220dp"
+                android:layout_width="215dp"
                 android:layout_height="50dp"
                 android:id="@+id/textViewQ1"
                 android:tag="Q12"
@@ -406,7 +428,7 @@
                 />
 
             <EditText
-                android:layout_width="35dp"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
@@ -430,7 +452,7 @@
 
 
             <TextView
-                android:layout_width="220dp"
+                android:layout_width="215dp"
                 android:layout_height="50dp"
                 android:id="@+id/textViewQ13"
                 android:tag="Q13"
@@ -438,7 +460,7 @@
                 />
 
             <EditText
-                android:layout_width="35dp"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
@@ -462,7 +484,7 @@
 
 
             <TextView
-                android:layout_width="220dp"
+                android:layout_width="215dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewQ14"
                 android:tag="Q14"
@@ -470,7 +492,7 @@
                 />
 
             <EditText
-                android:layout_width="35dp"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
@@ -491,14 +513,14 @@
 
             <TextView
                 android:layout_width="198dp"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="48dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="TOTAL"
                 android:longClickable="true"/>
 
             <TextView
-                android:layout_width="35dp"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="___"
@@ -518,143 +540,152 @@
 
 
 
-
+                <EditText
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:gravity="right"
+                    android:tag="Date"
+                    android:text="RV"
+                    android:id="@+id/editTextDateV2"
+                    />
 
                 <EditText
-                    android:layout_width="35dp"
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="1"
+                    />
+
+                <EditText
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="2"
+                    />
+
+                <EditText
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="3"
+                    />
+                <EditText
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="4"
+                    />
+
+                <EditText
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="5"
+                    />
+
+                <EditText
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="6"
+                    />
+
+                <EditText
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="7"
+                    android:layout_marginBottom="10dp"
+                    />
+<!-- TODO: Get rid of this margin for 2nd line when it becomes a table, eg when its' ussable on more than just n5 -->
+                <EditText
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="8"
+                    />
+
+                <EditText
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="9"
+                    android:layout_marginBottom="10dp"
+
+                    />
+
+                <EditText
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="10"
+                    android:layout_marginBottom="10dp"
+
+
+
+                    />
+
+                <EditText
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:tag="11"
+
+                    />
+
+                <EditText
+                    android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:ems="10"
                     android:tag="12"
+                    android:layout_marginBottom="12dp"
+
                     />
 
-                <EditText
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:tag="13"
-                    />
+
 
                 <EditText
-                    android:layout_width="35dp"
+                    android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:ems="10"
                     android:tag="13"
-                    />
-                <EditText
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:tag="13"
-                    />
+                    android:layout_marginBottom="12dp"
 
-                <EditText
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:tag="13"
-                    />
-
-                <EditText
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:tag="13"
-                    />
-
-                <EditText
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:tag="13"
-                    />
-
-                <EditText
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:tag="13"
-                    />
-
-                <EditText
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:tag="13"
-                    />
-
-                <EditText
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:tag="13"
-                    />
-
-                <EditText
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:tag="13"
-                    />
-
-                <EditText
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:tag="13"
-                    />
-
-                <EditText
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:tag="13"
-                    />
-
-                <EditText
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:tag="13"
-                    />
-
-                <EditText
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:tag="13"
                     />
 
 
 
 
                     <EditText
-                        android:layout_width="35dp"
+                        android:layout_width="48dp"
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:ems="10"
                         android:tag="14"
+                        android:layout_marginBottom="10dp"
+
                         />
 
 
 
 
                     <TextView
-                        android:layout_width="35dp"
+                        android:layout_width="48dp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="___"
@@ -663,7 +694,7 @@
 
 
             </LinearLayout>
-
+<!-- TODO: Throw away layout in favor or table or something -->
         </LinearLayout> <!-- all visits -->
         <LinearLayout
             android:layout_margin="10dp"
