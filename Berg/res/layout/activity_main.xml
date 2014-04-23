@@ -58,7 +58,7 @@
                     android:inputType="number"
                     android:ems="10"
                     android:tag="Date"
-                    android:text="IE"
+                    android:text="1E"
                     android:id="@+id/editTextDateV1"
                     />
                 </LinearLayout>
@@ -547,7 +547,7 @@
                     android:ems="10"
                     android:gravity="right"
                     android:tag="Date"
-                    android:text="RV"
+                    android:text="2E"
                     android:id="@+id/editTextDateV2"
                     />
 
