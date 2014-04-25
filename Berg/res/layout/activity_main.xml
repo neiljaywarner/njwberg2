@@ -8,6 +8,9 @@
     android:layout_gravity="center">
 
     <!-- as of 4-22-2014 includes instructions. fix? -->
+    <!-- THE TODO IS probably to throw it all over
+    and start from scratch with a custom control
+    or a viewpager with fragments similar to this... -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

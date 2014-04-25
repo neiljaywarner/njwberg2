@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 public class AssessmentActivity extends Activity {
   private EditText mTitleText;
-
+  private EditText mEditTextDate;
   private Uri todoUri;
 
 
@@ -31,59 +31,51 @@ public class AssessmentActivity extends Activity {
   
   //TODO: Refactor to 'default projection' under table class
   private void fillData(Uri uri) {
-    String[] projection = { AssessmentTable.COLUMN_SUMMARY,
-        AssessmentTable.COLUMN_Q1,
-        AssessmentTable.COLUMN_Q2,
-        AssessmentTable.COLUMN_Q3,
-        AssessmentTable.COLUMN_Q4,
-        AssessmentTable.COLUMN_Q5,
-        AssessmentTable.COLUMN_Q6,
-        AssessmentTable.COLUMN_Q7,
-        AssessmentTable.COLUMN_Q8,
-        AssessmentTable.COLUMN_Q9,
-        AssessmentTable.COLUMN_Q10,
-        AssessmentTable.COLUMN_Q11,
-        AssessmentTable.COLUMN_Q12,
-        AssessmentTable.COLUMN_Q13,
-        AssessmentTable.COLUMN_Q14,
 
+      String[] projection = AssessmentTable.DEFAULT_PROJECTION;
 
-
-        
-    };
-    Cursor cursor = getContentResolver().query(uri, projection, null, null,
-        null);
+    Cursor cursor = getContentResolver().query(uri, projection, null, null,null);
+    int col=0;
     if (cursor != null) {
-      cursor.moveToFirst();
+        cursor.moveToFirst();
+        //TODO: SWitch to below
+       // while (cursor.moveToNext()) {
 
-      mTitleText.setText(cursor.getString(cursor
-          .getColumnIndexOrThrow(AssessmentTable.COLUMN_SUMMARY)));
-      
-      mEditBoxes.get(0).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q1)));
-      mEditBoxes.get(1).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q2)));
-      mEditBoxes.get(2).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q3)));
-      mEditBoxes.get(3).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q4)));
-      mEditBoxes.get(4).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q5)));
-      mEditBoxes.get(5).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q6)));
-      mEditBoxes.get(6).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q7)));
-      mEditBoxes.get(7).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q8)));
-      mEditBoxes.get(8).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q9)));
-      mEditBoxes.get(9).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q10)));
-      mEditBoxes.get(10).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q11)));
-      mEditBoxes.get(11).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q12)));
-      mEditBoxes.get(12).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q13)));
-      mEditBoxes.get(13).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q14)));
+        mTitleText.setText(cursor.getString(cursor
+                .getColumnIndexOrThrow(AssessmentTable.COLUMN_SUMMARY)));
+        String date = cursor.getString(cursor.getColumnIndex(AssessmentTable.COLUMN_DATE));
+        mEditTextDate.setText(date);
+        fillAnswerEditFields(mEditBoxes, cursor);
 
-      // always close the cursor
+
+
+        // always close the cursor
       cursor.close();
     }
   }
 
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    saveState();
-    outState.putParcelable(MyContentProvider.CONTENT_ITEM_TYPE, todoUri);
-  }
+    private void fillAnswerEditFields(ArrayList<EditText> editBoxes, Cursor cursor) {
+        editBoxes.get(0).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q1)));
+        editBoxes.get(1).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q2)));
+        editBoxes.get(2).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q3)));
+        editBoxes.get(3).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q4)));
+        editBoxes.get(4).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q5)));
+        editBoxes.get(5).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q6)));
+        editBoxes.get(6).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q7)));
+        editBoxes.get(7).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q8)));
+        editBoxes.get(8).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q9)));
+        editBoxes.get(9).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q10)));
+        editBoxes.get(10).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q11)));
+        editBoxes.get(11).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q12)));
+        editBoxes.get(12).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q13)));
+        editBoxes.get(13).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q14)));
+    }
+
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        saveState();
+        outState.putParcelable(MyContentProvider.CONTENT_ITEM_TYPE, todoUri);
+    }
 
   @Override
   protected void onPause() {
@@ -126,7 +118,7 @@ public class AssessmentActivity extends Activity {
   }
 
   
-  
+
   ArrayList<EditText> mEditBoxes;
   ArrayList<ImageButton> instructionButtons;
   ArrayList<String> mInstructions;
@@ -308,13 +300,11 @@ public class AssessmentActivity extends Activity {
 
 
       for (int i = 0; i < instructionButtons.size(); i++) {
-          Log.i("NJW", "in loop of instruction buttons.");
           final int buttonNum = i;
           final int questionNum = i + 1;
           instructionButtons.get(i).setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View view) {
-                  Log.i("NJW","in onclick");
                   //TODO: Use Fragments
                   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                           view.getContext());

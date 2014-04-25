@@ -15,6 +15,7 @@ public class AssessmentTable {
   public static final String TABLE_TODO = "todo";
   public static final String COLUMN_ID = "_id";
   public static final String COLUMN_SUMMARY = "patient_ref"; //ie initials+city
+  public static final String COLUMN_DATE = "date";
   public static final String COLUMN_Q1 = "q1";
   public static final String COLUMN_Q2 = "q2";
   public static final String COLUMN_Q3 = "q3";
@@ -30,13 +31,32 @@ public class AssessmentTable {
   public static final String COLUMN_Q13 = "q13";
   public static final String COLUMN_Q14 = "q14";
 
+  public static final String[] DEFAULT_PROJECTION = {
+          AssessmentTable.COLUMN_SUMMARY,
+          AssessmentTable.COLUMN_DATE,
+          AssessmentTable.COLUMN_Q1,
+          AssessmentTable.COLUMN_Q2,
+          AssessmentTable.COLUMN_Q3,
+          AssessmentTable.COLUMN_Q4,
+          AssessmentTable.COLUMN_Q5,
+          AssessmentTable.COLUMN_Q6,
+          AssessmentTable.COLUMN_Q7,
+          AssessmentTable.COLUMN_Q8,
+          AssessmentTable.COLUMN_Q9,
+          AssessmentTable.COLUMN_Q10,
+          AssessmentTable.COLUMN_Q11,
+          AssessmentTable.COLUMN_Q12,
+          AssessmentTable.COLUMN_Q13,
+          AssessmentTable.COLUMN_Q14,
+  };
 
   // Database creation SQL statement
   private static final String DATABASE_CREATE = "create table " 
       + TABLE_TODO
       + "(" 
       + COLUMN_ID + " integer primary key autoincrement, " 
-      + COLUMN_SUMMARY + " text not null," 
+      + COLUMN_SUMMARY + " text not null,"
+      + COLUMN_DATE + " text ,"
       + COLUMN_Q1 + " text ,"
       + COLUMN_Q2 + " text,"
       + COLUMN_Q3 + " text,"
