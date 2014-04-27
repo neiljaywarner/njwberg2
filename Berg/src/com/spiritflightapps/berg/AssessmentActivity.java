@@ -29,7 +29,6 @@ public class AssessmentActivity extends Activity {
 
 
   
-  //TODO: Refactor to 'default projection' under table class
   private void fillData(Uri uri) {
 
       String[] projection = AssessmentTable.DEFAULT_PROJECTION;
@@ -43,8 +42,6 @@ public class AssessmentActivity extends Activity {
 
         mTitleText.setText(cursor.getString(cursor
                 .getColumnIndexOrThrow(AssessmentTable.COLUMN_SUMMARY)));
-        String date = cursor.getString(cursor.getColumnIndex(AssessmentTable.COLUMN_DATE));
-        mEditTextDate.setText(date);
         fillAnswerEditFields(mEditBoxes, mEditTextDate, cursor);
 
 
@@ -133,9 +130,11 @@ public class AssessmentActivity extends Activity {
   }
 
   
-
+            //array of arraylists for 4/N column prototype
   ArrayList<EditText> mEditBoxes;
-  ArrayList<ImageButton> instructionButtons;
+  ArrayList<EditText> mEditBoxes2;
+
+    ArrayList<ImageButton> instructionButtons;
   ArrayList<String> mInstructions;
 //icon from http://www.flaticon.com/free-icon/falling-man-silhouette_11015
 
@@ -195,9 +194,7 @@ public class AssessmentActivity extends Activity {
       }
 
   }
-
   private void initializeEditBoxes() {
-	  	//TODO: Blank 2nd column, autofill goal column
       mEditBoxes = new ArrayList<EditText>();
       mEditBoxes.add((EditText) findViewById(R.id.editTextQ1));
       mEditBoxes.add((EditText) findViewById(R.id.editTextQ2));
@@ -215,8 +212,31 @@ public class AssessmentActivity extends Activity {
       mEditBoxes.add((EditText) findViewById(R.id.editTextQ13));
       mEditBoxes.add((EditText) findViewById(R.id.editTextQ14));
 
+      mEditBoxes2 = new ArrayList<EditText>();
+      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ1_V2));
+      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ2_V2));
+      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ3_V2));
+      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ4_V2));
 
-      final ArrayList<EditText> editBoxes = mEditBoxes;
+      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ5_V2));
+      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ6_V2));
+      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ7_V2));
+      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ8_V2));
+      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ9_V2));
+      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ10_V2));
+      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ11_V2));
+      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ12_V2));
+      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ13_V2));
+      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ14_V2));
+
+      //TODO: Refactor, either into sep GUI structure, sep control, arraylist of arraylists, something
+      setupEditBoxes(mEditBoxes, tvTotal);
+
+  }
+  private void setupEditBoxes(ArrayList<EditText> editBoxesColumn, TextView tvTotal) {
+	  	//TODO: autofill goal column
+
+      final ArrayList<EditText> editBoxes = editBoxesColumn;
       final TextView textViewTotal = tvTotal;
 
       for ( int i=0; i < editBoxes.size(); i++) {
@@ -287,7 +307,8 @@ public class AssessmentActivity extends Activity {
                   }
                   total += score;
               }
-              Toast.makeText(AssessmentActivity.this.getApplicationContext(), "Total Score=" + total, Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(AssessmentActivity.this.getApplicationContext(), "Total Score=" + total, Toast.LENGTH_SHORT).show();
+             //TODO: Just remove? or use only the first time?
               tvTotal.setText(String.valueOf(total));
 
           } catch (Exception e) {
