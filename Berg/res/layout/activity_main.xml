@@ -75,13 +75,13 @@
                 android:layout_gravity="center_vertical"
                 android:src="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:id="@+id/buttonQ1"
                 />
 
             <TextView
-                android:layout_width="215dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:text="1.SITTING TO STANDING"
                 />
@@ -109,13 +109,13 @@
                 android:layout_gravity="center_vertical"
                 android:src="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:id="@+id/buttonQ2"
                 />
 
             <TextView
-                android:layout_width="215dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:text="2.STANDING UNSUPPORTED"
                 />
@@ -138,13 +138,13 @@
                 android:layout_gravity="center_vertical"
                 android:src="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:id="@+id/buttonQ3"
                 />
 
             <TextView
-                android:layout_width="215dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:text="3.SIT W/BACK UNSUP. FEET SUP"
                 />
@@ -167,13 +167,13 @@
                 android:layout_gravity="center_vertical"
                 android:src="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:id="@+id/buttonQ4"
                 />
 
             <TextView
-                android:layout_width="215dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:text="4.STANDING TO SITTING"
                 />
@@ -196,13 +196,13 @@
                 android:layout_gravity="center_vertical"
                 android:src="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:id="@+id/buttonQ5"
                 />
 
             <TextView
-                android:layout_width="215dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewQ5"
                 android:text="5.TRANSFERS"
@@ -226,13 +226,13 @@
                 android:layout_gravity="center_vertical"
                 android:src="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:id="@+id/buttonQ6"
                 />
 
             <TextView
-                android:layout_width="215dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewQ6"
                 android:tag="Q6"
@@ -258,13 +258,13 @@
                 android:layout_gravity="center_vertical"
                 android:src="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:id="@+id/buttonQ7"
                 />
 
             <TextView
-                android:layout_width="215dp"
+                android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:id="@+id/textViewQ7"
                 android:tag="Q7"
@@ -289,14 +289,14 @@
                 android:layout_gravity="center_vertical"
                 android:src="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:id="@+id/buttonQ8"
                 />
 
 
             <TextView
-                android:layout_width="215dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewQ8"
                 android:tag="Q8"
@@ -321,14 +321,14 @@
                 android:layout_gravity="center_vertical"
                 android:src="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:id="@+id/buttonQ9"
                 />
 
 
             <TextView
-                android:layout_width="215dp"
+                android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:id="@+id/textViewQ9"
                 android:tag="Q9"
@@ -353,14 +353,14 @@
                 android:layout_gravity="center_vertical"
                 android:src="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:id="@+id/buttonQ10"
                 />
 
 
             <TextView
-                android:layout_width="215dp"
+                android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:id="@+id/textViewQ10"
                 android:tag="Q10"
@@ -385,13 +385,13 @@
                 android:layout_gravity="center_vertical"
                 android:src="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:id="@+id/buttonQ11"
                 />
 
             <TextView
-                android:layout_width="215dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewQ11"
                 android:tag="Q11"
@@ -416,14 +416,14 @@
                 android:layout_gravity="center_vertical"
                 android:src="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:id="@+id/buttonQ12"
                 />
 
 
             <TextView
-                android:layout_width="215dp"
+                android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:id="@+id/textViewQ1"
                 android:tag="Q12"
@@ -448,14 +448,14 @@
                 android:layout_gravity="center_vertical"
                 android:src="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:id="@+id/buttonQ13"
                 />
 
 
             <TextView
-                android:layout_width="215dp"
+                android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:id="@+id/textViewQ13"
                 android:tag="Q13"
@@ -480,14 +480,14 @@
                 android:layout_gravity="center_vertical"
                 android:src="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:id="@+id/buttonQ14"
                 />
 
 
             <TextView
-                android:layout_width="215dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewQ14"
                 android:tag="Q14"

@@ -75,7 +75,7 @@ public class AssessmentTable {
 
   public static void onCreate(SQLiteDatabase database) {
 	  Log.i("NJW","Creating database in table helper class with actual sql statement");
-    database.execSQL(DATABASE_CREATE);
+      database.execSQL(DATABASE_CREATE);
   }
 
   public static void onUpgrade(SQLiteDatabase database, int oldVersion,

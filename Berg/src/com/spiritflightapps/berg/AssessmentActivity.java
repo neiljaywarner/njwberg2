@@ -45,16 +45,23 @@ public class AssessmentActivity extends Activity {
                 .getColumnIndexOrThrow(AssessmentTable.COLUMN_SUMMARY)));
         String date = cursor.getString(cursor.getColumnIndex(AssessmentTable.COLUMN_DATE));
         mEditTextDate.setText(date);
-        fillAnswerEditFields(mEditBoxes, cursor);
+        fillAnswerEditFields(mEditBoxes, mEditTextDate, cursor);
 
 
 
         // always close the cursor
-      cursor.close();
+        cursor.close();
     }
   }
 
-    private void fillAnswerEditFields(ArrayList<EditText> editBoxes, Cursor cursor) {
+    /**
+     *
+     * @param editBoxes fields with the questions
+     * @param editTextDate - 2 digit date identified (1E for initial eval, 2E for second, etc
+     * @param cursor
+     */
+    private void fillAnswerEditFields(ArrayList<EditText> editBoxes, EditText editTextDate, Cursor cursor) {
+        editTextDate.setText(cursor.getString(cursor.getColumnIndex(AssessmentTable.COLUMN_DATE)));
         editBoxes.get(0).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q1)));
         editBoxes.get(1).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q2)));
         editBoxes.get(2).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q3)));
@@ -84,14 +91,16 @@ public class AssessmentActivity extends Activity {
   }
 
   private void saveState() {
+    Log.i("NJW", "trying to save");
     String title = mTitleText.getText().toString();
-    
+    String date = mEditTextDate.getText().toString();
     if ( title.length() == 0) {
       return;
     }
 
     ContentValues values = new ContentValues();
     values.put(AssessmentTable.COLUMN_SUMMARY, title);
+    values.put(AssessmentTable.COLUMN_DATE, date);
     values.put(AssessmentTable.COLUMN_Q1, mEditBoxes.get(0).getText().toString().trim());
     values.put(AssessmentTable.COLUMN_Q2, mEditBoxes.get(1).getText().toString().trim());
     values.put(AssessmentTable.COLUMN_Q3, mEditBoxes.get(2).getText().toString().trim());
@@ -113,7 +122,9 @@ public class AssessmentActivity extends Activity {
       todoUri = getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
     } else {
       // Update todo
-      getContentResolver().update(todoUri, values, null, null);
+        Log.i("NJW", "about to save");
+
+        getContentResolver().update(todoUri, values, null, null);
     }
   }
 
@@ -135,10 +146,12 @@ public class AssessmentActivity extends Activity {
       ImageButton buttonCalculate = (ImageButton) findViewById(R.id.buttonCalculate);
       ImageButton buttonClear = (ImageButton) findViewById(R.id.buttonClear);
       tvTotal = (TextView) findViewById(R.id.textViewTotal);
+      mEditTextDate = (EditText) findViewById(R.id.editTextDateV1);
       initializeEditBoxes();
       initializeInstructionButtons();
       initializeInstructionStrings();
       //TODO: Remove calculate button, move clear button to action bar?
+      //TODO: Make next and previous buttons.
 
       buttonClear.setOnClickListener(new View.OnClickListener() {
           @Override
@@ -165,7 +178,7 @@ public class AssessmentActivity extends Activity {
         fillData(todoUri);
       }
 
-      calculateTotalIfAllFilledIn();
+      calculateTotalIfAllFilledIn(mEditBoxes, tvTotal);
 
   }
 
@@ -197,10 +210,14 @@ public class AssessmentActivity extends Activity {
       mEditBoxes.add((EditText) findViewById(R.id.editTextQ12));
       mEditBoxes.add((EditText) findViewById(R.id.editTextQ13));
       mEditBoxes.add((EditText) findViewById(R.id.editTextQ14));
-      
-      for ( int i=0; i < mEditBoxes.size(); i++) {
+
+
+      final ArrayList<EditText> editBoxes = mEditBoxes;
+      final TextView textViewTotal = tvTotal;
+
+      for ( int i=0; i < editBoxes.size(); i++) {
     	  final int next = i+1;
-    	  final EditText e = mEditBoxes.get(i);
+    	  final EditText e = editBoxes.get(i);
     	  e.addTextChangedListener(new TextWatcher() {
 			
 			@Override
@@ -225,13 +242,13 @@ public class AssessmentActivity extends Activity {
 
 				} else {
 					//autoadvance
-					if (next < mEditBoxes.size()) {
-						EditText nextEditBox = mEditBoxes.get(next);
+					if (next < editBoxes.size()) {
+						EditText nextEditBox = editBoxes.get(next);
 						nextEditBox.requestFocus();
 					}
 					//autocalculate
 
-					calculateTotalIfAllFilledIn();
+					calculateTotalIfAllFilledIn(editBoxes, textViewTotal);
 				}
 				
 				
@@ -254,12 +271,12 @@ public class AssessmentActivity extends Activity {
      
 
   }
-      protected void calculateTotalIfAllFilledIn() {
+      protected void calculateTotalIfAllFilledIn(ArrayList<EditText> editBoxes, TextView tvTotal) {
 	
     	  int total = 0;
           int score = 0;
           try {
-              for (EditText editBox : mEditBoxes) {
+              for (EditText editBox : editBoxes) {
                   score = Integer.parseInt(editBox.getText().toString());
                   if (score > 4) {
                       throw (new Exception()); //TODO: Detail which one via tag in xml

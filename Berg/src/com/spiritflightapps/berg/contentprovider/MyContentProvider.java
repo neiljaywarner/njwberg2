@@ -26,6 +26,7 @@ public class MyContentProvider extends ContentProvider {
   private static final int TODOS = 10;
   private static final int TODO_ID = 20;
 
+            //TODO: Rename stuff away from the example to actual berg stuff!!!
   private static final String AUTHORITY = "com.spritflightapps.berg.contentprovider.MyToDoContentProvider";
 
   private static final String BASE_PATH = "todos";
@@ -58,7 +59,7 @@ public class MyContentProvider extends ContentProvider {
     SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 
     // check if the caller has requested a column which does not exists
-    checkColumns(projection);
+//    checkColumns(projection); //? Refactor so that the column list is NOT in 2 places.
 
     // Set the table
     queryBuilder.setTables(AssessmentTable.TABLE_TODO);
@@ -173,7 +174,7 @@ public class MyContentProvider extends ContentProvider {
     getContext().getContentResolver().notifyChange(uri, null);
     return rowsUpdated;
   }
-//TODO: IS this really  needed..
+//TODO: IS this really  needed.. TODO: Delete or refactor so that this list is not in 2 places!
   private void checkColumns(String[] projection) {
     String[] available = { 
         AssessmentTable.COLUMN_SUMMARY, AssessmentTable.COLUMN_Q1, AssessmentTable.COLUMN_Q2, AssessmentTable.COLUMN_Q3, AssessmentTable.COLUMN_Q4, AssessmentTable.COLUMN_Q5,
