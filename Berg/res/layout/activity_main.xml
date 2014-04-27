@@ -699,6 +699,8 @@
             </LinearLayout>
 <!-- TODO: Throw away layout in favor or table or something -->
         </LinearLayout> <!-- all visits -->
+
+        <!-- TODO: Simple next/previous buttons for now might work fine -->
         <LinearLayout
             android:layout_margin="10dp"
             android:layout_width="fill_parent"

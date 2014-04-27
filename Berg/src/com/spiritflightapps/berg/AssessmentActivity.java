@@ -91,30 +91,34 @@ public class AssessmentActivity extends Activity {
   }
 
   private void saveState() {
+      saveColumn(mEditBoxes, mEditTextDate);
+  }
+
+  private void saveColumn(ArrayList<EditText> editBoxes, EditText editTextDate) {
     Log.i("NJW", "trying to save");
     String title = mTitleText.getText().toString();
-    String date = mEditTextDate.getText().toString();
+    String date = editTextDate.getText().toString();
     if ( title.length() == 0) {
       return;
     }
-
+        //TODO: Make title so   it cannot be saved in the middle, etc
     ContentValues values = new ContentValues();
     values.put(AssessmentTable.COLUMN_SUMMARY, title);
     values.put(AssessmentTable.COLUMN_DATE, date);
-    values.put(AssessmentTable.COLUMN_Q1, mEditBoxes.get(0).getText().toString().trim());
-    values.put(AssessmentTable.COLUMN_Q2, mEditBoxes.get(1).getText().toString().trim());
-    values.put(AssessmentTable.COLUMN_Q3, mEditBoxes.get(2).getText().toString().trim());
-    values.put(AssessmentTable.COLUMN_Q4, mEditBoxes.get(3).getText().toString().trim());
-    values.put(AssessmentTable.COLUMN_Q5, mEditBoxes.get(4).getText().toString().trim());
-    values.put(AssessmentTable.COLUMN_Q6, mEditBoxes.get(5).getText().toString().trim());
-    values.put(AssessmentTable.COLUMN_Q7, mEditBoxes.get(6).getText().toString().trim());
-    values.put(AssessmentTable.COLUMN_Q8, mEditBoxes.get(7).getText().toString().trim());
-    values.put(AssessmentTable.COLUMN_Q9, mEditBoxes.get(8).getText().toString().trim());
-    values.put(AssessmentTable.COLUMN_Q10, mEditBoxes.get(9).getText().toString().trim());
-    values.put(AssessmentTable.COLUMN_Q11, mEditBoxes.get(10).getText().toString().trim());
-    values.put(AssessmentTable.COLUMN_Q12, mEditBoxes.get(11).getText().toString().trim());
-    values.put(AssessmentTable.COLUMN_Q13, mEditBoxes.get(12).getText().toString().trim());
-    values.put(AssessmentTable.COLUMN_Q14, mEditBoxes.get(13).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q1, editBoxes.get(0).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q2, editBoxes.get(1).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q3, editBoxes.get(2).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q4, editBoxes.get(3).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q5, editBoxes.get(4).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q6, editBoxes.get(5).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q7, editBoxes.get(6).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q8, editBoxes.get(7).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q9, editBoxes.get(8).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q10, editBoxes.get(9).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q11, editBoxes.get(10).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q12, editBoxes.get(11).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q13, editBoxes.get(12).getText().toString().trim());
+    values.put(AssessmentTable.COLUMN_Q14, editBoxes.get(13).getText().toString().trim());
 
 
     if (todoUri == null) {
@@ -283,7 +287,7 @@ public class AssessmentActivity extends Activity {
                   }
                   total += score;
               }
-              Toast.makeText(AssessmentActivity.this.getApplicationContext(), "Total Score=" + total, Toast.LENGTH_LONG).show();
+              Toast.makeText(AssessmentActivity.this.getApplicationContext(), "Total Score=" + total, Toast.LENGTH_SHORT).show();
               tvTotal.setText(String.valueOf(total));
 
           } catch (Exception e) {
