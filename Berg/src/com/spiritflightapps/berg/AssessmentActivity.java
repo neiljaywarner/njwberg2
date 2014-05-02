@@ -42,8 +42,8 @@ public class AssessmentActivity extends Activity {
         //TODO: SWitch to below
        // while (cursor.moveToNext()) {
 
-      //  mTitleText.setText(cursor.getString(cursor
-       //         .getColumnIndexOrThrow(AssessmentTable.COLUMN_PATIENT_TITLE)));
+        mTitleText.setText(cursor.getString(cursor
+                .getColumnIndexOrThrow(AssessmentTable.COLUMN_PATIENT_TITLE)));
 
 
         fillAnswerEditFields(mEditBoxes, mEditTextDate, cursor);
@@ -82,6 +82,7 @@ public class AssessmentActivity extends Activity {
         editBoxes.get(11).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q12)));
         editBoxes.get(12).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q13)));
         editBoxes.get(13).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q14)));
+                //TODO: Use cursor constructor or similar pattern so that db code is out of UI code.
     }
 
     protected void onSaveInstanceState(Bundle outState) {
@@ -132,10 +133,12 @@ public class AssessmentActivity extends Activity {
 
     if (todoUri == null) {
       // New berg test
-      todoUri = getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
+        Log.i("NJW", "about to insert assessment");
+
+        todoUri = getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
     } else {
       // Update berg test
-        Log.i("NJW", "about to save");
+        Log.i("NJW", "about to update assessment");
 
         getContentResolver().update(todoUri, values, null, null);
     }
