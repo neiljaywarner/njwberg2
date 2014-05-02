@@ -10,6 +10,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 /*
  * TodosOverviewActivity displays the existing todo items
@@ -95,9 +97,11 @@ public class AssessmentListActivity extends ListActivity implements
   protected void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
     Intent i = new Intent(this, AssessmentActivity.class);
+    TextView tvName = (TextView) v.findViewById(R.id.label);
+      Log.i("NJW", tvName.getText().toString());
     Uri todoUri = Uri.parse(MyContentProvider.CONTENT_URI + "/" + id);
     i.putExtra(MyContentProvider.CONTENT_ITEM_TYPE, todoUri);
-
+    i.putExtra("name", tvName.getText().toString());
     startActivity(i);
   }
 
@@ -107,7 +111,7 @@ public class AssessmentListActivity extends ListActivity implements
 
     // Fields from the database (projection)
     // Must include the _id column for the adapter to work
-    String[] from = new String[] { AssessmentTable.COLUMN_SUMMARY };
+    String[] from = new String[] { AssessmentTable.COLUMN_PATIENT_TITLE};
     // Fields on the UI to which we map
     int[] to = new int[] { R.id.label };
 
@@ -129,7 +133,8 @@ public class AssessmentListActivity extends ListActivity implements
   // creates a new loader after the initLoader () call
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-    String[] projection = { AssessmentTable.COLUMN_ID, AssessmentTable.COLUMN_SUMMARY };
+        //TODO: Add a createdate field here to be displayed in the listview.
+    String[] projection = { AssessmentTable.COLUMN_ID, AssessmentTable.COLUMN_PATIENT_TITLE};
     CursorLoader cursorLoader = new CursorLoader(this,
         MyContentProvider.CONTENT_URI, projection, null, null, null);
     return cursorLoader;

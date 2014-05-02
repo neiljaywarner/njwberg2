@@ -12,9 +12,9 @@ import android.util.Log;
 public class AssessmentTable {
 
   // Database table
-  public static final String TABLE_TODO = "todo";
+  public static final String TABLE_ASSESSMENTS = "assessments";
   public static final String COLUMN_ID = "_id";
-  public static final String COLUMN_SUMMARY = "patient_ref"; //ie initials+city
+  public static final String COLUMN_PATIENT_TITLE = "patient_ref"; //ie initials+city
   public static final String COLUMN_DATE = "date";
   public static final String COLUMN_Q1 = "q1";
   public static final String COLUMN_Q2 = "q2";
@@ -32,7 +32,7 @@ public class AssessmentTable {
   public static final String COLUMN_Q14 = "q14";
 
   public static final String[] DEFAULT_PROJECTION = {
-          AssessmentTable.COLUMN_SUMMARY,
+          AssessmentTable.COLUMN_PATIENT_TITLE,
           AssessmentTable.COLUMN_DATE,
           AssessmentTable.COLUMN_Q1,
           AssessmentTable.COLUMN_Q2,
@@ -52,10 +52,10 @@ public class AssessmentTable {
 
   // Database creation SQL statement
   private static final String DATABASE_CREATE = "create table " 
-      + TABLE_TODO
+      + TABLE_ASSESSMENTS
       + "(" 
       + COLUMN_ID + " integer primary key autoincrement, " 
-      + COLUMN_SUMMARY + " text not null,"
+      + COLUMN_PATIENT_TITLE + " text not null,"
       + COLUMN_DATE + " text ,"
       + COLUMN_Q1 + " text ,"
       + COLUMN_Q2 + " text,"
@@ -83,7 +83,7 @@ public class AssessmentTable {
     Log.w(AssessmentTable.class.getName(), "Upgrading database from version "
         + oldVersion + " to " + newVersion
         + ", which will destroy all old data");
-    database.execSQL("DROP TABLE IF EXISTS " + TABLE_TODO);
+    database.execSQL("DROP TABLE IF EXISTS " + TABLE_ASSESSMENTS);
     onCreate(database);
   }
 } 

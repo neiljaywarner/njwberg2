@@ -62,7 +62,7 @@ public class MyContentProvider extends ContentProvider {
 //    checkColumns(projection); //? Refactor so that the column list is NOT in 2 places.
 
     // Set the table
-    queryBuilder.setTables(AssessmentTable.TABLE_TODO);
+    queryBuilder.setTables(AssessmentTable.TABLE_ASSESSMENTS);
 
     int uriType = sURIMatcher.match(uri);
     switch (uriType) {
@@ -99,7 +99,7 @@ public class MyContentProvider extends ContentProvider {
     long id = 0;
     switch (uriType) {
     case TODOS:
-      id = sqlDB.insert(AssessmentTable.TABLE_TODO, null, values);
+      id = sqlDB.insert(AssessmentTable.TABLE_ASSESSMENTS, null, values);
       break;
     default:
       throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -115,17 +115,17 @@ public class MyContentProvider extends ContentProvider {
     int rowsDeleted = 0;
     switch (uriType) {
     case TODOS:
-      rowsDeleted = sqlDB.delete(AssessmentTable.TABLE_TODO, selection,
+      rowsDeleted = sqlDB.delete(AssessmentTable.TABLE_ASSESSMENTS, selection,
           selectionArgs);
       break;
     case TODO_ID:
       String id = uri.getLastPathSegment();
       if (TextUtils.isEmpty(selection)) {
-        rowsDeleted = sqlDB.delete(AssessmentTable.TABLE_TODO,
+        rowsDeleted = sqlDB.delete(AssessmentTable.TABLE_ASSESSMENTS,
             AssessmentTable.COLUMN_ID + "=" + id, 
             null);
       } else {
-        rowsDeleted = sqlDB.delete(AssessmentTable.TABLE_TODO,
+        rowsDeleted = sqlDB.delete(AssessmentTable.TABLE_ASSESSMENTS,
             AssessmentTable.COLUMN_ID + "=" + id 
             + " and " + selection,
             selectionArgs);
@@ -147,7 +147,7 @@ public class MyContentProvider extends ContentProvider {
     int rowsUpdated = 0;
     switch (uriType) {
     case TODOS:
-      rowsUpdated = sqlDB.update(AssessmentTable.TABLE_TODO, 
+      rowsUpdated = sqlDB.update(AssessmentTable.TABLE_ASSESSMENTS,
           values, 
           selection,
           selectionArgs);
@@ -155,12 +155,12 @@ public class MyContentProvider extends ContentProvider {
     case TODO_ID:
       String id = uri.getLastPathSegment();
       if (TextUtils.isEmpty(selection)) {
-        rowsUpdated = sqlDB.update(AssessmentTable.TABLE_TODO, 
+        rowsUpdated = sqlDB.update(AssessmentTable.TABLE_ASSESSMENTS,
             values,
             AssessmentTable.COLUMN_ID + "=" + id, 
             null);
       } else {
-        rowsUpdated = sqlDB.update(AssessmentTable.TABLE_TODO, 
+        rowsUpdated = sqlDB.update(AssessmentTable.TABLE_ASSESSMENTS,
             values,
             AssessmentTable.COLUMN_ID + "=" + id 
             + " and " 
@@ -177,7 +177,7 @@ public class MyContentProvider extends ContentProvider {
 //TODO: IS this really  needed.. TODO: Delete or refactor so that this list is not in 2 places!
   private void checkColumns(String[] projection) {
     String[] available = { 
-        AssessmentTable.COLUMN_SUMMARY, AssessmentTable.COLUMN_Q1, AssessmentTable.COLUMN_Q2, AssessmentTable.COLUMN_Q3, AssessmentTable.COLUMN_Q4, AssessmentTable.COLUMN_Q5,
+        AssessmentTable.COLUMN_PATIENT_TITLE, AssessmentTable.COLUMN_Q1, AssessmentTable.COLUMN_Q2, AssessmentTable.COLUMN_Q3, AssessmentTable.COLUMN_Q4, AssessmentTable.COLUMN_Q5,
         AssessmentTable.COLUMN_Q6, AssessmentTable.COLUMN_Q7, AssessmentTable.COLUMN_Q8, AssessmentTable.COLUMN_Q9, AssessmentTable.COLUMN_Q10, AssessmentTable.COLUMN_Q11,
         AssessmentTable.COLUMN_Q12,
         AssessmentTable.COLUMN_Q13,

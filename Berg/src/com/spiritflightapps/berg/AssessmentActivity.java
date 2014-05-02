@@ -24,7 +24,9 @@ import android.widget.Toast;
 public class AssessmentActivity extends Activity {
   private EditText mTitleText;
   private EditText mEditTextDate;
-  private Uri todoUri;
+  private EditText mEditTextDate2;
+
+    private Uri todoUri;
 
 
 
@@ -40,9 +42,16 @@ public class AssessmentActivity extends Activity {
         //TODO: SWitch to below
        // while (cursor.moveToNext()) {
 
-        mTitleText.setText(cursor.getString(cursor
-                .getColumnIndexOrThrow(AssessmentTable.COLUMN_SUMMARY)));
+      //  mTitleText.setText(cursor.getString(cursor
+       //         .getColumnIndexOrThrow(AssessmentTable.COLUMN_PATIENT_TITLE)));
+
+
         fillAnswerEditFields(mEditBoxes, mEditTextDate, cursor);
+
+        cursor.moveToNext();
+        if (!cursor.isAfterLast()) {
+            fillAnswerEditFields(mEditBoxes2, mEditTextDate2, cursor);
+        }
 
 
 
@@ -91,6 +100,9 @@ public class AssessmentActivity extends Activity {
       saveColumn(mEditBoxes, mEditTextDate);
   }
 
+
+    //TODO: Gallery control only deprecated in Jellybean, will work indefinitely...
+
   private void saveColumn(ArrayList<EditText> editBoxes, EditText editTextDate) {
     Log.i("NJW", "trying to save");
     String title = mTitleText.getText().toString();
@@ -100,7 +112,7 @@ public class AssessmentActivity extends Activity {
     }
         //TODO: Make title so   it cannot be saved in the middle, etc
     ContentValues values = new ContentValues();
-    values.put(AssessmentTable.COLUMN_SUMMARY, title);
+    values.put(AssessmentTable.COLUMN_PATIENT_TITLE, title);
     values.put(AssessmentTable.COLUMN_DATE, date);
     values.put(AssessmentTable.COLUMN_Q1, editBoxes.get(0).getText().toString().trim());
     values.put(AssessmentTable.COLUMN_Q2, editBoxes.get(1).getText().toString().trim());
@@ -119,10 +131,10 @@ public class AssessmentActivity extends Activity {
 
 
     if (todoUri == null) {
-      // New todo
+      // New berg test
       todoUri = getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
     } else {
-      // Update todo
+      // Update berg test
         Log.i("NJW", "about to save");
 
         getContentResolver().update(todoUri, values, null, null);
@@ -138,7 +150,9 @@ public class AssessmentActivity extends Activity {
   ArrayList<String> mInstructions;
 //icon from http://www.flaticon.com/free-icon/falling-man-silhouette_11015
 
-  TextView tvTotal;
+  TextView tvTotal,tvTotal2;
+        //TODO: Make this into a custom control...
+    // first make into a viewGroup for the 'row' with testEntries.
 
   @Override
   protected void onCreate(Bundle bundle) {
@@ -149,23 +163,14 @@ public class AssessmentActivity extends Activity {
       ImageButton buttonCalculate = (ImageButton) findViewById(R.id.buttonCalculate);
       ImageButton buttonClear = (ImageButton) findViewById(R.id.buttonClear);
       tvTotal = (TextView) findViewById(R.id.textViewTotal);
+      tvTotal2 = (TextView) findViewById(R.id.textViewTotalV2);
+
       mEditTextDate = (EditText) findViewById(R.id.editTextDateV1);
       initializeEditBoxes();
       initializeInstructionButtons();
       initializeInstructionStrings();
-      //TODO: Remove calculate button, move clear button to action bar?
+      //TODO: Remove calculate button, move clear button to action bar (if needed, could clear current row...)
       //TODO: Make next and previous buttons.
-
-      buttonClear.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-              Toast.makeText(AssessmentActivity.this.getApplicationContext(), "Clear", Toast.LENGTH_LONG).show();
-              for (EditText editText : mEditBoxes) {
-                  editText.setText("");
-              }
-              tvTotal.setText("");
-          }
-      });
 
       Bundle extras = getIntent().getExtras();
 
@@ -178,10 +183,14 @@ public class AssessmentActivity extends Activity {
         todoUri = extras
             .getParcelable(MyContentProvider.CONTENT_ITEM_TYPE);
 
+        String name = extras.getString("name");
+        mTitleText.setText("***" + name);
         fillData(todoUri);
       }
 
       calculateTotalIfAllFilledIn(mEditBoxes, tvTotal);
+      calculateTotalIfAllFilledIn(mEditBoxes2, tvTotal2);
+
 
   }
 

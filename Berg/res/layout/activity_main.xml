@@ -555,6 +555,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/editTextQ1_V2"
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -563,6 +564,8 @@
                     />
 
                 <EditText
+                    android:id="@+id/editTextQ2_V2"
+
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -571,6 +574,8 @@
                     />
 
                 <EditText
+                    android:id="@+id/editTextQ3_V2"
+
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -578,6 +583,8 @@
                     android:tag="3"
                     />
                 <EditText
+                    android:id="@+id/editTextQ4_V2"
+
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -586,6 +593,8 @@
                     />
 
                 <EditText
+                    android:id="@+id/editTextQ5_V2"
+
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -594,6 +603,8 @@
                     />
 
                 <EditText
+                    android:id="@+id/editTextQ6_V2"
+
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -602,6 +613,8 @@
                     />
 
                 <EditText
+                    android:id="@+id/editTextQ7_V2"
+
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -611,6 +624,7 @@
                     />
 <!-- TODO: Get rid of this margin for 2nd line when it becomes a table, eg when its' ussable on more than just n5 -->
                 <EditText
+                    android:id="@+id/editTextQ8_V2"
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -619,6 +633,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/editTextQ9_V2"
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -629,6 +644,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/editTextQ10_V2"
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -641,6 +657,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/editTextQ11_V2"
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -650,6 +667,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/editTextQ12_V2"
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -663,6 +681,7 @@
 
                 <EditText
                     android:layout_width="48dp"
+                    android:id="@+id/editTextQ13_V2"
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:ems="10"
@@ -675,6 +694,8 @@
 
 
                     <EditText
+                        android:id="@+id/editTextQ14_V2"
+
                         android:layout_width="48dp"
                         android:layout_height="wrap_content"
                         android:inputType="number"
