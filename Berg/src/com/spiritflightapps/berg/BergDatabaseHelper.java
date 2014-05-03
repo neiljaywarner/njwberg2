@@ -22,6 +22,7 @@ public class BergDatabaseHelper extends SQLiteOpenHelper {
         Log.i("NJW","oncreate in dbhelper");
 
         AssessmentTable.onCreate(database);
+        PatientTable.onCreate(database);
     }
 
     // Method is called during an upgrade of the database,
@@ -30,6 +31,8 @@ public class BergDatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase database, int oldVersion,
                           int newVersion) {
         AssessmentTable.onUpgrade(database, oldVersion, newVersion);
+        PatientTable.onUpgrade(database, oldVersion, newVersion);
+
     }
 }
  

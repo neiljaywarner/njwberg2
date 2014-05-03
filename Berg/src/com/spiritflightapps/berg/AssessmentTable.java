@@ -14,8 +14,10 @@ public class AssessmentTable {
   // Database table
   public static final String TABLE_ASSESSMENTS = "assessments";
   public static final String COLUMN_ID = "_id";
-  public static final String COLUMN_PATIENT_TITLE = "patient_ref"; //ie initials+city
+
+    public static final String COLUMN_PATIENT_ID = "patient_id"; //ie FK to patient_id table with ref+city in name
   public static final String COLUMN_DATE = "date";
+  public static final String COLUMN_COMMENT = "date"; //optional, v 1.1?
   public static final String COLUMN_Q1 = "q1";
   public static final String COLUMN_Q2 = "q2";
   public static final String COLUMN_Q3 = "q3";
@@ -32,7 +34,7 @@ public class AssessmentTable {
   public static final String COLUMN_Q14 = "q14";
 
   public static final String[] DEFAULT_PROJECTION = {
-          AssessmentTable.COLUMN_PATIENT_TITLE,
+          AssessmentTable.COLUMN_PATIENT_ID,
           AssessmentTable.COLUMN_DATE,
           AssessmentTable.COLUMN_Q1,
           AssessmentTable.COLUMN_Q2,
@@ -55,7 +57,7 @@ public class AssessmentTable {
       + TABLE_ASSESSMENTS
       + "(" 
       + COLUMN_ID + " integer primary key autoincrement, " 
-      + COLUMN_PATIENT_TITLE + " text not null,"
+      + COLUMN_PATIENT_ID + " text not null,"
       + COLUMN_DATE + " text ,"
       + COLUMN_Q1 + " text ,"
       + COLUMN_Q2 + " text,"
@@ -73,7 +75,7 @@ public class AssessmentTable {
       + COLUMN_Q14 + " text"
       + ");";
 
-  public static void onCreate(SQLiteDatabase database) {
+    public static void onCreate(SQLiteDatabase database) {
 	  Log.i("NJW","Creating database in table helper class with actual sql statement");
       database.execSQL(DATABASE_CREATE);
   }

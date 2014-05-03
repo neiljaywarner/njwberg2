@@ -1,11 +1,5 @@
 package com.spiritflightapps.berg.contentprovider;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
-import com.spiritflightapps.berg.BergDatabaseHelper;
-import com.spiritflightapps.berg.AssessmentTable;
-
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -17,34 +11,36 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-/**
- * content provider for Assessments not todos...
- */
-public class MyContentProvider extends ContentProvider {
+import com.spiritflightapps.berg.PatientTable;
+import com.spiritflightapps.berg.BergDatabaseHelper;
+
+import java.util.Arrays;
+import java.util.HashSet;
+
+public class MyPatientContentProvider extends ContentProvider {
 
   // database
   private BergDatabaseHelper database;
 
   // used for the UriMacher
-  private static final int TODOS = 10;
-  private static final int TODO_ID = 20;
+  private static final int PATIENTS = 10;
+  private static final int PATIENT_ID = 20;
 
-            //TODO: Rename stuff away from the example to actual berg stuff!!!
-  private static final String AUTHORITY = "com.spritflightapps.berg.contentprovider.MyToDoContentProvider";
+  private static final String AUTHORITY = "com.spritflightapps.berg.contentprovider.MyPatientContentProvider";
 
-  private static final String BASE_PATH = "todos";
+  private static final String BASE_PATH = "patients";
   public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
       + "/" + BASE_PATH);
 
   public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
-      + "/todos";
+      + "/patients";
   public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
-      + "/todo";
+      + "/patient";
 
   private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
   static {
-    sURIMatcher.addURI(AUTHORITY, BASE_PATH, TODOS);
-    sURIMatcher.addURI(AUTHORITY, BASE_PATH + "/#", TODO_ID);
+    sURIMatcher.addURI(AUTHORITY, BASE_PATH, PATIENTS);
+    sURIMatcher.addURI(AUTHORITY, BASE_PATH + "/#", PATIENT_ID);
   }
 
   @Override
@@ -65,15 +61,15 @@ public class MyContentProvider extends ContentProvider {
 //    checkColumns(projection); //? Refactor so that the column list is NOT in 2 places.
 
     // Set the table
-    queryBuilder.setTables(AssessmentTable.TABLE_ASSESSMENTS);
+    queryBuilder.setTables(PatientTable.TABLE_PATIENTS);
 
     int uriType = sURIMatcher.match(uri);
     switch (uriType) {
-    case TODOS:
-      queryBuilder.appendWhere(AssessmentTable.COLUMN_PATIENT_ID + "=" + uri.getLastPathSegment());
-    case TODO_ID:
+    case PATIENTS:
+      break;
+    case PATIENT_ID:
       // adding the ID to the original query
-      queryBuilder.appendWhere(AssessmentTable.COLUMN_ID + "="
+      queryBuilder.appendWhere(PatientTable.COLUMN_ID + "="
           + uri.getLastPathSegment());
       break;
     default:
@@ -94,6 +90,8 @@ public class MyContentProvider extends ContentProvider {
     return null;
   }
 
+    //NOTE: WE could combine this into one contentprovider... sicne differnet switch statements
+    //and different URI.
   @Override
   public Uri insert(Uri uri, ContentValues values) {
     int uriType = sURIMatcher.match(uri);
@@ -101,8 +99,8 @@ public class MyContentProvider extends ContentProvider {
     int rowsDeleted = 0;
     long id = 0;
     switch (uriType) {
-    case TODOS:
-      id = sqlDB.insert(AssessmentTable.TABLE_ASSESSMENTS, null, values);
+    case PATIENTS:
+      id = sqlDB.insert(PatientTable.TABLE_PATIENTS, null, values);
       break;
     default:
       throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -117,19 +115,19 @@ public class MyContentProvider extends ContentProvider {
     SQLiteDatabase sqlDB = database.getWritableDatabase();
     int rowsDeleted = 0;
     switch (uriType) {
-    case TODOS:
-      rowsDeleted = sqlDB.delete(AssessmentTable.TABLE_ASSESSMENTS, selection,
+    case PATIENTS:
+      rowsDeleted = sqlDB.delete(PatientTable.TABLE_PATIENTS, selection,
           selectionArgs);
       break;
-    case TODO_ID:
+    case PATIENT_ID:
       String id = uri.getLastPathSegment();
       if (TextUtils.isEmpty(selection)) {
-        rowsDeleted = sqlDB.delete(AssessmentTable.TABLE_ASSESSMENTS,
-            AssessmentTable.COLUMN_ID + "=" + id, 
+        rowsDeleted = sqlDB.delete(PatientTable.TABLE_PATIENTS,
+            PatientTable.COLUMN_ID + "=" + id,
             null);
       } else {
-        rowsDeleted = sqlDB.delete(AssessmentTable.TABLE_ASSESSMENTS,
-            AssessmentTable.COLUMN_ID + "=" + id 
+        rowsDeleted = sqlDB.delete(PatientTable.TABLE_PATIENTS,
+            PatientTable.COLUMN_ID + "=" + id
             + " and " + selection,
             selectionArgs);
       }
@@ -149,23 +147,23 @@ public class MyContentProvider extends ContentProvider {
     SQLiteDatabase sqlDB = database.getWritableDatabase();
     int rowsUpdated = 0;
     switch (uriType) {
-    case TODOS:
-      rowsUpdated = sqlDB.update(AssessmentTable.TABLE_ASSESSMENTS,
+    case PATIENTS:
+      rowsUpdated = sqlDB.update(PatientTable.TABLE_PATIENTS,
           values, 
           selection,
           selectionArgs);
       break;
-    case TODO_ID:
+    case PATIENT_ID:
       String id = uri.getLastPathSegment();
       if (TextUtils.isEmpty(selection)) {
-        rowsUpdated = sqlDB.update(AssessmentTable.TABLE_ASSESSMENTS,
+        rowsUpdated = sqlDB.update(PatientTable.TABLE_PATIENTS,
             values,
-            AssessmentTable.COLUMN_ID + "=" + id, 
+            PatientTable.COLUMN_ID + "=" + id,
             null);
       } else {
-        rowsUpdated = sqlDB.update(AssessmentTable.TABLE_ASSESSMENTS,
+        rowsUpdated = sqlDB.update(PatientTable.TABLE_PATIENTS,
             values,
-            AssessmentTable.COLUMN_ID + "=" + id 
+            PatientTable.COLUMN_ID + "=" + id
             + " and " 
             + selection,
             selectionArgs);
@@ -177,6 +175,7 @@ public class MyContentProvider extends ContentProvider {
     getContext().getContentResolver().notifyChange(uri, null);
     return rowsUpdated;
   }
+
 
 } 
 

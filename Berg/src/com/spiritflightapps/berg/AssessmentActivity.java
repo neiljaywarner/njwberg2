@@ -30,7 +30,7 @@ public class AssessmentActivity extends Activity {
 
 
 
-  
+
   private void fillData(Uri uri) {
 
       String[] projection = AssessmentTable.DEFAULT_PROJECTION;
@@ -42,8 +42,8 @@ public class AssessmentActivity extends Activity {
         //TODO: SWitch to below
        // while (cursor.moveToNext()) {
 
-        mTitleText.setText(cursor.getString(cursor
-                .getColumnIndexOrThrow(AssessmentTable.COLUMN_PATIENT_TITLE)));
+      //  mTitleText.setText(cursor.getString(cursor
+        //        .getColumnIndexOrThrow(AssessmentTable.COLUMN_PATIENT_TITLE)));
 
 
         fillAnswerEditFields(mEditBoxes, mEditTextDate, cursor);
@@ -113,7 +113,7 @@ public class AssessmentActivity extends Activity {
     }
         //TODO: Make title so   it cannot be saved in the middle, etc
     ContentValues values = new ContentValues();
-    values.put(AssessmentTable.COLUMN_PATIENT_TITLE, title);
+  //  values.put(AssessmentTable.COLUMN_PATIENT_TITLE, title);
     values.put(AssessmentTable.COLUMN_DATE, date);
     values.put(AssessmentTable.COLUMN_Q1, editBoxes.get(0).getText().toString().trim());
     values.put(AssessmentTable.COLUMN_Q2, editBoxes.get(1).getText().toString().trim());
@@ -144,7 +144,7 @@ public class AssessmentActivity extends Activity {
     }
   }
 
-  
+
             //array of arraylists for 4/N column prototype
   ArrayList<EditText> mEditBoxes;
   ArrayList<EditText> mEditBoxes2;
@@ -255,7 +255,7 @@ public class AssessmentActivity extends Activity {
     	  final int next = i+1;
     	  final EditText e = editBoxes.get(i);
     	  e.addTextChangedListener(new TextWatcher() {
-			
+
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				int answer = Integer.MIN_VALUE;
@@ -272,7 +272,7 @@ public class AssessmentActivity extends Activity {
 				if (answer > 4) {
 					error = "Please enter 0-4.";
 				}
-				
+
 				if (error.length() > 0) {
 		              Toast.makeText(AssessmentActivity.this.getApplicationContext(), error, Toast.LENGTH_LONG).show();
 
@@ -286,29 +286,29 @@ public class AssessmentActivity extends Activity {
 
 					calculateTotalIfAllFilledIn(editBoxes, textViewTotal);
 				}
-				
-				
+
+
 			}
-			
+
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void afterTextChanged(Editable s) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
       }
-     
+
 
   }
       protected void calculateTotalIfAllFilledIn(ArrayList<EditText> editBoxes, TextView tvTotal) {
-	
+
     	  int total = 0;
           int score = 0;
           try {
@@ -325,7 +325,7 @@ public class AssessmentActivity extends Activity {
 
           } catch (Exception e) {
              //Validation done in each field. if blank or one missing, do nothing
-        	 
+
           }
 
 }
@@ -392,5 +392,5 @@ public class AssessmentActivity extends Activity {
 
 
 
- 
-} 
+
+}
