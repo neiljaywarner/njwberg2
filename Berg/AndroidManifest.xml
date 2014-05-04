@@ -24,6 +24,12 @@
             </intent-filter>
         </activity>
 
+      <activity
+          android:name=".TestAssessmentListActivity"
+          android:label="@string/app_name" >
+
+      </activity>
+
 
         <activity
             android:name=".AssessmentActivity"
@@ -36,5 +42,10 @@
       android:name="com.spiritflightapps.berg.contentprovider.MyPatientContentProvider"
       android:authorities="com.spritflightapps.berg.contentprovider.MyPatientContentProvider" >
    </provider>
+
+      <provider
+          android:name="com.spiritflightapps.berg.contentprovider.MyContentProvider"
+          android:authorities="com.spritflightapps.berg.contentprovider.MyContentProvider" >
+      </provider>
     </application>
 </manifest>

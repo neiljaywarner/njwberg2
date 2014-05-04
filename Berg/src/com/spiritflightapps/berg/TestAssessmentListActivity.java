@@ -21,7 +21,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import com.spiritflightapps.berg.contentprovider.MyPatientContentProvider;
+import com.spiritflightapps.berg.contentprovider.MyContentProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,7 +33,7 @@ import java.util.Locale;
  * You can delete existing ones via a long press on the item
  */
 
-public class TestPatientListActivity extends ListActivity implements
+public class TestAssessmentListActivity extends ListActivity implements
     LoaderManager.LoaderCallbacks<Cursor> {
   private static final int ACTIVITY_CREATE = 0;
   private static final int ACTIVITY_EDIT = 1;
@@ -41,6 +41,7 @@ public class TestPatientListActivity extends ListActivity implements
   // private Cursor cursor;
   private SimpleCursorAdapter adapter;
     private Uri patientUri;
+    private String mPatientId;
 
   
 /** Called when the activity is first created. */
@@ -52,6 +53,11 @@ public class TestPatientListActivity extends ListActivity implements
     this.getListView().setDividerHeight(2);
     fillData();
     registerForContextMenu(getListView());
+    String name = this.getIntent().getStringExtra("name");
+      this.setTitle(name);
+      this.getIntent().getLongExtra("patient_id",0);
+      mPatientId = patientUri.getLastPathSegment();
+      this.setTitle("id="+mPatientId);
    // if (this.adapter.getCount() == 0) {
   //  	createItem();
    // }
@@ -76,30 +82,16 @@ public class TestPatientListActivity extends ListActivity implements
     return super.onOptionsItemSelected(item);
   }
 
-  @Override
-  public boolean onContextItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-    case DELETE_ID:
-      AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-          .getMenuInfo();
-      Uri uri = Uri.parse(MyPatientContentProvider.CONTENT_URI + "/"
-          + info.id);
-      getContentResolver().delete(uri, null, null);
-      fillData();
-      return true;
-    }
-    return super.onContextItemSelected(item);
-  }
 
   private void createItem() {
       //TODO: Pass to testPatientListactivity
   //  Intent i = new Intent(this, AssessmentActivity.class);
   //  startActivity(i);
-      createTestPatient();
+      createTestAssessment();
   }
 
-  private void createTestPatient() {
-        insertPatient("Joe " + getDateTime());
+  private void createTestAssessment() {
+        insertAssessment("Visit from " + getDateTime());
   }
 
     private String getDateTime() {
@@ -109,35 +101,18 @@ public class TestPatientListActivity extends ListActivity implements
         return dateFormat.format(date);
 
     }
-  private void insertPatient(String name) {
+  private void insertAssessment(String date) {
       ContentValues values = new ContentValues();
-      values.put(PatientTable.COLUMN_PATIENT_TITLE, name);
-      patientUri = getContentResolver().insert(MyPatientContentProvider.CONTENT_URI, values);
+      values.put(AssessmentTable.COLUMN_DATE, date);
+      values.put(AssessmentTable.COLUMN_PATIENT_ID, mPatientId);
+      //q1,name
+      patientUri = getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
                 //it has a uri so next time it can update is the idea
       //TODO: Date
   }
-  /* TODO for better design, and put the cursor stuff in the patient model object
-  private void insertPatient(Patient patient) {
-      ContentValues values = new ContentValues();
-      values.put(PatientTable.COLUMN_CATEGORY, category);
-      values.put(TodoTable.COLUMN_SUMMARY, summary);
-      values.put(TodoTable.COLUMN_DESCRIPTION, description);
-  }
-  */
 
   // Opens the second activity if an entry is clicked
-  @Override
-  protected void onListItemClick(ListView l, View v, int position, long id) {
-    super.onListItemClick(l, v, position, id);
-    Intent i = new Intent(this, TestAssessmentListActivity.class);
-    TextView tvName = (TextView) v.findViewById(R.id.label);
-      Log.i("NJW", tvName.getText().toString());
-    Uri uri = Uri.parse(MyPatientContentProvider.CONTENT_URI + "/" + id);
-    i.putExtra(MyPatientContentProvider.CONTENT_ITEM_TYPE, uri);
-    i.putExtra("name", tvName.getText().toString());
 
-    startActivity(i);
-  }
 
   
 
@@ -145,7 +120,7 @@ public class TestPatientListActivity extends ListActivity implements
 
     // Fields from the database (projection)
     // Must include the _id column for the adapter to work
-    String[] from = new String[] { PatientTable.COLUMN_PATIENT_TITLE};
+    String[] from = new String[] { AssessmentTable.COLUMN_DATE};
     // Fields on the UI to which we map
     int[] to = new int[] { R.id.label };
 
@@ -156,21 +131,14 @@ public class TestPatientListActivity extends ListActivity implements
     setListAdapter(adapter);
   }
 
-  @Override
-  public void onCreateContextMenu(ContextMenu menu, View v,
-      ContextMenuInfo menuInfo) {
-    super.onCreateContextMenu(menu, v, menuInfo);
-    menu.add(0, DELETE_ID, 0, "delete");
-    //TODO: are we sitl going to do this this way? if so, put in strings.xml
-  }
 
   // creates a new loader after the initLoader () call
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         //TODO: Add a createdate field here to be displayed in the listview.
-    String[] projection = { PatientTable.COLUMN_ID, PatientTable.COLUMN_PATIENT_TITLE};
+    String[] projection = { AssessmentTable.COLUMN_ID, AssessmentTable.COLUMN_DATE};
     CursorLoader cursorLoader = new CursorLoader(this,
-        MyPatientContentProvider.CONTENT_URI, projection, null, null, null);
+        MyContentProvider.CONTENT_URI, projection, null, null, null);
     return cursorLoader;
   }
 

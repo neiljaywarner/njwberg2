@@ -30,16 +30,16 @@ public class MyContentProvider extends ContentProvider {
   private static final int TODO_ID = 20;
 
             //TODO: Rename stuff away from the example to actual berg stuff!!!
-  private static final String AUTHORITY = "com.spritflightapps.berg.contentprovider.MyToDoContentProvider";
+  private static final String AUTHORITY = "com.spritflightapps.berg.contentprovider.MyContentProvider";
 
-  private static final String BASE_PATH = "todos";
+  private static final String BASE_PATH = "tests";
   public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
       + "/" + BASE_PATH);
 
   public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
-      + "/todos";
+      + "/tests";
   public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
-      + "/todo";
+      + "/tests";
 
   private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
   static {
@@ -49,7 +49,6 @@ public class MyContentProvider extends ContentProvider {
 
   @Override
   public boolean onCreate() {
-	Log.i("NJW","in oncreate of contetprovider");
     database = new BergDatabaseHelper(getContext());
     return false;
   }
@@ -66,14 +65,14 @@ public class MyContentProvider extends ContentProvider {
 
     // Set the table
     queryBuilder.setTables(AssessmentTable.TABLE_ASSESSMENTS);
-
+    Log.i("NJW","***" + uri.toString());
     int uriType = sURIMatcher.match(uri);
     switch (uriType) {
     case TODOS:
       queryBuilder.appendWhere(AssessmentTable.COLUMN_PATIENT_ID + "=" + uri.getLastPathSegment());
     case TODO_ID:
       // adding the ID to the original query
-      queryBuilder.appendWhere(AssessmentTable.COLUMN_ID + "="
+      queryBuilder.appendWhere(AssessmentTable.COLUMN_PATIENT_ID + "="
           + uri.getLastPathSegment());
       break;
     default:
@@ -110,7 +109,7 @@ public class MyContentProvider extends ContentProvider {
     getContext().getContentResolver().notifyChange(uri, null);
     return Uri.parse(BASE_PATH + "/" + id);
   }
-
+            //DO NOthing?
   @Override
   public int delete(Uri uri, String selection, String[] selectionArgs) {
     int uriType = sURIMatcher.match(uri);
@@ -125,11 +124,11 @@ public class MyContentProvider extends ContentProvider {
       String id = uri.getLastPathSegment();
       if (TextUtils.isEmpty(selection)) {
         rowsDeleted = sqlDB.delete(AssessmentTable.TABLE_ASSESSMENTS,
-            AssessmentTable.COLUMN_ID + "=" + id, 
+            AssessmentTable.COLUMN_ID + "=" + id,
             null);
       } else {
         rowsDeleted = sqlDB.delete(AssessmentTable.TABLE_ASSESSMENTS,
-            AssessmentTable.COLUMN_ID + "=" + id 
+            AssessmentTable.COLUMN_ID + "=" + id
             + " and " + selection,
             selectionArgs);
       }
