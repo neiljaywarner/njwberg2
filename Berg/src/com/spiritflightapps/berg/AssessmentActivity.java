@@ -2,7 +2,7 @@ package com.spiritflightapps.berg;
 
 import java.util.ArrayList;
 
-import com.spiritflightapps.berg.contentprovider.MyContentProvider;
+import com.spiritflightapps.berg.contentprovider.AssessmentContentProvider;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -88,7 +88,7 @@ public class AssessmentActivity extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         saveState();
-        outState.putParcelable(MyContentProvider.CONTENT_ITEM_TYPE, todoUri);
+        outState.putParcelable(AssessmentContentProvider.CONTENT_ITEM_TYPE, todoUri);
     }
 
   @Override
@@ -135,7 +135,7 @@ public class AssessmentActivity extends Activity {
       // New berg test
         Log.i("NJW", "about to insert assessment");
 
-        todoUri = getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
+        todoUri = getContentResolver().insert(AssessmentContentProvider.CONTENT_URI, values);
     } else {
       // Update berg test
         Log.i("NJW", "about to update assessment");
@@ -179,12 +179,12 @@ public class AssessmentActivity extends Activity {
 
       // check from the saved Instance
       todoUri = (bundle == null) ? null : (Uri) bundle
-          .getParcelable(MyContentProvider.CONTENT_ITEM_TYPE);
+          .getParcelable(AssessmentContentProvider.CONTENT_ITEM_TYPE);
 
       // Or passed from the other activity
       if (extras != null) {
         todoUri = extras
-            .getParcelable(MyContentProvider.CONTENT_ITEM_TYPE);
+            .getParcelable(AssessmentContentProvider.CONTENT_ITEM_TYPE);
 
         String name = extras.getString("name");
         mTitleText.setText("***" + name);

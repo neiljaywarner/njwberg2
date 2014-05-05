@@ -10,19 +10,13 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 
-import com.spiritflightapps.berg.contentprovider.MyContentProvider;
+import com.spiritflightapps.berg.contentprovider.AssessmentContentProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,7 +35,7 @@ public class TestAssessmentListActivity extends Activity implements
     public static final String EXTRA_NAME = "name";
     public static final String EXTRA_PATIENT_ID = "patient_id";
     private SimpleCursorAdapter adapter;
-    private Uri patientUri;
+    private Uri assessmentUri;
     private String mPatientId;
 
     private ListView mListView;
@@ -114,7 +108,7 @@ public class TestAssessmentListActivity extends Activity implements
         values.put(AssessmentTable.COLUMN_DATE, date);
         values.put(AssessmentTable.COLUMN_PATIENT_ID, mPatientId);
         //q1,name
-        patientUri = getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
+        assessmentUri = getContentResolver().insert(AssessmentContentProvider.CONTENT_URI, values);
         //it has a uri so next time it can update is the idea
         //TODO: Date
     }
@@ -143,7 +137,7 @@ public class TestAssessmentListActivity extends Activity implements
         String[] projection = {AssessmentTable.COLUMN_ID, AssessmentTable.COLUMN_DATE};
         String[] selectionArgs = {mPatientId};
         CursorLoader cursorLoader = new CursorLoader(this,
-                MyContentProvider.CONTENT_URI, projection, "patient_id=?", selectionArgs, null);
+                AssessmentContentProvider.CONTENT_URI, projection, "patient_id=?", selectionArgs, null);
         return cursorLoader;
     }
 

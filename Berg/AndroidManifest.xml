@@ -44,8 +44,8 @@
    </provider>
 
       <provider
-          android:name="com.spiritflightapps.berg.contentprovider.MyContentProvider"
-          android:authorities="com.spiritflightapps.berg.contentprovider.MyContentProvider" >
+          android:name=".contentprovider.AssessmentContentProvider"
+          android:authorities="com.spiritflightapps.berg.contentprovider.AssessmentContentProvider" >
       </provider>
     </application>
 </manifest>
