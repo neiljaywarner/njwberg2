@@ -129,7 +129,7 @@ public class TestPatientListActivity extends ListActivity implements
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
-    Intent i = new Intent(this, TestAssessmentListActivity.class);
+  //  Intent i = new Intent(this, TestAssessmentListActivity.class);
     TextView tvName = (TextView) v.findViewById(R.id.label);
       Log.i("NJW", tvName.getText().toString());
   //  Uri uri = Uri.parse(MyPatientContentProvider.CONTENT_URI + "/" + id);
@@ -137,8 +137,11 @@ public class TestPatientListActivity extends ListActivity implements
  //   i.putStringExtra("name", tvName.getText().toString(),"");
  //   i.putStringExtra("patient_id", String.valueOf(id),"");
       String patientId = String.valueOf(id);
-      i.putExtra("name",tvName.getText());
-      i.putExtra("patient_id", patientId);
+
+      Intent i = TestAssessmentListActivity.newIntent(this, tvName.getText().toString(), patientId);
+//
+//      i.putExtra("name",tvName.getText());
+//      i.putExtra("patient_id", patientId);
     startActivity(i);
   }
 
