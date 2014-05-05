@@ -85,6 +85,8 @@ public class TestPatientListActivity extends ListActivity implements
       Uri uri = Uri.parse(MyPatientContentProvider.CONTENT_URI + "/"
           + info.id);
       getContentResolver().delete(uri, null, null);
+                //TODO: Delete the assessments in the assessments table as well
+        //or probably just mark them as deleted, or back them up and delete them. something.
       fillData();
       return true;
     }
@@ -109,6 +111,7 @@ public class TestPatientListActivity extends ListActivity implements
         return dateFormat.format(date);
 
     }
+
   private void insertPatient(String name) {
       ContentValues values = new ContentValues();
       values.put(PatientTable.COLUMN_PATIENT_TITLE, name);

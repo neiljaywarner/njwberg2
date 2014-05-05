@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Gallery;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
@@ -38,7 +39,7 @@ public class TestAssessmentListActivity extends Activity implements
     private Uri assessmentUri;
     private String mPatientId;
 
-    private ListView mListView;
+    private Gallery mListView;
 
     /**
      * Called when the activity is first created.
@@ -48,8 +49,9 @@ public class TestAssessmentListActivity extends Activity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_listview);
-        mListView = (ListView) (findViewById(R.id.listViewTests));
-        mListView.setDividerHeight(2);
+        mListView = (Gallery) (findViewById(R.id.galleryTests));
+        mListView.setSpacing(1);
+     //   mListView.setDividerHeight(2);
 
         registerForContextMenu(mListView);
         String name = this.getIntent().getStringExtra(EXTRA_NAME);
@@ -92,21 +94,27 @@ public class TestAssessmentListActivity extends Activity implements
     }
 
     private void createTestAssessment() {
-        insertAssessment("Visit from " + getDateTime());
+        insertAssessment( getDateTime(), "1");
     }
 
+
+
     private String getDateTime() {
+        //  SimpleDateFormat dateFormat = new SimpleDateFormat(
+        //         "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                "HH:mm:ss", Locale.getDefault());
+        //TODO: This would be just date! FIXME; Just for demo purposes.
         Date date = new Date();
         return dateFormat.format(date);
 
     }
 
-    private void insertAssessment(String date) {
+    private void insertAssessment(String date, String a1) {
         ContentValues values = new ContentValues();
         values.put(AssessmentTable.COLUMN_DATE, date);
         values.put(AssessmentTable.COLUMN_PATIENT_ID, mPatientId);
+        values.put(AssessmentTable.COLUMN_Q1, a1);
         //q1,name
         assessmentUri = getContentResolver().insert(AssessmentContentProvider.CONTENT_URI, values);
         //it has a uri so next time it can update is the idea
@@ -118,12 +126,12 @@ public class TestAssessmentListActivity extends Activity implements
 
         // Fields from the database (projection)
         // Must include the _id column for the adapter to work
-        String[] from = new String[]{AssessmentTable.COLUMN_DATE};
+        String[] from = new String[] { AssessmentTable.COLUMN_DATE, AssessmentTable.COLUMN_Q1 };
         // Fields on the UI to which we map
-        int[] to = new int[]{R.id.label};
+        int[] to = new int[] { R.id.tvItemDate,R.id.tvQ1Ans };
 
         getLoaderManager().initLoader(0, null, this);
-        adapter = new SimpleCursorAdapter(this, R.layout.list_row, null, from,
+        adapter = new SimpleCursorAdapter(this, R.layout.list_row_test, null, from,
                 to, 0);
 
         mListView.setAdapter(adapter);
@@ -134,7 +142,7 @@ public class TestAssessmentListActivity extends Activity implements
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         //TODO: Add a createdate field here to be displayed in the listview.
-        String[] projection = {AssessmentTable.COLUMN_ID, AssessmentTable.COLUMN_DATE};
+        String[] projection = {AssessmentTable.COLUMN_ID, AssessmentTable.COLUMN_DATE, AssessmentTable.COLUMN_Q1};
         String[] selectionArgs = {mPatientId};
         CursorLoader cursorLoader = new CursorLoader(this,
                 AssessmentContentProvider.CONTENT_URI, projection, "patient_id=?", selectionArgs, null);
