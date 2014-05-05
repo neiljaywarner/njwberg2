@@ -26,7 +26,7 @@ public class MyPatientContentProvider extends ContentProvider {
   private static final int PATIENTS = 10;
   private static final int PATIENT_ID = 20;
 
-  private static final String AUTHORITY = "com.spritflightapps.berg.contentprovider.MyPatientContentProvider";
+  private static final String AUTHORITY = "com.spiritflightapps.berg.contentprovider.MyPatientContentProvider";
 
   private static final String BASE_PATH = "patients";
   public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY

@@ -40,12 +40,12 @@
         
         <provider
       android:name="com.spiritflightapps.berg.contentprovider.MyPatientContentProvider"
-      android:authorities="com.spritflightapps.berg.contentprovider.MyPatientContentProvider" >
+      android:authorities="com.spiritflightapps.berg.contentprovider.MyPatientContentProvider" >
    </provider>
 
       <provider
           android:name="com.spiritflightapps.berg.contentprovider.MyContentProvider"
-          android:authorities="com.spritflightapps.berg.contentprovider.MyContentProvider" >
+          android:authorities="com.spiritflightapps.berg.contentprovider.MyContentProvider" >
       </provider>
     </application>
 </manifest>

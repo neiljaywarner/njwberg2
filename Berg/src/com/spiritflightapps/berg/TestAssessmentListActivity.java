@@ -1,6 +1,6 @@
 package com.spiritflightapps.berg;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.Context;
@@ -33,7 +33,7 @@ import java.util.Locale;
 * You can create new ones via the ActionBar entry "Insert"
 */
 
-public class TestAssessmentListActivity extends ListActivity implements
+public class TestAssessmentListActivity extends Activity implements
         LoaderManager.LoaderCallbacks<Cursor> {
     private static final int ACTIVITY_CREATE = 0;
     private static final int ACTIVITY_EDIT = 1;
@@ -44,6 +44,7 @@ public class TestAssessmentListActivity extends ListActivity implements
     private Uri patientUri;
     private String mPatientId;
 
+    private ListView mListView;
 
     /**
      * Called when the activity is first created.
@@ -52,10 +53,11 @@ public class TestAssessmentListActivity extends ListActivity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.patient_list);
-        this.getListView().setDividerHeight(2);
+        setContentView(R.layout.test_listview);
+        mListView = (ListView) (findViewById(R.id.listViewTests));
+        mListView.setDividerHeight(2);
 
-        registerForContextMenu(getListView());
+        registerForContextMenu(mListView);
         String name = this.getIntent().getStringExtra(EXTRA_NAME);
         mPatientId = this.getIntent().getStringExtra(EXTRA_PATIENT_ID);
         this.setTitle(mPatientId + name);
@@ -130,7 +132,7 @@ public class TestAssessmentListActivity extends ListActivity implements
         adapter = new SimpleCursorAdapter(this, R.layout.list_row, null, from,
                 to, 0);
 
-        setListAdapter(adapter);
+        mListView.setAdapter(adapter);
     }
 
 

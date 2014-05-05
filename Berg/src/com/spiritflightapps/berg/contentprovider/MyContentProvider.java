@@ -30,7 +30,7 @@ public class MyContentProvider extends ContentProvider {
   private static final int TODO_ID = 20;
 
             //TODO: Rename stuff away from the example to actual berg stuff!!!
-  private static final String AUTHORITY = "com.spritflightapps.berg.contentprovider.MyContentProvider";
+  private static final String AUTHORITY = "com.spiritflightapps.berg.contentprovider.MyContentProvider";
 
   private static final String BASE_PATH = "tests";
   public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
