@@ -51,13 +51,15 @@ public class TestAssessmentListActivity extends ListActivity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.patient_list);
     this.getListView().setDividerHeight(2);
-    fillData();
+
     registerForContextMenu(getListView());
     String name = this.getIntent().getStringExtra("name");
-      this.setTitle(name);
-      this.getIntent().getLongExtra("patient_id",0);
-      mPatientId = patientUri.getLastPathSegment();
-      this.setTitle("id="+mPatientId);
+      mPatientId = this.getIntent().getStringExtra("patient_id");
+      this.setTitle(mPatientId+name);
+       fillData();
+     // mPatientId = this.getIntent().getStringExtra("patient_id");
+     // mPatientId = patientUri.getLastPathSegment();
+     // this.setTitle("id="+mPatientId + name);
    // if (this.adapter.getCount() == 0) {
   //  	createItem();
    // }
@@ -137,8 +139,9 @@ public class TestAssessmentListActivity extends ListActivity implements
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         //TODO: Add a createdate field here to be displayed in the listview.
     String[] projection = { AssessmentTable.COLUMN_ID, AssessmentTable.COLUMN_DATE};
+    String[] selectionArgs =  { mPatientId };
     CursorLoader cursorLoader = new CursorLoader(this,
-        MyContentProvider.CONTENT_URI, projection, null, null, null);
+        MyContentProvider.CONTENT_URI, projection, "patient_id=?", selectionArgs, null);
     return cursorLoader;
   }
 

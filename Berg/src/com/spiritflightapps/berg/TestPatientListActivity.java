@@ -132,10 +132,13 @@ public class TestPatientListActivity extends ListActivity implements
     Intent i = new Intent(this, TestAssessmentListActivity.class);
     TextView tvName = (TextView) v.findViewById(R.id.label);
       Log.i("NJW", tvName.getText().toString());
-    Uri uri = Uri.parse(MyPatientContentProvider.CONTENT_URI + "/" + id);
-    i.putExtra(MyPatientContentProvider.CONTENT_ITEM_TYPE, uri);
-    i.putExtra("name", tvName.getText().toString());
-
+  //  Uri uri = Uri.parse(MyPatientContentProvider.CONTENT_URI + "/" + id);
+   // i.putExtra(MyPatientContentProvider.CONTENT_ITEM_TYPE, uri);
+ //   i.putStringExtra("name", tvName.getText().toString(),"");
+ //   i.putStringExtra("patient_id", String.valueOf(id),"");
+      String patientId = String.valueOf(id);
+      i.putExtra("name",tvName.getText());
+      i.putExtra("patient_id", patientId);
     startActivity(i);
   }
 

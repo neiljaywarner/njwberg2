@@ -66,18 +66,18 @@ public class MyContentProvider extends ContentProvider {
     // Set the table
     queryBuilder.setTables(AssessmentTable.TABLE_ASSESSMENTS);
     Log.i("NJW","***" + uri.toString());
-    int uriType = sURIMatcher.match(uri);
-    switch (uriType) {
-    case TODOS:
-      queryBuilder.appendWhere(AssessmentTable.COLUMN_PATIENT_ID + "=" + uri.getLastPathSegment());
-    case TODO_ID:
-      // adding the ID to the original query
-      queryBuilder.appendWhere(AssessmentTable.COLUMN_PATIENT_ID + "="
-          + uri.getLastPathSegment());
-      break;
-    default:
-      throw new IllegalArgumentException("Unknown URI: " + uri);
-    }
+ //   int uriType = sURIMatcher.match(uri);
+//    switch (uriType) {
+//    case TODOS:
+//      queryBuilder.appendWhere(AssessmentTable.COLUMN_PATIENT_ID + "=" + uri.getLastPathSegment());
+//    case TODO_ID:
+//      // adding the ID to the original query
+//      queryBuilder.appendWhere(AssessmentTable.COLUMN_PATIENT_ID + "="
+//          + uri.getLastPathSegment());
+//      break;
+//    default:
+//      throw new IllegalArgumentException("Unknown URI: " + uri);
+//    }
 
     SQLiteDatabase db = database.getWritableDatabase();
     Cursor cursor = queryBuilder.query(db, projection, selection,
