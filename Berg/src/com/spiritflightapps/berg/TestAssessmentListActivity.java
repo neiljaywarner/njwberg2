@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Gallery;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -20,6 +21,7 @@ import android.widget.SimpleCursorAdapter;
 import com.spiritflightapps.berg.contentprovider.AssessmentContentProvider;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -40,6 +42,7 @@ public class TestAssessmentListActivity extends Activity implements
     private String mPatientId;
 
     private Gallery mListView;
+    private ArrayList<EditText> mEditTextBoxes;
 
     /**
      * Called when the activity is first created.
@@ -58,7 +61,9 @@ public class TestAssessmentListActivity extends Activity implements
         mPatientId = this.getIntent().getStringExtra(EXTRA_PATIENT_ID);
         this.setTitle(mPatientId + name);
         fillData();
-
+        mEditTextBoxes = new ArrayList<EditText>();
+        EditText editText = (EditText) findViewById(R.id.editTextTest1);
+        mEditTextBoxes.add(editText);
     }
 
 
@@ -90,7 +95,8 @@ public class TestAssessmentListActivity extends Activity implements
 
 
     private void createItem() {
-        createTestAssessment();
+      //  createTestAssessment();
+        insertAssessment(getDateTime(), mEditTextBoxes.get(0).getText().toString().trim());
     }
 
     private void createTestAssessment() {
@@ -103,7 +109,7 @@ public class TestAssessmentListActivity extends Activity implements
         //  SimpleDateFormat dateFormat = new SimpleDateFormat(
         //         "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "HH:mm:ss", Locale.getDefault());
+                "mm:ss", Locale.getDefault());
         //TODO: This would be just date! FIXME; Just for demo purposes.
         Date date = new Date();
         return dateFormat.format(date);

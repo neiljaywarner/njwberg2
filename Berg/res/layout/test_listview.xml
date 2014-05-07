@@ -8,15 +8,33 @@
     <!-- ? put in title for now? TODO: PUT a viewgroup/fragment at the top with the patient info in it -->
     <TextView
         android:text="Instructions STuff"
-        android:layout_width="150dp"
+        android:layout_width="120dp"
         android:layout_height="match_parent" />
     <Gallery
         android:layout_margin="10dp"
         android:padding="10dp"
         android:id="@+id/galleryTests"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
+
+
     </Gallery>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:id="@+id/editTextTest1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="num"/>
+
+
+        </LinearLayout>
 
 
 </LinearLayout> 
