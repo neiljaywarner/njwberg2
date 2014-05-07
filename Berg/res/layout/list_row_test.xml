@@ -25,7 +25,24 @@
         android:layout_marginLeft="6dp"
         android:lines="1"
         android:textSize="24dp"
-        >
-    </TextView>
+        />
+
+    <TextView
+        android:id="@+id/tvQ2Ans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:lines="1"
+        android:textSize="24dp"
+        />
+
+    <TextView
+        android:id="@+id/tvQ3Ans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:lines="1"
+        android:textSize="24dp"
+        />
 
 </LinearLayout> 

@@ -42,7 +42,7 @@ public class TestAssessmentListActivity extends Activity implements
     private String mPatientId;
 
     private Gallery mListView;
-    private ArrayList<EditText> mEditTextBoxes;
+    private ArrayList<EditText> mEditBoxes2;
 
     /**
      * Called when the activity is first created.
@@ -61,9 +61,23 @@ public class TestAssessmentListActivity extends Activity implements
         mPatientId = this.getIntent().getStringExtra(EXTRA_PATIENT_ID);
         this.setTitle(mPatientId + name);
         fillData();
-        mEditTextBoxes = new ArrayList<EditText>();
-        EditText editText = (EditText) findViewById(R.id.editTextTest1);
-        mEditTextBoxes.add(editText);
+        mEditBoxes2 = new ArrayList<EditText>();
+        mEditBoxes2.add((EditText) findViewById(R.id.editTextQ1_V2));
+        mEditBoxes2.add((EditText) findViewById(R.id.editTextQ2_V2));
+        mEditBoxes2.add((EditText) findViewById(R.id.editTextQ3_V2));
+        mEditBoxes2.add((EditText) findViewById(R.id.editTextQ4_V2));
+
+        mEditBoxes2.add((EditText) findViewById(R.id.editTextQ5_V2));
+        mEditBoxes2.add((EditText) findViewById(R.id.editTextQ6_V2));
+        mEditBoxes2.add((EditText) findViewById(R.id.editTextQ7_V2));
+        mEditBoxes2.add((EditText) findViewById(R.id.editTextQ8_V2));
+        mEditBoxes2.add((EditText) findViewById(R.id.editTextQ9_V2));
+        mEditBoxes2.add((EditText) findViewById(R.id.editTextQ10_V2));
+        mEditBoxes2.add((EditText) findViewById(R.id.editTextQ11_V2));
+        mEditBoxes2.add((EditText) findViewById(R.id.editTextQ12_V2));
+        mEditBoxes2.add((EditText) findViewById(R.id.editTextQ13_V2));
+        mEditBoxes2.add((EditText) findViewById(R.id.editTextQ14_V2));
+
     }
 
 
@@ -96,7 +110,7 @@ public class TestAssessmentListActivity extends Activity implements
 
     private void createItem() {
       //  createTestAssessment();
-        insertAssessment(getDateTime(), mEditTextBoxes.get(0).getText().toString().trim());
+        insertAssessment(getDateTime(), mEditBoxes2);
     }
 
     private void createTestAssessment() {
@@ -116,6 +130,29 @@ public class TestAssessmentListActivity extends Activity implements
 
     }
 
+    private void insertAssessment(String date, ArrayList<EditText> editBoxes) {
+        ContentValues values = new ContentValues();
+        values.put(AssessmentTable.COLUMN_DATE, date);
+        values.put(AssessmentTable.COLUMN_PATIENT_ID, mPatientId);
+
+        values.put(AssessmentTable.COLUMN_Q1, editBoxes.get(0).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q2, editBoxes.get(1).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q3, editBoxes.get(2).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q4, editBoxes.get(3).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q5, editBoxes.get(4).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q6, editBoxes.get(5).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q7, editBoxes.get(6).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q8, editBoxes.get(7).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q9, editBoxes.get(8).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q10, editBoxes.get(9).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q11, editBoxes.get(10).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q12, editBoxes.get(11).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q13, editBoxes.get(12).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q14, editBoxes.get(13).getText().toString().trim());
+
+        assessmentUri = getContentResolver().insert(AssessmentContentProvider.CONTENT_URI, values);
+
+    }
     private void insertAssessment(String date, String a1) {
         ContentValues values = new ContentValues();
         values.put(AssessmentTable.COLUMN_DATE, date);
@@ -132,9 +169,9 @@ public class TestAssessmentListActivity extends Activity implements
 
         // Fields from the database (projection)
         // Must include the _id column for the adapter to work
-        String[] from = new String[] { AssessmentTable.COLUMN_DATE, AssessmentTable.COLUMN_Q1 };
+        String[] from = new String[] { AssessmentTable.COLUMN_DATE, AssessmentTable.COLUMN_Q1, AssessmentTable.COLUMN_Q2, AssessmentTable.COLUMN_Q3 };
         // Fields on the UI to which we map
-        int[] to = new int[] { R.id.tvItemDate,R.id.tvQ1Ans };
+        int[] to = new int[] { R.id.tvItemDate,R.id.tvQ1Ans, R.id.tvQ2Ans, R.id.tvQ3Ans };
 
         getLoaderManager().initLoader(0, null, this);
         adapter = new SimpleCursorAdapter(this, R.layout.list_row_test, null, from,
@@ -148,7 +185,7 @@ public class TestAssessmentListActivity extends Activity implements
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         //TODO: Add a createdate field here to be displayed in the listview.
-        String[] projection = {AssessmentTable.COLUMN_ID, AssessmentTable.COLUMN_DATE, AssessmentTable.COLUMN_Q1};
+        String[] projection = {AssessmentTable.COLUMN_ID, AssessmentTable.COLUMN_DATE, AssessmentTable.COLUMN_Q1, AssessmentTable.COLUMN_Q2, AssessmentTable.COLUMN_Q3};
         String[] selectionArgs = {mPatientId};
         CursorLoader cursorLoader = new CursorLoader(this,
                 AssessmentContentProvider.CONTENT_URI, projection, "patient_id=?", selectionArgs, null);
