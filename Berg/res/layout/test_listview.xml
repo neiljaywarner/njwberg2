@@ -14,7 +14,7 @@
         android:layout_margin="10dp"
         android:padding="10dp"
         android:id="@+id/galleryTests"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content" >
 
 

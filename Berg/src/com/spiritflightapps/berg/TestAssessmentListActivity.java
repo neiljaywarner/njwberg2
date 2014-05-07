@@ -171,7 +171,7 @@ public class TestAssessmentListActivity extends Activity implements
         // Must include the _id column for the adapter to work
         String[] from = new String[] { AssessmentTable.COLUMN_DATE, AssessmentTable.COLUMN_Q1, AssessmentTable.COLUMN_Q2, AssessmentTable.COLUMN_Q3 };
         // Fields on the UI to which we map
-        int[] to = new int[] { R.id.tvItemDate,R.id.tvQ1Ans, R.id.tvQ2Ans, R.id.tvQ3Ans };
+        int[] to = new int[] { R.id.TextViewDate,R.id.TextViewQ1, R.id.TextViewQ2, R.id.TextViewQ3 };
 
         getLoaderManager().initLoader(0, null, this);
         adapter = new SimpleCursorAdapter(this, R.layout.list_row_test, null, from,
