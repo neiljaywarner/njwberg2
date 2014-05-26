@@ -18,6 +18,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -100,6 +101,13 @@ public class AssessmentActivity extends Activity implements
         editBoxes.get(12).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q13)));
         editBoxes.get(13).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q14)));
                 //TODO: Use cursor constructor or similar pattern so that db code is out of UI code.
+    }
+
+    private void fillAnswerEditFields(ArrayList<EditText> editBoxes, EditText editTextDate, String date, ArrayList<String> answers) {
+        editTextDate.setText(date);
+        for (int i=0;i < answers.size() ; i++) {
+            editBoxes.get(i).setText(answers.get(i));
+        }
     }
 
     protected void onSaveInstanceState(Bundle outState) {
@@ -192,17 +200,30 @@ private SimpleCursorAdapter adapter;
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         mAssessments = new HashMap<String, ArrayList<String>>();
+        String date="";
          while (cursor.moveToNext()) {
              ArrayList<String> assessment = new ArrayList<String>();
 //TODO: Fix -> brittle - skips 0 and 1 b/c id and date.
              for (int i=2; i < cursor.getColumnCount(); i++) {
                  assessment.add(cursor.getString(i));
              }
-             String date = cursor.getString(cursor.getColumnIndex(AssessmentTable.COLUMN_DATE));
+             date = cursor.getString(cursor.getColumnIndex(AssessmentTable.COLUMN_DATE));
              mAssessments.put(date,assessment);
          }
         Log.i("NJW", "loaded" + mAssessments.size());
+        fillAssessmentColumn(date);
     }
+
+    public void fillAssessmentColumn(String date) {
+        if (!TextUtils.isEmpty(date)) {
+            ArrayList<String> answers = mAssessments.get(date);
+            fillAnswerEditFields(mEditBoxes2, mEditTextDate2, date, answers);
+            mEditTextDate.setText(""); //TODO: Autofill this with something reasonable like 2e if 2nd one, etc.
+        }
+    }
+
+
+
     HashMap<String,ArrayList<String>> mAssessments; //date then questions.
 
     @Override
@@ -222,6 +243,7 @@ private SimpleCursorAdapter adapter;
       tvTotal2 = (TextView) findViewById(R.id.textViewTotalV2);
 
       mEditTextDate = (EditText) findViewById(R.id.editTextDateV1);
+      mEditTextDate2 = (EditText) findViewById(R.id.editTextDateV2);
       initializeEditBoxes();
       initializeInstructionButtons();
       initializeInstructionStrings();
