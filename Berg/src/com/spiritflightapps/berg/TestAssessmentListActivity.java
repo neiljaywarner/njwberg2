@@ -101,30 +101,6 @@ public class TestAssessmentListActivity extends Activity implements
         return i;
     }
 
-    // create the menu based on the XML defintion
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_list, menu);
-        return true;
-    }
-
-    // Reaction to the menu selection
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.insert:
-                createItem();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    private void createItem() {
-        //  createTestAssessment();
-        insertAssessment(getDateTime(), mEditBoxes2);
-    }
 
     private void createTestAssessment() {
         insertAssessment(getDateTime(), "1");

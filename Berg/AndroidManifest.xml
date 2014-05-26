@@ -24,11 +24,7 @@
             </intent-filter>
         </activity>
 
-      <activity
-          android:name=".TestAssessmentListActivity"
-          android:label="@string/app_name" >
 
-      </activity>
 
 
         <activity

@@ -1,13 +1,19 @@
 package com.spiritflightapps.berg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.spiritflightapps.berg.contentprovider.AssessmentContentProvider;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,25 +23,36 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class AssessmentActivity extends Activity {
+public class AssessmentActivity extends Activity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
   private EditText mTitleText;
   private EditText mEditTextDate;
   private EditText mEditTextDate2;
-
+    public static final String EXTRA_NAME = "name";
+    public static final String EXTRA_PATIENT_ID = "patient_id";
     private Uri todoUri;
 
+    public static Intent newIntent(Context context, String name, String patientId) {
+        Intent i = new Intent(context, AssessmentActivity.class);
+        i.putExtra(EXTRA_NAME, name);
+        i.putExtra(EXTRA_PATIENT_ID, patientId);
+        return i;
+    }
 
 
-
+        //TODO: Fix/remove
   private void fillData(Uri uri) {
 
       String[] projection = AssessmentTable.DEFAULT_PROJECTION;
+      String[] selectionArgs = {mPatientId};
+      String selectionClause = " patient_id = ?";
 
-    Cursor cursor = getContentResolver().query(uri, projection, null, null,null);
+      Cursor cursor = getContentResolver().query(uri, projection, selectionClause, selectionArgs,null);
     int col=0;
     if (cursor != null) {
         cursor.moveToFirst();
@@ -114,6 +131,7 @@ public class AssessmentActivity extends Activity {
         //TODO: Make title so   it cannot be saved in the middle, etc
     ContentValues values = new ContentValues();
   //  values.put(AssessmentTable.COLUMN_PATIENT_TITLE, title);
+      values.put(AssessmentTable.COLUMN_PATIENT_ID, mPatientId);
     values.put(AssessmentTable.COLUMN_DATE, date);
     values.put(AssessmentTable.COLUMN_Q1, editBoxes.get(0).getText().toString().trim());
     values.put(AssessmentTable.COLUMN_Q2, editBoxes.get(1).getText().toString().trim());
@@ -152,11 +170,46 @@ public class AssessmentActivity extends Activity {
     ArrayList<ImageButton> instructionButtons;
   ArrayList<String> mInstructions;
 //icon from http://www.flaticon.com/free-icon/falling-man-silhouette_11015
+private SimpleCursorAdapter adapter;
 
   TextView tvTotal,tvTotal2;
+    String mPatientId;
         //TODO: Make this into a custom control...
     // first make into a viewGroup for the 'row' with testEntries.
 
+
+    // creates a new loader after the initLoader () call
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        //TODO: Add a createdate field here to be displayed in the listview.
+        String[] projection = {AssessmentTable.COLUMN_ID, AssessmentTable.COLUMN_DATE, AssessmentTable.COLUMN_Q1, AssessmentTable.COLUMN_Q2, AssessmentTable.COLUMN_Q3};
+        String[] selectionArgs = {mPatientId};
+        CursorLoader cursorLoader = new CursorLoader(this,
+                AssessmentContentProvider.CONTENT_URI, projection, "patient_id=?", selectionArgs, null);
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        mAssessments = new HashMap<String, ArrayList<String>>();
+         while (cursor.moveToNext()) {
+             ArrayList<String> assessment = new ArrayList<String>();
+//TODO: Fix -> brittle - skips 0 and 1 b/c id and date.
+             for (int i=2; i < cursor.getColumnCount(); i++) {
+                 assessment.add(cursor.getString(i));
+             }
+             String date = cursor.getString(cursor.getColumnIndex(AssessmentTable.COLUMN_DATE));
+             mAssessments.put(date,assessment);
+         }
+        Log.i("NJW", "loaded" + mAssessments.size());
+    }
+    HashMap<String,ArrayList<String>> mAssessments; //date then questions.
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        // data is not available anymore, delete reference
+       // adapter.swapCursor(null);
+    }
   @Override
   protected void onCreate(Bundle bundle) {
       super.onCreate(bundle);
@@ -181,6 +234,8 @@ public class AssessmentActivity extends Activity {
       todoUri = (bundle == null) ? null : (Uri) bundle
           .getParcelable(AssessmentContentProvider.CONTENT_ITEM_TYPE);
 
+      mPatientId = extras.getString("patient_id");
+
       // Or passed from the other activity
       if (extras != null) {
         todoUri = extras
@@ -188,7 +243,9 @@ public class AssessmentActivity extends Activity {
 
         String name = extras.getString("name");
         mTitleText.setText("***" + name);
-        fillData(todoUri);
+       // fillData(todoUri);
+          getLoaderManager().initLoader(0, null, this);
+
       }
 
       calculateTotalIfAllFilledIn(mEditBoxes, tvTotal);
