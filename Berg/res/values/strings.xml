@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">EZ Berg
+    <string name="app_name">Berg
     </string>
      <string name="patient_empty_message">No tests yet, please create one \nby clicking the + in the upper right.
     </string>
     <string name="action_settings">Settings
     </string>
     <string name="menu_new">NEW</string>
-    
+
+    <string name="menu_next">NEXT</string>
+    <string name="menu_previous">PREVIOUS</string>
+
+    <string name="patient_title_hint">Please enter initials+city or some patient identifier</string>
+    <string name="patient_edit_confirm">OK</string>
+
+
+
+
 
     <!-- for button instructions
     Tinetti could be separate app by same user or similar

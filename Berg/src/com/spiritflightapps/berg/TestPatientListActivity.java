@@ -70,7 +70,10 @@ public class TestPatientListActivity extends ListActivity implements
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
     case R.id.insert:
-      createItem();
+     // createItem();
+      Intent i = PatientActivity.newIntent(this.getApplicationContext());
+      this.startActivity(i);
+      //Leave this here so that when they click back it goes back here.
       return true;
     }
     return super.onOptionsItemSelected(item);

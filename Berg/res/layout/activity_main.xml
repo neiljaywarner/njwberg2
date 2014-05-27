@@ -58,7 +58,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
+                    android:inputType="textAutoComplete"
                     android:ems="10"
                     android:tag="Date"
                     android:text="1E"

@@ -31,10 +31,12 @@
             android:name=".AssessmentActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
+      <activity
+          android:name=".PatientActivity"
+          android:label="Add patient" />
 
-       
-        
-        <provider
+
+      <provider
       android:name="com.spiritflightapps.berg.contentprovider.MyPatientContentProvider"
       android:authorities="com.spiritflightapps.berg.contentprovider.MyPatientContentProvider" >
    </provider>

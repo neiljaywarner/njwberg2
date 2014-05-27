@@ -21,6 +21,9 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -190,16 +193,45 @@ private SimpleCursorAdapter adapter;
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         //TODO: Add a createdate field here to be displayed in the listview.
-        String[] projection = {AssessmentTable.COLUMN_ID, AssessmentTable.COLUMN_DATE, AssessmentTable.COLUMN_Q1, AssessmentTable.COLUMN_Q2, AssessmentTable.COLUMN_Q3};
+       // String[] projection = {AssessmentTable.COLUMN_ID, AssessmentTable.COLUMN_DATE, AssessmentTable.COLUMN_Q1, AssessmentTable.COLUMN_Q2, AssessmentTable.COLUMN_Q3};
         String[] selectionArgs = {mPatientId};
         CursorLoader cursorLoader = new CursorLoader(this,
-                AssessmentContentProvider.CONTENT_URI, projection, "patient_id=?", selectionArgs, null);
+                AssessmentContentProvider.CONTENT_URI, AssessmentTable.LOADTEST_PROJECTION, "patient_id=?", selectionArgs, null);
         return cursorLoader;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_assessment, menu);
+        return true;
+    }
+
+    // Reaction to the menu selection
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.next:
+                if (mCurrentDateIndex < mDates.size() - 1) {
+                    mCurrentDateIndex = mCurrentDateIndex + 1;
+                    fillAssessmentColumn(mDates.get(mCurrentDateIndex));
+                }
+                return true;
+            case R.id.previous:
+                if (mCurrentDateIndex > 0) {
+                    mCurrentDateIndex = mCurrentDateIndex - 1;
+                    fillAssessmentColumn(mDates.get(mCurrentDateIndex));
+                }
+                //createItem();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         mAssessments = new HashMap<String, ArrayList<String>>();
+        mDates = new ArrayList<String>();
         String date="";
          while (cursor.moveToNext()) {
              ArrayList<String> assessment = new ArrayList<String>();
@@ -208,9 +240,11 @@ private SimpleCursorAdapter adapter;
                  assessment.add(cursor.getString(i));
              }
              date = cursor.getString(cursor.getColumnIndex(AssessmentTable.COLUMN_DATE));
+             mDates.add(date);
              mAssessments.put(date,assessment);
          }
         Log.i("NJW", "loaded" + mAssessments.size());
+        mCurrentDateIndex = mDates.size() - 1;
         fillAssessmentColumn(date);
     }
 
@@ -219,12 +253,17 @@ private SimpleCursorAdapter adapter;
             ArrayList<String> answers = mAssessments.get(date);
             fillAnswerEditFields(mEditBoxes2, mEditTextDate2, date, answers);
             mEditTextDate.setText(""); //TODO: Autofill this with something reasonable like 2e if 2nd one, etc.
+            calculateTotalIfAllFilledIn(mEditBoxes2, tvTotal2);
+
         }
     }
 
 
 
     HashMap<String,ArrayList<String>> mAssessments; //date then questions.
+    ArrayList<String> mDates;
+    int mCurrentDateIndex;
+    //TODO: Abstract some of this out into classes, etc?
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {

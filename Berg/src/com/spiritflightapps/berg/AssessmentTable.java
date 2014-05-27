@@ -52,6 +52,26 @@ public class AssessmentTable {
           AssessmentTable.COLUMN_Q14,
   };
 
+    //TODO: Fix/combine these 2...
+    public static final String[] LOADTEST_PROJECTION = {
+            AssessmentTable.COLUMN_PATIENT_ID,
+            AssessmentTable.COLUMN_DATE,
+            AssessmentTable.COLUMN_Q1,
+            AssessmentTable.COLUMN_Q2,
+            AssessmentTable.COLUMN_Q3,
+            AssessmentTable.COLUMN_Q4,
+            AssessmentTable.COLUMN_Q5,
+            AssessmentTable.COLUMN_Q6,
+            AssessmentTable.COLUMN_Q7,
+            AssessmentTable.COLUMN_Q8,
+            AssessmentTable.COLUMN_Q9,
+            AssessmentTable.COLUMN_Q10,
+            AssessmentTable.COLUMN_Q11,
+            AssessmentTable.COLUMN_Q12,
+            AssessmentTable.COLUMN_Q13,
+            AssessmentTable.COLUMN_Q14,
+    };
+
   // Database creation SQL statement
   private static final String DATABASE_CREATE = "create table " 
       + TABLE_ASSESSMENTS
