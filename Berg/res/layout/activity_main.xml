@@ -71,9 +71,9 @@
             android:layout_width="fill_parent">
 
 
-            <ImageButton
+            <View
                 android:layout_gravity="center_vertical"
-                android:src="@android:drawable/ic_dialog_info"
+                android:background="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -105,9 +105,9 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent">
 
-            <ImageButton
+            <View
                 android:layout_gravity="center_vertical"
-                android:src="@android:drawable/ic_dialog_info"
+                android:background="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -134,9 +134,9 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent">
 
-            <ImageButton
+            <View
                 android:layout_gravity="center_vertical"
-                android:src="@android:drawable/ic_dialog_info"
+                android:background="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -163,9 +163,9 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent">
 
-            <ImageButton
+            <View
                 android:layout_gravity="center_vertical"
-                android:src="@android:drawable/ic_dialog_info"
+                android:background="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -192,9 +192,9 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent">
 
-            <ImageButton
+            <View
                 android:layout_gravity="center_vertical"
-                android:src="@android:drawable/ic_dialog_info"
+                android:background="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -222,9 +222,9 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent">
 
-            <ImageButton
+            <View
                 android:layout_gravity="center_vertical"
-                android:src="@android:drawable/ic_dialog_info"
+                android:background="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -254,9 +254,9 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent">
 
-            <ImageButton
+            <View
                 android:layout_gravity="center_vertical"
-                android:src="@android:drawable/ic_dialog_info"
+                android:background="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -285,9 +285,9 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent">
 
-            <ImageButton
+            <View
                 android:layout_gravity="center_vertical"
-                android:src="@android:drawable/ic_dialog_info"
+                android:background="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -317,9 +317,9 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent">
 
-            <ImageButton
+            <View
                 android:layout_gravity="center_vertical"
-                android:src="@android:drawable/ic_dialog_info"
+                android:background="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -349,9 +349,9 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent">
 
-            <ImageButton
+            <View
                 android:layout_gravity="center_vertical"
-                android:src="@android:drawable/ic_dialog_info"
+                android:background="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -381,9 +381,9 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent">
 
-            <ImageButton
+            <View
                 android:layout_gravity="center_vertical"
-                android:src="@android:drawable/ic_dialog_info"
+                android:background="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -412,9 +412,9 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent">
 
-            <ImageButton
+            <View
                 android:layout_gravity="center_vertical"
-                android:src="@android:drawable/ic_dialog_info"
+                android:background="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -444,9 +444,9 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent">
 
-            <ImageButton
+            <View
                 android:layout_gravity="center_vertical"
-                android:src="@android:drawable/ic_dialog_info"
+                android:background="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -476,9 +476,9 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent">
 
-            <ImageButton
+            <View
                 android:layout_gravity="center_vertical"
-                android:src="@android:drawable/ic_dialog_info"
+                android:background="@android:drawable/ic_dialog_info"
                 android:contentDescription="Instructions"
                 android:layout_width="36dp"
                 android:layout_height="36dp"

@@ -118,7 +118,7 @@ public class AssessmentActivity extends Activity implements
   ArrayList<EditText> mEditBoxes;
   ArrayList<EditText> mEditBoxes2;
 
-    ArrayList<ImageButton> instructionButtons;
+    ArrayList<View> instructionButtons;
   ArrayList<String> mInstructions;
 //icon from http://www.flaticon.com/free-icon/falling-man-silhouette_11015
 private SimpleCursorAdapter adapter;
@@ -389,23 +389,23 @@ private SimpleCursorAdapter adapter;
 //would an action bar ? icon be better if in the field?
   //TODO: Find by tag for more readable code, or child or something?
   private void initializeInstructionButtons() {
-      instructionButtons = new ArrayList<ImageButton>();
-      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ1));
+      instructionButtons = new ArrayList<View>();
+      instructionButtons.add((View) findViewById(R.id.buttonQ1));
 
-      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ2));
-      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ3));
-      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ4));
+      instructionButtons.add((View) findViewById(R.id.buttonQ2));
+      instructionButtons.add((View) findViewById(R.id.buttonQ3));
+      instructionButtons.add((View) findViewById(R.id.buttonQ4));
 
-      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ5));
-      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ6));
-      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ7));
-      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ8));
-      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ9));
-      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ10));
-      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ11));
-      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ12));
-      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ13));
-      instructionButtons.add((ImageButton) findViewById(R.id.buttonQ14));
+      instructionButtons.add((View) findViewById(R.id.buttonQ5));
+      instructionButtons.add((View) findViewById(R.id.buttonQ6));
+      instructionButtons.add((View) findViewById(R.id.buttonQ7));
+      instructionButtons.add((View) findViewById(R.id.buttonQ8));
+      instructionButtons.add((View) findViewById(R.id.buttonQ9));
+      instructionButtons.add((View) findViewById(R.id.buttonQ10));
+      instructionButtons.add((View) findViewById(R.id.buttonQ11));
+      instructionButtons.add((View) findViewById(R.id.buttonQ12));
+      instructionButtons.add((View) findViewById(R.id.buttonQ13));
+      instructionButtons.add((View) findViewById(R.id.buttonQ14));
 
 
 

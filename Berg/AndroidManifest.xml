@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.spiritflightapps.berg"
-    android:versionCode="1405261"
-    android:versionName="0.42" >
+    android:versionCode="1405262"
+    android:versionName="0.421" >
 
     <uses-sdk
         android:minSdkVersion="14"
