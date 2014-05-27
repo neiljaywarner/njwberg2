@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SimpleCursorAdapter;
@@ -46,64 +47,6 @@ public class AssessmentActivity extends Activity implements
         i.putExtra(EXTRA_NAME, name);
         i.putExtra(EXTRA_PATIENT_ID, patientId);
         return i;
-    }
-
-
-        //TODO: Fix/remove
-  private void fillData(Uri uri) {
-
-      String[] projection = AssessmentTable.DEFAULT_PROJECTION;
-      String[] selectionArgs = {mPatientId};
-      String selectionClause = " patient_id = ?";
-
-      Cursor cursor = getContentResolver().query(uri, projection, selectionClause, selectionArgs,null);
-    int col=0;
-    if (cursor != null) {
-        cursor.moveToFirst();
-        //TODO: SWitch to below
-       // while (cursor.moveToNext()) {
-
-      //  mTitleText.setText(cursor.getString(cursor
-        //        .getColumnIndexOrThrow(AssessmentTable.COLUMN_PATIENT_TITLE)));
-
-
-        fillAnswerEditFields(mEditBoxes, mEditTextDate, cursor);
-
-        cursor.moveToNext();
-        if (!cursor.isAfterLast()) {
-            fillAnswerEditFields(mEditBoxes2, mEditTextDate2, cursor);
-        }
-
-
-
-        // always close the cursor
-        cursor.close();
-    }
-  }
-
-    /**
-     *
-     * @param editBoxes fields with the questions
-     * @param editTextDate - 2 digit date identified (1E for initial eval, 2E for second, etc
-     * @param cursor
-     */
-    private void fillAnswerEditFields(ArrayList<EditText> editBoxes, EditText editTextDate, Cursor cursor) {
-        editTextDate.setText(cursor.getString(cursor.getColumnIndex(AssessmentTable.COLUMN_DATE)));
-        editBoxes.get(0).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q1)));
-        editBoxes.get(1).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q2)));
-        editBoxes.get(2).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q3)));
-        editBoxes.get(3).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q4)));
-        editBoxes.get(4).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q5)));
-        editBoxes.get(5).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q6)));
-        editBoxes.get(6).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q7)));
-        editBoxes.get(7).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q8)));
-        editBoxes.get(8).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q9)));
-        editBoxes.get(9).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q10)));
-        editBoxes.get(10).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q11)));
-        editBoxes.get(11).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q12)));
-        editBoxes.get(12).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q13)));
-        editBoxes.get(13).setText(cursor.getString(cursor.getColumnIndexOrThrow(AssessmentTable.COLUMN_Q14)));
-                //TODO: Use cursor constructor or similar pattern so that db code is out of UI code.
     }
 
     private void fillAnswerEditFields(ArrayList<EditText> editBoxes, EditText editTextDate, String date, ArrayList<String> answers) {
@@ -134,14 +77,13 @@ public class AssessmentActivity extends Activity implements
 
   private void saveColumn(ArrayList<EditText> editBoxes, EditText editTextDate) {
     Log.i("NJW", "trying to save");
-    String title = mTitleText.getText().toString();
+    String title = mTitleText.getText().toString(); //TODO: Maybe allow them to save title here!
     String date = editTextDate.getText().toString();
     if ( title.length() == 0) {
       return;
     }
         //TODO: Make title so   it cannot be saved in the middle, etc
     ContentValues values = new ContentValues();
-  //  values.put(AssessmentTable.COLUMN_PATIENT_TITLE, title);
       values.put(AssessmentTable.COLUMN_PATIENT_ID, mPatientId);
     values.put(AssessmentTable.COLUMN_DATE, date);
     values.put(AssessmentTable.COLUMN_Q1, editBoxes.get(0).getText().toString().trim());
@@ -163,12 +105,10 @@ public class AssessmentActivity extends Activity implements
     if (todoUri == null) {
       // New berg test
         Log.i("NJW", "about to insert assessment");
-
         todoUri = getContentResolver().insert(AssessmentContentProvider.CONTENT_URI, values);
     } else {
       // Update berg test
         Log.i("NJW", "about to update assessment");
-
         getContentResolver().update(todoUri, values, null, null);
     }
   }
@@ -185,15 +125,13 @@ private SimpleCursorAdapter adapter;
 
   TextView tvTotal,tvTotal2;
     String mPatientId;
-        //TODO: Make this into a custom control...
-    // first make into a viewGroup for the 'row' with testEntries.
+        //TODO: Make this into a custom control...?
 
 
     // creates a new loader after the initLoader () call
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         //TODO: Add a createdate field here to be displayed in the listview.
-       // String[] projection = {AssessmentTable.COLUMN_ID, AssessmentTable.COLUMN_DATE, AssessmentTable.COLUMN_Q1, AssessmentTable.COLUMN_Q2, AssessmentTable.COLUMN_Q3};
         String[] selectionArgs = {mPatientId};
         CursorLoader cursorLoader = new CursorLoader(this,
                 AssessmentContentProvider.CONTENT_URI, AssessmentTable.LOADTEST_PROJECTION, "patient_id=?", selectionArgs, null);
@@ -222,7 +160,6 @@ private SimpleCursorAdapter adapter;
                     mCurrentDateIndex = mCurrentDateIndex - 1;
                     fillAssessmentColumn(mDates.get(mCurrentDateIndex));
                 }
-                //createItem();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -255,6 +192,9 @@ private SimpleCursorAdapter adapter;
             mEditTextDate.setText(""); //TODO: Autofill this with something reasonable like 2e if 2nd one, etc.
             calculateTotalIfAllFilledIn(mEditBoxes2, tvTotal2);
 
+        } else {
+            ViewGroup viewGroup2 = (ViewGroup) findViewById(R.id.vgLastVisit2);
+            viewGroup2.setVisibility(View.GONE); //don't show if empty
         }
     }
 
@@ -267,8 +207,7 @@ private SimpleCursorAdapter adapter;
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        // data is not available anymore, delete reference
-       // adapter.swapCursor(null);
+        // do nothing?
     }
   @Override
   protected void onCreate(Bundle bundle) {
@@ -303,8 +242,7 @@ private SimpleCursorAdapter adapter;
             .getParcelable(AssessmentContentProvider.CONTENT_ITEM_TYPE);
 
         String name = extras.getString("name");
-        mTitleText.setText("***" + name);
-       // fillData(todoUri);
+        mTitleText.setText(name);
           getLoaderManager().initLoader(0, null, this);
 
       }
