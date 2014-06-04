@@ -40,7 +40,6 @@ public class AssessmentActivity extends Activity implements
     private TextView mTextViewCurrentVisitId, mTextViewPreviousVisitId;
     public static final String EXTRA_NAME = "name";
     public static final String EXTRA_PATIENT_ID = "patient_id";
-    private Uri todoUri; //TODO: Remove everything to do with this! no longer valid
 
     public static Intent newIntent(Context context, String name, String patientId) {
         Intent i = new Intent(context, AssessmentActivity.class);
@@ -56,22 +55,11 @@ public class AssessmentActivity extends Activity implements
         }
     }
 
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        saveState();
-        outState.putParcelable(AssessmentContentProvider.CONTENT_ITEM_TYPE, todoUri);
-    }
 
-  @Override
-  protected void onPause() {
-    super.onPause();
-    saveState();
-  }
 
-    //TODO: Remove if all covered in watchers?
-  private void saveState() {
-      insertColumn(mNewEntryEditBoxes, mEditTextDate);
-  }
+
+
+
 
     private void saveColumn(String visitId, ArrayList<EditText> editBoxes, EditText editTextDate) {
         if (visitId.trim().length()==0) {
@@ -149,15 +137,11 @@ public class AssessmentActivity extends Activity implements
     values.put(AssessmentTable.COLUMN_Q14, editBoxes.get(13).getText().toString().trim());
 
 
-    if (todoUri == null) {
+
       // New berg test
         Log.i("NJW", "about to insert assessment");
-        todoUri = getContentResolver().insert(AssessmentContentProvider.CONTENT_URI, values);
-    } else {
-      // Update berg test
-        Log.i("NJW", "about to update assessment");
-        getContentResolver().update(todoUri, values, null, null);
-    }
+        getContentResolver().insert(AssessmentContentProvider.CONTENT_URI, values);
+
   }
 
 
@@ -218,17 +202,20 @@ private SimpleCursorAdapter adapter;
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         mAssessments = new HashMap<String, ArrayList<String>>();
         mDates = new ArrayList<String>();
+        mVisitIds = new ArrayList<Integer>();
         String date="";
          while (cursor.moveToNext()) {
              ArrayList<String> assessment = new ArrayList<String>();
 //TODO: Fix -> brittle - skips 0 and 1 b/c id and date, id is at the end.
-             for (int i=2; i < cursor.getColumnCount()-1; i++) {
+             for (int i=2; i < cursor.getColumnCount(); i++) {
                  assessment.add(cursor.getString(i));
              }
              date = cursor.getString(cursor.getColumnIndex(AssessmentTable.COLUMN_DATE));
              mDates.add(date);
              mAssessments.put(date,assessment);
-             mVisitIds.add(Integer.valueOf(cursor.getInt(cursor.getColumnCount()))); //last
+             String visitId=cursor.getString(0);
+             Log.i("NJW","***field0="+visitId);
+             mVisitIds.add(Integer.valueOf(visitId)); //in this case 0 is id
          }
         Log.i("NJW", "loaded" + mAssessments.size());
         mCurrentDateIndex = mDates.size() - 1;
@@ -298,16 +285,12 @@ private SimpleCursorAdapter adapter;
 
       Bundle extras = getIntent().getExtras();
 
-      // check from the saved Instance
-      todoUri = (bundle == null) ? null : (Uri) bundle
-          .getParcelable(AssessmentContentProvider.CONTENT_ITEM_TYPE);
 
       mPatientId = extras.getString("patient_id");
 
       // Or passed from the other activity
       if (extras != null) {
-        todoUri = extras
-            .getParcelable(AssessmentContentProvider.CONTENT_ITEM_TYPE);
+
 
         String name = extras.getString("name");
         mTitleText.setText(name);
