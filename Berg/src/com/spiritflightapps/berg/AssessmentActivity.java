@@ -40,7 +40,7 @@ public class AssessmentActivity extends Activity implements
     private TextView mTextViewCurrentVisitId, mTextViewPreviousVisitId;
     public static final String EXTRA_NAME = "name";
     public static final String EXTRA_PATIENT_ID = "patient_id";
-    private Uri todoUri;
+    private Uri todoUri; //TODO: Remove everything to do with this! no longer valid
 
     public static Intent newIntent(Context context, String name, String patientId) {
         Intent i = new Intent(context, AssessmentActivity.class);
@@ -73,7 +73,15 @@ public class AssessmentActivity extends Activity implements
       insertColumn(mNewEntryEditBoxes, mEditTextDate);
   }
 
+    private void saveColumn(String visitId, ArrayList<EditText> editBoxes, EditText editTextDate) {
+        if (visitId.trim().length()==0) {
+            insertColumn(editBoxes, editTextDate);
+        } else {
+            int intVisitId = Integer.parseInt(visitId);
+            updateColumn(intVisitId, editBoxes, editTextDate);
 
+        }
+    }
 
     private void updateColumn(int visitId, ArrayList<EditText> editBoxes, EditText editTextDate) {
         Log.i("NJW", "trying to update column");
@@ -183,7 +191,7 @@ private SimpleCursorAdapter adapter;
         return true;
     }
 
-    // Reaction to the menu selection
+    // Reaction to the menu selection - next/previous
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -191,12 +199,15 @@ private SimpleCursorAdapter adapter;
                 if (mCurrentDateIndex < mDates.size() - 1) {
                     mCurrentDateIndex = mCurrentDateIndex + 1;
                     fillAssessmentColumn(mDates.get(mCurrentDateIndex));
+                    mIntPreviousVisitId = mVisitIds.get(mCurrentDateIndex);
                 }
                 return true;
             case R.id.previous:
                 if (mCurrentDateIndex > 0) {
                     mCurrentDateIndex = mCurrentDateIndex - 1;
                     fillAssessmentColumn(mDates.get(mCurrentDateIndex));
+                    mIntPreviousVisitId = mVisitIds.get(mCurrentDateIndex);
+
                 }
                 return true;
         }
@@ -210,24 +221,29 @@ private SimpleCursorAdapter adapter;
         String date="";
          while (cursor.moveToNext()) {
              ArrayList<String> assessment = new ArrayList<String>();
-//TODO: Fix -> brittle - skips 0 and 1 b/c id and date.
-             for (int i=2; i < cursor.getColumnCount(); i++) {
+//TODO: Fix -> brittle - skips 0 and 1 b/c id and date, id is at the end.
+             for (int i=2; i < cursor.getColumnCount()-1; i++) {
                  assessment.add(cursor.getString(i));
              }
              date = cursor.getString(cursor.getColumnIndex(AssessmentTable.COLUMN_DATE));
              mDates.add(date);
              mAssessments.put(date,assessment);
+             mVisitIds.add(Integer.valueOf(cursor.getInt(cursor.getColumnCount()))); //last
          }
         Log.i("NJW", "loaded" + mAssessments.size());
         mCurrentDateIndex = mDates.size() - 1;
         fillAssessmentColumn(date);
+            //NOTE: if it's not all filled in, make it be current column on the left.
     }
 
     public void fillAssessmentColumn(String date) {
         if (!TextUtils.isEmpty(date)) {
+            //NOTE: In this method the left column is always new.
+
             ArrayList<String> answers = mAssessments.get(date);
             fillAnswerEditFields(mPreviousEntryEditBoxes, mEditTextDate2, date, answers);
             mEditTextDate.setText(""); //TODO: Autofill this with something reasonable like 2e if 2nd one, etc.
+            mEditTextDate2.setTag(mIntPreviousVisitId);
             calculateTotalIfAllFilledIn(mPreviousEntryEditBoxes, tvTotal2);
 
         } else {
@@ -238,10 +254,16 @@ private SimpleCursorAdapter adapter;
 
 
 
-    HashMap<String,ArrayList<String>> mAssessments; //date then questions.
+    HashMap<String,ArrayList<String>> mAssessments; //date then questions
+    //TOOD: FIX< THIS IS HORRIBLE!  Give it honest to goodness classes!!!!
+    // a visit class.
     ArrayList<String> mDates;
+    ArrayList<Integer> mVisitIds;
+
     int mCurrentDateIndex;
-    //TODO: Abstract some of this out into classes, etc?
+    private int mIntPreviousVisitId; //the id of the visit on teh right, the non-current one.
+
+    //TODO: Abstract some of this out into classes!!!
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
@@ -344,15 +366,17 @@ private SimpleCursorAdapter adapter;
       mPreviousEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ14_V2));
 
       //TODO: Refactor, either into sep GUI structure, sep control, arraylist of arraylists, something
-      setupEditBoxes(mNewEntryEditBoxes, tvTotal);
-      setupEditBoxes(mPreviousEntryEditBoxes, tvTotal2);
+      setupEditBoxes(mNewEntryEditBoxes, tvTotal, mEditTextDate);
+      setupEditBoxes(mPreviousEntryEditBoxes, tvTotal2, mEditTextDate2);
 
   }
-  private void setupEditBoxes(ArrayList<EditText> editBoxesColumn, TextView tvTotal) {
+  private void setupEditBoxes(ArrayList<EditText> editBoxesColumn, TextView tvTotal, EditText edtDate) {
 	  	//TODO: autofill goal column
 
       final ArrayList<EditText> editBoxes = editBoxesColumn;
       final TextView textViewTotal = tvTotal;
+      final EditText editTextDate = edtDate;
+      //TODO: Make final in parameters. OR figure out something smarter.
 
       for ( int i=0; i < editBoxes.size(); i++) {
     	  final int next = i+1;
@@ -388,7 +412,10 @@ private SimpleCursorAdapter adapter;
 					//autocalculate
 
 					calculateTotalIfAllFilledIn(editBoxes, textViewTotal);
-                    saveState();
+                    String visitId = editTextDate.getTag().toString(); //TODO: BETTER PLACE TO GET THIS!
+                    saveColumn(visitId, editBoxes, editTextDate);
+
+                    //horrible spaghetti mess, have to keep track of what it all does and then fix.
 				}
 
 
