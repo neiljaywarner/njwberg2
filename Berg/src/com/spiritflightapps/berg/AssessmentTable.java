@@ -70,6 +70,7 @@ public class AssessmentTable {
             AssessmentTable.COLUMN_Q12,
             AssessmentTable.COLUMN_Q13,
             AssessmentTable.COLUMN_Q14,
+            AssessmentTable.COLUMN_ID
     };
 
   // Database creation SQL statement

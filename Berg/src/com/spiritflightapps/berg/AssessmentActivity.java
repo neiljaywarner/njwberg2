@@ -27,7 +27,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +37,7 @@ public class AssessmentActivity extends Activity implements
   private EditText mTitleText;
   private EditText mEditTextDate;
   private EditText mEditTextDate2;
+    private TextView mTextViewCurrentVisitId, mTextViewPreviousVisitId;
     public static final String EXTRA_NAME = "name";
     public static final String EXTRA_PATIENT_ID = "patient_id";
     private Uri todoUri;
@@ -68,15 +68,55 @@ public class AssessmentActivity extends Activity implements
     saveState();
   }
 
+    //TODO: Remove if all covered in watchers?
   private void saveState() {
-      saveColumn(mEditBoxes, mEditTextDate);
+      insertColumn(mNewEntryEditBoxes, mEditTextDate);
   }
 
 
 
-  private void saveColumn(ArrayList<EditText> editBoxes, EditText editTextDate) {
-    Log.i("NJW", "trying to save");
-    String title = mTitleText.getText().toString(); //TODO: Maybe allow them to save title here!
+    private void updateColumn(int visitId, ArrayList<EditText> editBoxes, EditText editTextDate) {
+        Log.i("NJW", "trying to update column");
+        String title = mTitleText.getText().toString(); //TODO: Maybe allow them to save title here! (eventually..)
+        String date = editTextDate.getText().toString();
+        if ( title.length() == 0) {
+            return;
+        }
+        //TODO: Make title so   it cannot be saved in the middle, etc
+        ContentValues values = new ContentValues();
+        values.put(AssessmentTable.COLUMN_PATIENT_ID, mPatientId);
+        values.put(AssessmentTable.COLUMN_DATE, date);
+        values.put(AssessmentTable.COLUMN_Q1, editBoxes.get(0).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q2, editBoxes.get(1).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q3, editBoxes.get(2).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q4, editBoxes.get(3).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q5, editBoxes.get(4).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q6, editBoxes.get(5).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q7, editBoxes.get(6).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q8, editBoxes.get(7).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q9, editBoxes.get(8).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q10, editBoxes.get(9).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q11, editBoxes.get(10).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q12, editBoxes.get(11).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q13, editBoxes.get(12).getText().toString().trim());
+        values.put(AssessmentTable.COLUMN_Q14, editBoxes.get(13).getText().toString().trim());
+
+
+
+            // Update berg test
+            Log.i("NJW", "about to update assessment");
+        Uri uri = Uri.parse(AssessmentContentProvider.CONTENT_URI + "/" + visitId);
+
+        getContentResolver().update(uri, values, null, null);
+
+    }
+
+
+
+
+    private void insertColumn(ArrayList<EditText> editBoxes, EditText editTextDate) {
+    Log.i("NJW", "trying to save/insert column");
+    String title = mTitleText.getText().toString(); //TODO: Maybe allow them to save title here! (eventually..)
     String date = editTextDate.getText().toString();
     if ( title.length() == 0) {
       return;
@@ -113,9 +153,8 @@ public class AssessmentActivity extends Activity implements
   }
 
 
-            //array of arraylists for 4/N column prototype
-  ArrayList<EditText> mEditBoxes;
-  ArrayList<EditText> mEditBoxes2;
+  ArrayList<EditText> mNewEntryEditBoxes;
+  ArrayList<EditText> mPreviousEntryEditBoxes;
 
     ArrayList<View> instructionButtons;
   ArrayList<String> mInstructions;
@@ -187,9 +226,9 @@ private SimpleCursorAdapter adapter;
     public void fillAssessmentColumn(String date) {
         if (!TextUtils.isEmpty(date)) {
             ArrayList<String> answers = mAssessments.get(date);
-            fillAnswerEditFields(mEditBoxes2, mEditTextDate2, date, answers);
+            fillAnswerEditFields(mPreviousEntryEditBoxes, mEditTextDate2, date, answers);
             mEditTextDate.setText(""); //TODO: Autofill this with something reasonable like 2e if 2nd one, etc.
-            calculateTotalIfAllFilledIn(mEditBoxes2, tvTotal2);
+            calculateTotalIfAllFilledIn(mPreviousEntryEditBoxes, tvTotal2);
 
         } else {
             ViewGroup viewGroup2 = (ViewGroup) findViewById(R.id.vgLastVisit2);
@@ -227,6 +266,10 @@ private SimpleCursorAdapter adapter;
 
       mEditTextDate = (EditText) findViewById(R.id.editTextDateV1);
       mEditTextDate2 = (EditText) findViewById(R.id.editTextDateV2);
+
+      mTextViewCurrentVisitId = (TextView) findViewById(R.id.textViewCurrentVisitId);
+      mTextViewPreviousVisitId = (TextView) findViewById(R.id.textViewOtherVisitId);
+
       initializeEditBoxes();
       initializeInstructionButtons();
       initializeInstructionStrings();
@@ -250,8 +293,8 @@ private SimpleCursorAdapter adapter;
 
       }
 
-      calculateTotalIfAllFilledIn(mEditBoxes, tvTotal);
-      calculateTotalIfAllFilledIn(mEditBoxes2, tvTotal2);
+      calculateTotalIfAllFilledIn(mNewEntryEditBoxes, tvTotal);
+      calculateTotalIfAllFilledIn(mPreviousEntryEditBoxes, tvTotal2);
 
 
   }
@@ -266,43 +309,43 @@ private SimpleCursorAdapter adapter;
 
   }
   private void initializeEditBoxes() {
-      mEditBoxes = new ArrayList<EditText>();
-      mEditBoxes.add((EditText) findViewById(R.id.editTextQ1));
-      mEditBoxes.add((EditText) findViewById(R.id.editTextQ2));
-      mEditBoxes.add((EditText) findViewById(R.id.editTextQ3));
-      mEditBoxes.add((EditText) findViewById(R.id.editTextQ4));
+      mNewEntryEditBoxes = new ArrayList<EditText>();
+      mNewEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ1));
+      mNewEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ2));
+      mNewEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ3));
+      mNewEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ4));
 
-      mEditBoxes.add((EditText) findViewById(R.id.editTextQ5));
-      mEditBoxes.add((EditText) findViewById(R.id.editTextQ6));
-      mEditBoxes.add((EditText) findViewById(R.id.editTextQ7));
-      mEditBoxes.add((EditText) findViewById(R.id.editTextQ8));
-      mEditBoxes.add((EditText) findViewById(R.id.editTextQ9));
-      mEditBoxes.add((EditText) findViewById(R.id.editTextQ10));
-      mEditBoxes.add((EditText) findViewById(R.id.editTextQ11));
-      mEditBoxes.add((EditText) findViewById(R.id.editTextQ12));
-      mEditBoxes.add((EditText) findViewById(R.id.editTextQ13));
-      mEditBoxes.add((EditText) findViewById(R.id.editTextQ14));
+      mNewEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ5));
+      mNewEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ6));
+      mNewEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ7));
+      mNewEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ8));
+      mNewEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ9));
+      mNewEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ10));
+      mNewEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ11));
+      mNewEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ12));
+      mNewEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ13));
+      mNewEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ14));
 
-      mEditBoxes2 = new ArrayList<EditText>();
-      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ1_V2));
-      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ2_V2));
-      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ3_V2));
-      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ4_V2));
+      mPreviousEntryEditBoxes = new ArrayList<EditText>();
+      mPreviousEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ1_V2));
+      mPreviousEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ2_V2));
+      mPreviousEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ3_V2));
+      mPreviousEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ4_V2));
 
-      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ5_V2));
-      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ6_V2));
-      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ7_V2));
-      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ8_V2));
-      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ9_V2));
-      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ10_V2));
-      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ11_V2));
-      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ12_V2));
-      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ13_V2));
-      mEditBoxes2.add((EditText) findViewById(R.id.editTextQ14_V2));
+      mPreviousEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ5_V2));
+      mPreviousEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ6_V2));
+      mPreviousEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ7_V2));
+      mPreviousEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ8_V2));
+      mPreviousEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ9_V2));
+      mPreviousEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ10_V2));
+      mPreviousEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ11_V2));
+      mPreviousEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ12_V2));
+      mPreviousEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ13_V2));
+      mPreviousEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ14_V2));
 
       //TODO: Refactor, either into sep GUI structure, sep control, arraylist of arraylists, something
-      setupEditBoxes(mEditBoxes, tvTotal);
-      setupEditBoxes(mEditBoxes, tvTotal2);
+      setupEditBoxes(mNewEntryEditBoxes, tvTotal);
+      setupEditBoxes(mPreviousEntryEditBoxes, tvTotal2);
 
   }
   private void setupEditBoxes(ArrayList<EditText> editBoxesColumn, TextView tvTotal) {
