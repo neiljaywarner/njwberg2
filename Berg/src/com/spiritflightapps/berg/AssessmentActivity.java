@@ -73,7 +73,6 @@ public class AssessmentActivity extends Activity implements
   }
 
 
-    //TODO: Gallery control only deprecated in Jellybean, will work indefinitely...
 
   private void saveColumn(ArrayList<EditText> editBoxes, EditText editTextDate) {
     Log.i("NJW", "trying to save");
@@ -209,24 +208,28 @@ private SimpleCursorAdapter adapter;
     public void onLoaderReset(Loader<Cursor> loader) {
         // do nothing?
     }
+
+    /**
+     *
+     * Basic idea:
+     * Enter page with patientId, if there are unfinished tests, unfinished one is on the left
+     * else new one on the left.
+     */
   @Override
   protected void onCreate(Bundle bundle) {
       super.onCreate(bundle);
       setContentView(R.layout.activity_main);
       mTitleText = (EditText) findViewById(R.id.todo_edit_summary);
 
-      ImageButton buttonCalculate = (ImageButton) findViewById(R.id.buttonCalculate);
-      ImageButton buttonClear = (ImageButton) findViewById(R.id.buttonClear);
-      tvTotal = (TextView) findViewById(R.id.textViewTotal);
-      tvTotal2 = (TextView) findViewById(R.id.textViewTotalV2);
+
+      tvTotal = (EditText) findViewById(R.id.textViewTotal);
+      tvTotal2 = (EditText) findViewById(R.id.textViewTotalV2);
 
       mEditTextDate = (EditText) findViewById(R.id.editTextDateV1);
       mEditTextDate2 = (EditText) findViewById(R.id.editTextDateV2);
       initializeEditBoxes();
       initializeInstructionButtons();
       initializeInstructionStrings();
-      //TODO: Remove calculate button, move clear button to action bar (if needed, could clear current row...)
-      //TODO: Make next and previous buttons.
 
       Bundle extras = getIntent().getExtras();
 
@@ -299,6 +302,7 @@ private SimpleCursorAdapter adapter;
 
       //TODO: Refactor, either into sep GUI structure, sep control, arraylist of arraylists, something
       setupEditBoxes(mEditBoxes, tvTotal);
+      setupEditBoxes(mEditBoxes, tvTotal2);
 
   }
   private void setupEditBoxes(ArrayList<EditText> editBoxesColumn, TextView tvTotal) {
@@ -341,6 +345,7 @@ private SimpleCursorAdapter adapter;
 					//autocalculate
 
 					calculateTotalIfAllFilledIn(editBoxes, textViewTotal);
+                    saveState();
 				}
 
 

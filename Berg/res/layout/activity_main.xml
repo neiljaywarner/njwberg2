@@ -25,6 +25,7 @@
         android:layout_height="wrap_content" >
 
         <EditText
+            android:enabled="false"
             android:id="@+id/todo_edit_summary"
             android:hint="Please enter Patient initials and city or similar identifier"
             android:layout_width="wrap_content"
@@ -55,7 +56,7 @@
                 >
 
                 <EditText
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="30dp"
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:inputType="textAutoComplete"
@@ -515,24 +516,55 @@
             -->
 
             <TextView
-                android:layout_width="198dp"
-                android:layout_marginLeft="48dp"
+                android:layout_width="188dp"
+                android:layout_marginLeft="38dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="TOTAL"
                 android:longClickable="true"/>
 
-            <TextView
+            <EditText
+                android:enabled="false"
+
                 android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="___"
                 android:id="@+id/textViewTotal"
                 />
 
 
         </LinearLayout>
-</LinearLayout>
+
+            <!-- TODO: MAKE INVISIBLE -->
+            <LinearLayout
+                android:layout_margin="10dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                >
+
+
+
+                <TextView
+                    android:layout_width="198dp"
+                    android:layout_marginLeft="48dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="VisitIds"
+                    android:longClickable="true"/>
+
+                <TextView
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="--"
+                    android:id="@+id/textViewCurrentVisitId"
+                    />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
 
 
             <LinearLayout
@@ -708,54 +740,38 @@
 
 
 
-                    <TextView
+                    <EditText
+                        android:enabled="false"
                         android:layout_width="48dp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="___"
                         android:id="@+id/textViewTotalV2"
                         />
+
+                <TextView
+                    android:enabled="false"
+                    android:text="NN"
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/textViewOtherVisitId"
+                    />
 
 
             </LinearLayout>
 <!-- TODO: Throw away layout in favor or table or something -->
         </LinearLayout> <!-- all visits -->
 
-        <!-- TODO: Simple next/previous buttons for now might work fine -->
+
+        <!-- TODO: REFORMAT fIle and REMOVE BELOW-->
         <LinearLayout
             android:layout_margin="10dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-
+android:visibility="gone"
             android:gravity="center">
 
 
-            <!-- TODO: REMOVE calculate button , maybe add make them next/previous buttons? -->
-            <ImageButton
-                android:src="@drawable/cooltext_button_calculate"
-                android:contentDescription="Calculate"
-                android:layout_width="120dp"
-                android:background="@android:color/transparent"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonCalculate"
-                android:visibility="gone"
-                />
-
-
-
-
-
-
-            <!-- TODO: Remove or revise so it makes sense -->
-            <ImageButton
-                android:src="@drawable/cooltext_button_clear"
-                android:layout_width="120dp"
-                android:contentDescription="Clear"
-                android:background="@android:color/transparent"
-                android:visibility="gone"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonClear"
-                />
 
 
         </LinearLayout>
