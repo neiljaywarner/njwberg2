@@ -48,6 +48,82 @@ public class AssessmentActivity extends Activity implements
         return i;
     }
 
+    /**
+     *
+     * Basic idea:
+     * Enter page with patientId, if there are unfinished tests, unfinished one is on the left
+     * else new one on the left.  oncreate, initloader, onFinished.
+     */
+    @Override
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        setContentView(R.layout.activity_main);
+        mTitleText = (EditText) findViewById(R.id.todo_edit_summary);
+
+
+        tvTotal = (EditText) findViewById(R.id.textViewTotal);
+        tvTotal2 = (EditText) findViewById(R.id.textViewTotalV2);
+
+        mEditTextDate = (EditText) findViewById(R.id.editTextDateV1);
+        mEditTextDate2 = (EditText) findViewById(R.id.editTextDateV2);
+
+        mTextViewCurrentVisitId = (TextView) findViewById(R.id.textViewCurrentVisitId);
+        mTextViewPreviousVisitId = (TextView) findViewById(R.id.textViewOtherVisitId);
+
+        initializeEditBoxes();
+        initializeInstructionButtons();
+        initializeInstructionStrings();
+
+        Bundle extras = getIntent().getExtras();
+
+
+        mPatientId = extras.getString("patient_id");
+
+        // Or passed from the other activity
+        if (extras != null) {
+
+
+            String name = extras.getString("name");
+            mTitleText.setText(name);
+            getLoaderManager().initLoader(0, null, this);
+
+        }
+
+        calculateTotalIfAllFilledIn(mNewEntryEditBoxes, tvTotal);
+        calculateTotalIfAllFilledIn(mPreviousEntryEditBoxes, tvTotal2);
+
+
+    }
+
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        mAssessments = new HashMap<String, ArrayList<String>>();
+        mDates = new ArrayList<String>();
+        mVisitIds = new ArrayList<Integer>();
+        String date="";
+        while (cursor.moveToNext()) {
+            ArrayList<String> assessment = new ArrayList<String>();
+//TODO: Fix -> brittle - skips 0 and 1 b/c id and date, id is at the end.
+            for (int i=2; i < cursor.getColumnCount()-1; i++) {
+                assessment.add(cursor.getString(i));
+            }
+            date = cursor.getString(cursor.getColumnIndex(AssessmentTable.COLUMN_DATE));
+            mDates.add(date);
+            mAssessments.put(date,assessment);
+            String visitId=cursor.getString(0);
+            Log.i("NJW","***field0="+visitId);
+            mVisitIds.add(Integer.valueOf(visitId)); //in this case 0 is id
+        }
+        Log.i("NJW", "loaded" + mAssessments.size());
+        mCurrentDateIndex = mDates.size() - 1;
+        fillAssessmentColumn(date);
+        setupEditBoxes(mNewEntryEditBoxes, tvTotal, mEditTextDate);
+        setupEditBoxes(mPreviousEntryEditBoxes, tvTotal2, mEditTextDate2);
+        //NOTE: if it's not all filled in, make it be current column on the left.
+    }
+
+
     private void fillAnswerEditFields(ArrayList<EditText> editBoxes, EditText editTextDate, String date, ArrayList<String> answers) {
         editTextDate.setText(date);
         for (int i=0;i < answers.size() ; i++) {
@@ -198,30 +274,6 @@ public class AssessmentActivity extends Activity implements
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        mAssessments = new HashMap<String, ArrayList<String>>();
-        mDates = new ArrayList<String>();
-        mVisitIds = new ArrayList<Integer>();
-        String date="";
-        while (cursor.moveToNext()) {
-            ArrayList<String> assessment = new ArrayList<String>();
-//TODO: Fix -> brittle - skips 0 and 1 b/c id and date, id is at the end.
-            for (int i=2; i < cursor.getColumnCount(); i++) {
-                assessment.add(cursor.getString(i));
-            }
-            date = cursor.getString(cursor.getColumnIndex(AssessmentTable.COLUMN_DATE));
-            mDates.add(date);
-            mAssessments.put(date,assessment);
-            String visitId=cursor.getString(0);
-            Log.i("NJW","***field0="+visitId);
-            mVisitIds.add(Integer.valueOf(visitId)); //in this case 0 is id
-        }
-        Log.i("NJW", "loaded" + mAssessments.size());
-        mCurrentDateIndex = mDates.size() - 1;
-        fillAssessmentColumn(date);
-        //NOTE: if it's not all filled in, make it be current column on the left.
-    }
 
     public void fillAssessmentColumn(String date) {
         if (!TextUtils.isEmpty(date)) {
@@ -257,52 +309,6 @@ public class AssessmentActivity extends Activity implements
         // do nothing?
     }
 
-    /**
-     *
-     * Basic idea:
-     * Enter page with patientId, if there are unfinished tests, unfinished one is on the left
-     * else new one on the left.
-     */
-    @Override
-    protected void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
-        setContentView(R.layout.activity_main);
-        mTitleText = (EditText) findViewById(R.id.todo_edit_summary);
-
-
-        tvTotal = (EditText) findViewById(R.id.textViewTotal);
-        tvTotal2 = (EditText) findViewById(R.id.textViewTotalV2);
-
-        mEditTextDate = (EditText) findViewById(R.id.editTextDateV1);
-        mEditTextDate2 = (EditText) findViewById(R.id.editTextDateV2);
-
-        mTextViewCurrentVisitId = (TextView) findViewById(R.id.textViewCurrentVisitId);
-        mTextViewPreviousVisitId = (TextView) findViewById(R.id.textViewOtherVisitId);
-
-        initializeEditBoxes();
-        initializeInstructionButtons();
-        initializeInstructionStrings();
-
-        Bundle extras = getIntent().getExtras();
-
-
-        mPatientId = extras.getString("patient_id");
-
-        // Or passed from the other activity
-        if (extras != null) {
-
-
-            String name = extras.getString("name");
-            mTitleText.setText(name);
-            getLoaderManager().initLoader(0, null, this);
-
-        }
-
-        calculateTotalIfAllFilledIn(mNewEntryEditBoxes, tvTotal);
-        calculateTotalIfAllFilledIn(mPreviousEntryEditBoxes, tvTotal2);
-
-
-    }
 
     private void initializeInstructionStrings() {
         mInstructions = new ArrayList<String>();
@@ -349,8 +355,7 @@ public class AssessmentActivity extends Activity implements
         mPreviousEntryEditBoxes.add((EditText) findViewById(R.id.editTextQ14_V2));
 
         //TODO: Refactor, either into sep GUI structure, sep control, arraylist of arraylists, something
-        setupEditBoxes(mNewEntryEditBoxes, tvTotal, mEditTextDate);
-        setupEditBoxes(mPreviousEntryEditBoxes, tvTotal2, mEditTextDate2);
+
 
     }
     private void setupEditBoxes(ArrayList<EditText> editBoxesColumn, TextView tvTotal, EditText edtDate) {
@@ -395,9 +400,15 @@ public class AssessmentActivity extends Activity implements
                         //autocalculate
 
                         calculateTotalIfAllFilledIn(editBoxes, textViewTotal);
-                        String visitId = editTextDate.getTag().toString(); //TODO: BETTER PLACE TO GET THIS!
-                        saveColumn(visitId, editBoxes, editTextDate);
-
+                        Object tag = editTextDate.getTag();
+                        if (tag == null) {
+                            insertColumn(editBoxes,editTextDate);
+                        } else {
+                            String visitId = editTextDate.getTag().toString(); //TODO: BETTER PLACE TO GET THIS!
+                            updateColumn(Integer.parseInt(visitId), editBoxes, editTextDate);
+                        }
+                        //saveColumn(editTextDate.getTag(), editBoxes, editTextDate);
+                            //remove save if not needed, cleanup..
                         //horrible spaghetti mess, have to keep track of what it all does and then fix.
                     }
 
