@@ -113,7 +113,9 @@ public class AssessmentActivity extends Activity implements
             mAssessments.put(date,assessment);
             String visitId=cursor.getString(0);
             Log.i("NJW","***field0="+visitId);
-            mVisitIds.add(Integer.valueOf(visitId)); //in this case 0 is id
+            mIntPreviousVisitId =Integer.valueOf(visitId);
+
+            mVisitIds.add(mIntPreviousVisitId); //in this case 0 is id
         }
         Log.i("NJW", "loaded" + mAssessments.size());
         mCurrentDateIndex = mDates.size() - 1;
@@ -148,12 +150,13 @@ public class AssessmentActivity extends Activity implements
     }
 
     private void updateColumn(int visitId, ArrayList<EditText> editBoxes, EditText editTextDate) {
-        Log.i("NJW", "trying to update column");
         String title = mTitleText.getText().toString(); //TODO: Maybe allow them to save title here! (eventually..)
         String date = editTextDate.getText().toString();
         if ( title.length() == 0) {
             return;
         }
+        Log.i("NJW", "in update column method trying to update column for visit:"+ visitId + "date=" +date );
+
         //TODO: Make title so   it cannot be saved in the middle, etc
         ContentValues values = new ContentValues();
         values.put(AssessmentTable.COLUMN_PATIENT_ID, mPatientId);
@@ -176,7 +179,7 @@ public class AssessmentActivity extends Activity implements
 
 
         // Update berg test
-        Log.i("NJW", "about to update assessment");
+        Log.i("NJW", "about to update assessment.....");
         Uri uri = Uri.parse(AssessmentContentProvider.CONTENT_URI + "/" + visitId);
 
         getContentResolver().update(uri, values, null, null);
@@ -282,7 +285,7 @@ public class AssessmentActivity extends Activity implements
             ArrayList<String> answers = mAssessments.get(date);
             fillAnswerEditFields(mPreviousEntryEditBoxes, mEditTextDate2, date, answers);
             mEditTextDate.setText(""); //TODO: Autofill this with something reasonable like 2e if 2nd one, etc.
-            mEditTextDate2.setTag(mIntPreviousVisitId);
+            mEditTextDate2.setTag(mIntPreviousVisitId); //TODO: Work this out!!
             calculateTotalIfAllFilledIn(mPreviousEntryEditBoxes, tvTotal2);
 
         } else {
@@ -392,6 +395,14 @@ public class AssessmentActivity extends Activity implements
                         Toast.makeText(AssessmentActivity.this.getApplicationContext(), error, Toast.LENGTH_LONG).show();
 
                     } else {
+                        Log.i("NJW", "in ontextchangedlistener");
+                        Object tag = editTextDate.getTag();
+                        if (tag == null) {
+                            insertColumn(editBoxes,editTextDate);
+                        } else {
+                            String visitId = editTextDate.getTag().toString(); //TODO: BETTER PLACE TO GET THIS!
+                            updateColumn(Integer.parseInt(visitId), editBoxes, editTextDate);
+                        }
                         //autoadvance
                         if (next < editBoxes.size()) {
                             EditText nextEditBox = editBoxes.get(next);
@@ -400,13 +411,7 @@ public class AssessmentActivity extends Activity implements
                         //autocalculate
 
                         calculateTotalIfAllFilledIn(editBoxes, textViewTotal);
-                        Object tag = editTextDate.getTag();
-                        if (tag == null) {
-                            insertColumn(editBoxes,editTextDate);
-                        } else {
-                            String visitId = editTextDate.getTag().toString(); //TODO: BETTER PLACE TO GET THIS!
-                            updateColumn(Integer.parseInt(visitId), editBoxes, editTextDate);
-                        }
+
                         //saveColumn(editTextDate.getTag(), editBoxes, editTextDate);
                             //remove save if not needed, cleanup..
                         //horrible spaghetti mess, have to keep track of what it all does and then fix.

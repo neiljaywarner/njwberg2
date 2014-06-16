@@ -33,7 +33,7 @@ import java.util.Locale;
  * You can delete existing ones via a long press on the item
  */
 
-public class TestPatientListActivity extends ListActivity implements
+public class PatientListActivity extends ListActivity implements
     LoaderManager.LoaderCallbacks<Cursor> {
   private static final int ACTIVITY_CREATE = 0;
   private static final int ACTIVITY_EDIT = 1;
