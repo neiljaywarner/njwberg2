@@ -272,16 +272,28 @@ public class AssessmentActivity extends Activity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.next:
-                if (mCurrentDateIndex < mDates.size() - 1) {
-                    mCurrentDateIndex = mCurrentDateIndex + 1;
-                  //  fillAssessmentColumn(mDates.get(mCurrentDateIndex));
+                this.setTitle("nvidx="+mCurrentVisitIdIndex);
+
+                if (mCurrentVisitIdIndex < mVisitIds.size() - 1) {
+                    mCurrentVisitIdIndex = mCurrentVisitIdIndex + 1;
+
+                    //  fillAssessmentColumn(mDates.get(mCurrentDateIndex));
+                    Assessment assessment = mAssessmentObjects.get(mCurrentVisitIdIndex);
+
+                    fillAssessmentColumn(assessment);
                     mIntPreviousVisitId = mVisitIds.get(mCurrentDateIndex);
                 }
                 return true;
             case R.id.previous:
-                if (mCurrentDateIndex > 0) {
-                    mCurrentDateIndex = mCurrentDateIndex - 1;
-                 //   fillAssessmentColumn(mDates.get(mCurrentDateIndex));
+                this.setTitle("nvidx="+mCurrentVisitIdIndex);
+
+                if (mCurrentVisitIdIndex > 0) {
+                    mCurrentVisitIdIndex = mCurrentVisitIdIndex - 1;
+                    Assessment assessment = mAssessmentObjects.get(mCurrentVisitIdIndex);
+
+                    fillAssessmentColumn(assessment);
+
+                    //   fillAssessmentColumn(mDates.get(mCurrentDateIndex));
                     mIntPreviousVisitId = mVisitIds.get(mCurrentDateIndex);
 
                 }
