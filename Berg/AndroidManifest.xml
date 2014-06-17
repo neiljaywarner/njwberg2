@@ -30,7 +30,9 @@
 
         <activity
             android:name=".AssessmentActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize" >
+            android:windowSoftInputMode="stateHidden"
+
+            >
         </activity>
       <activity
           android:name=".PatientActivity"

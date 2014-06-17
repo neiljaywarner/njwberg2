@@ -2,6 +2,20 @@
 <!--  TODO: Settings/about -->
   <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
+
+    <item
+        android:id="@+id/add_test"
+        android:showAsAction="withText|always"
+        android:icon="@android:drawable/ic_input_add"
+        android:title="ADD">
+    </item>
+    <item
+        android:id="@+id/save"
+        android:showAsAction="withText|always"
+        android:icon="@android:drawable/ic_menu_save"
+        android:title="SAVE">
+    </item>
+
     <item
         android:id="@+id/previous"
         android:showAsAction="withText|always"

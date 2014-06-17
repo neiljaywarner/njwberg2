@@ -14,9 +14,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-/**
- * content provider for Assessments not todos...
- */
+
 public class AssessmentContentProvider extends ContentProvider {
 
   // database

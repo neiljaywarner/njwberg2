@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.spiritflightapps.berg.contentprovider.AssessmentContentProvider;
+import com.spiritflightapps.berg.model.Assessment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,6 +27,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -40,6 +42,7 @@ public class AssessmentActivity extends Activity implements
     private TextView mTextViewCurrentVisitId, mTextViewPreviousVisitId;
     public static final String EXTRA_NAME = "name";
     public static final String EXTRA_PATIENT_ID = "patient_id";
+    public int mCurrentVisitIdIndex;
 
     public static Intent newIntent(Context context, String name, String patientId) {
         Intent i = new Intent(context, AssessmentActivity.class);
@@ -89,39 +92,40 @@ public class AssessmentActivity extends Activity implements
 
         }
 
-        calculateTotalIfAllFilledIn(mNewEntryEditBoxes, tvTotal);
-        calculateTotalIfAllFilledIn(mPreviousEntryEditBoxes, tvTotal2);
+      //  calculateTotalIfAllFilledIn(mNewEntryEditBoxes, tvTotal);
+     //   calculateTotalIfAllFilledIn(mPreviousEntryEditBoxes, tvTotal2);
 
 
     }
 
-
+    HashMap<String,Assessment> mAssessmentObjects;
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         mAssessments = new HashMap<String, ArrayList<String>>();
+        mAssessmentObjects =  new HashMap<String, Assessment>(); //for now visitid to assessment
         mDates = new ArrayList<String>();
         mVisitIds = new ArrayList<Integer>();
         String date="";
+        Assessment assessment = null;
         while (cursor.moveToNext()) {
-            ArrayList<String> assessment = new ArrayList<String>();
-//TODO: Fix -> brittle - skips 0 and 1 b/c id and date, id is at the end.
-            for (int i=2; i < cursor.getColumnCount()-1; i++) {
-                assessment.add(cursor.getString(i));
-            }
-            date = cursor.getString(cursor.getColumnIndex(AssessmentTable.COLUMN_DATE));
-            mDates.add(date);
-            mAssessments.put(date,assessment);
-            String visitId=cursor.getString(0);
-            Log.i("NJW","***field0="+visitId);
-            mIntPreviousVisitId =Integer.valueOf(visitId);
+            assessment = new Assessment(cursor);
+
+
+            //mAssessment.put(date,assessment);
+            mAssessmentObjects.put(assessment.getVisitId(),assessment); //TODO: No need for hashmap like that.
+            mIntPreviousVisitId = Integer.valueOf(assessment.getVisitId());
 
             mVisitIds.add(mIntPreviousVisitId); //in this case 0 is id
         }
-        Log.i("NJW", "loaded" + mAssessments.size());
-        mCurrentDateIndex = mDates.size() - 1;
-        fillAssessmentColumn(date);
-        setupEditBoxes(mNewEntryEditBoxes, tvTotal, mEditTextDate);
-        setupEditBoxes(mPreviousEntryEditBoxes, tvTotal2, mEditTextDate2);
+
+
+            Log.i("NJW", "loaded" + mAssessments.size());
+            mCurrentVisitIdIndex = mVisitIds.size() -1;
+            fillAssessmentColumn(assessment); //eg last one.
+
+
+      //  setupEditBoxes(mNewEntryEditBoxes, tvTotal, mEditTextDate);
+      //  setupEditBoxes(mPreviousEntryEditBoxes, tvTotal2, mEditTextDate2);
         //NOTE: if it's not all filled in, make it be current column on the left.
     }
 
@@ -145,6 +149,15 @@ public class AssessmentActivity extends Activity implements
         } else {
             int intVisitId = Integer.parseInt(visitId);
             updateColumn(intVisitId, editBoxes, editTextDate);
+
+        }
+    }
+
+    private void saveColumn(int visitId, ArrayList<EditText> editBoxes, EditText editTextDate) {
+        if (visitId == Integer.MIN_VALUE) {
+            insertColumn(editBoxes, editTextDate);
+        } else {
+            updateColumn(visitId, editBoxes, editTextDate);
 
         }
     }
@@ -261,32 +274,46 @@ public class AssessmentActivity extends Activity implements
             case R.id.next:
                 if (mCurrentDateIndex < mDates.size() - 1) {
                     mCurrentDateIndex = mCurrentDateIndex + 1;
-                    fillAssessmentColumn(mDates.get(mCurrentDateIndex));
+                  //  fillAssessmentColumn(mDates.get(mCurrentDateIndex));
                     mIntPreviousVisitId = mVisitIds.get(mCurrentDateIndex);
                 }
                 return true;
             case R.id.previous:
                 if (mCurrentDateIndex > 0) {
                     mCurrentDateIndex = mCurrentDateIndex - 1;
-                    fillAssessmentColumn(mDates.get(mCurrentDateIndex));
+                 //   fillAssessmentColumn(mDates.get(mCurrentDateIndex));
                     mIntPreviousVisitId = mVisitIds.get(mCurrentDateIndex);
 
                 }
                 return true;
+
+            case R.id.save:
+                if (mVisitIds.size() > 0) {
+                    int currentVisitId = mVisitIds.get(mCurrentVisitIdIndex);
+
+                    saveColumn(currentVisitId, mNewEntryEditBoxes, mEditTextDate);
+                    Log.i("NJW", "currentvisitid="+currentVisitId);
+                }
+                else {
+                    insertColumn(mNewEntryEditBoxes,mEditTextDate);
+                }
         }
         return super.onOptionsItemSelected(item);
     }
 
 
-    public void fillAssessmentColumn(String date) {
+    public void fillAssessmentColumn(Assessment assessment) {
+        String date = assessment.getDate();
+
         if (!TextUtils.isEmpty(date)) {
             //NOTE: In this method the left column is always new.
 
-            ArrayList<String> answers = mAssessments.get(date);
+            //ArrayList<String> answers = mAssessments.get(date);
+            ArrayList<String> answers = assessment.getAnswers();
             fillAnswerEditFields(mPreviousEntryEditBoxes, mEditTextDate2, date, answers);
             mEditTextDate.setText(""); //TODO: Autofill this with something reasonable like 2e if 2nd one, etc.
-            mEditTextDate2.setTag(mIntPreviousVisitId); //TODO: Work this out!!
-            calculateTotalIfAllFilledIn(mPreviousEntryEditBoxes, tvTotal2);
+          //  mEditTextDate2.setTag(mIntPreviousVisitId); //TODO: Work this out!!
+          //  calculateTotalIfAllFilledIn(mPreviousEntryEditBoxes, tvTotal2);
 
         } else {
             ViewGroup viewGroup2 = (ViewGroup) findViewById(R.id.vgLastVisit2);
@@ -297,8 +324,7 @@ public class AssessmentActivity extends Activity implements
 
 
     HashMap<String,ArrayList<String>> mAssessments; //date then questions
-    //TOOD: FIX< THIS IS HORRIBLE!  Give it honest to goodness classes!!!!
-    // a visit class.
+
     ArrayList<String> mDates;
     ArrayList<Integer> mVisitIds;
 
@@ -369,72 +395,47 @@ public class AssessmentActivity extends Activity implements
         final EditText editTextDate = edtDate;
         //TODO: Make final in parameters. OR figure out something smarter.
 
-        for ( int i=0; i < editBoxes.size(); i++) {
-            final int next = i+1;
+        for (int i = 0; i < editBoxes.size(); i++) {
+            final int next = i + 1;
             final EditText e = editBoxes.get(i);
-            e.addTextChangedListener(new TextWatcher() {
-
+            e.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    int answer = Integer.MIN_VALUE;
-                    String error = "";
-                    if (s.length() == 0) {
-                        return; //backspace to correct
+                public void onFocusChange(View view, boolean entering) {
+                    if (entering) {
+                       // hideKeyboard((EditText) view);
                     }
-                    try {
-                        answer = Integer.parseInt(s.toString());
-                    } catch (Exception e) {
-                        error = "Please enter a number.";
-                    }
-                    //TODO: strings.xml
-                    if (answer > 4) {
-                        error = "Please enter 0-4.";
-                    }
-
-                    if (error.length() > 0) {
-                        Toast.makeText(AssessmentActivity.this.getApplicationContext(), error, Toast.LENGTH_LONG).show();
-
-                    } else {
-                        Log.i("NJW", "in ontextchangedlistener");
-                        Object tag = editTextDate.getTag();
-                        if (tag == null) {
-                            insertColumn(editBoxes,editTextDate);
-                        } else {
-                            String visitId = editTextDate.getTag().toString(); //TODO: BETTER PLACE TO GET THIS!
-                            updateColumn(Integer.parseInt(visitId), editBoxes, editTextDate);
-                        }
-                        //autoadvance
-                        if (next < editBoxes.size()) {
-                            EditText nextEditBox = editBoxes.get(next);
-                            nextEditBox.requestFocus();
-                        }
-                        //autocalculate
-
-                        calculateTotalIfAllFilledIn(editBoxes, textViewTotal);
-
-                        //saveColumn(editTextDate.getTag(), editBoxes, editTextDate);
-                            //remove save if not needed, cleanup..
-                        //horrible spaghetti mess, have to keep track of what it all does and then fix.
-                    }
-
-
-                }
-
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count,
-                                              int after) {
-                    // TODO Auto-generated method stub
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    // TODO Auto-generated method stub
-
                 }
             });
-        }
 
+
+        }
+    }
+
+    private void hideKeyboard(EditText myEditText) {
+
+
+        InputMethodManager imm = (InputMethodManager)getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(myEditText.getWindowToken(), 0);
+
+    }
+
+    private void doOnEntry(EditText editTextDate, ArrayList<EditText> editBoxes,  TextView textViewTotal) {
+        Object tag = editTextDate.getTag();
+        if (tag == null) {
+            insertColumn(editBoxes,editTextDate);
+        } else {
+            String visitId = editTextDate.getTag().toString(); //TODO: BETTER PLACE TO GET THIS!
+            updateColumn(Integer.parseInt(visitId), editBoxes, editTextDate);
+        }
+        //autoadvance
+      //  if (next < editBoxes.size()) {
+       //     EditText nextEditBox = editBoxes.get(next);
+        //    nextEditBox.requestFocus();
+        //}
+        //autocalculate
+
+       // calculateTotalIfAllFilledIn(editBoxes, textViewTotal);
 
     }
     protected void calculateTotalIfAllFilledIn(ArrayList<EditText> editBoxes, TextView tvTotal) {

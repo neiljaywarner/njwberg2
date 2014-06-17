@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,12 +15,14 @@ import android.widget.Toast;
 
 
 import com.spiritflightapps.berg.contentprovider.MyPatientContentProvider;
+import com.spiritflightapps.berg.contentprovider.AssessmentContentProvider;
+
 
 public class PatientActivity extends Activity {
     private EditText mTitleText;
     private EditText mBodyText;
 
-    private Uri todoUri;
+    private Uri uri;
 
     /**
      * TODO: :Perhaps use for edit
@@ -30,8 +33,6 @@ public class PatientActivity extends Activity {
      */
     public static Intent newIntent(Context context, String name, String patientId) {
         Intent i = new Intent(context, PatientActivity.class);
-      //  i.putExtra(EXTRA_NAME, name);
-      //  i.putExtra(EXTRA_PATIENT_ID, patientId);
         return i;
     }
 
@@ -55,15 +56,15 @@ public class PatientActivity extends Activity {
         Bundle extras = getIntent().getExtras();
 
         // check from the saved Instance
-        todoUri = (bundle == null) ? null : (Uri) bundle
+        uri = (bundle == null) ? null : (Uri) bundle
                 .getParcelable(MyPatientContentProvider.CONTENT_ITEM_TYPE);
 
         // Or passed from the other activity
         if (extras != null) {
-            todoUri = extras
+            uri = extras
                     .getParcelable(MyPatientContentProvider.CONTENT_ITEM_TYPE);
 
-           // fillData(todoUri);
+           // fillData(uri);
         }
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -78,41 +79,11 @@ public class PatientActivity extends Activity {
 
         });
     }
-    //Below todo if requested.
-/*
-    private void fillData(Uri uri) {
-        String[] projection = { TodoTable.COLUMN_SUMMARY,
-                TodoTable.COLUMN_DESCRIPTION, TodoTable.COLUMN_CATEGORY };
-        Cursor cursor = getContentResolver().query(uri, projection, null, null,
-                null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-            String category = cursor.getString(cursor
-                    .getColumnIndexOrThrow(TodoTable.COLUMN_CATEGORY));
 
-            for (int i = 0; i < mCategory.getCount(); i++) {
-
-                String s = (String) mCategory.getItemAtPosition(i);
-                if (s.equalsIgnoreCase(category)) {
-                    mCategory.setSelection(i);
-                }
-            }
-
-            mTitleText.setText(cursor.getString(cursor
-                    .getColumnIndexOrThrow(TodoTable.COLUMN_SUMMARY)));
-            mBodyText.setText(cursor.getString(cursor
-                    .getColumnIndexOrThrow(TodoTable.COLUMN_DESCRIPTION)));
-
-            // always close the cursor
-            cursor.close();
-        }
-    }
-
-*/
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         saveState();
-        outState.putParcelable(MyPatientContentProvider.CONTENT_ITEM_TYPE, todoUri);
+        outState.putParcelable(MyPatientContentProvider.CONTENT_ITEM_TYPE, uri);
     }
 
     @Override
@@ -131,14 +102,31 @@ public class PatientActivity extends Activity {
         ContentValues values = new ContentValues();
         values.put(PatientTable.COLUMN_PATIENT_TITLE, summary);
 
-        if (todoUri == null) {
+        if (uri == null) {
             // New patient
-            todoUri = getContentResolver().insert(MyPatientContentProvider.CONTENT_URI, values);
+            uri = getContentResolver().insert(MyPatientContentProvider.CONTENT_URI, values);
+            String patientId =  uri.getLastPathSegment();
+            insertBlankVisit(patientId);
+
+
         } else {
             // Update todo - NOT IMPLEMENTED as of 5-26-2014 7:20pm, although probably no reason not to with longpress.
-            getContentResolver().update(todoUri, values, null, null);
+            getContentResolver().update(uri, values, null, null);
         }
     }
+
+    private void insertBlankVisit(String patientId) {
+        BergDatabaseHelper database;
+        database = new BergDatabaseHelper(getApplicationContext());
+
+        SQLiteDatabase sqlDB = database.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(AssessmentTable.COLUMN_PATIENT_ID, patientId);
+        sqlDB.insert(AssessmentTable.TABLE_ASSESSMENTS, null, contentValues);
+        sqlDB.close();
+
+    }
+    //TODO: FIx to use contentsresolvers properly or not at all.
 
     private void makeToast() {
         Toast.makeText(PatientActivity.this, "Please provide a name or identifying field like initials+city",

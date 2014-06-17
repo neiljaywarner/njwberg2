@@ -17,7 +17,6 @@ public class AssessmentTable {
 
     public static final String COLUMN_PATIENT_ID = "patient_id"; //ie FK to patient_id table with ref+city in name
   public static final String COLUMN_DATE = "date";
-  public static final String COLUMN_COMMENT = "date"; //optional, v 1.1?
   public static final String COLUMN_Q1 = "q1";
   public static final String COLUMN_Q2 = "q2";
   public static final String COLUMN_Q3 = "q3";
@@ -32,8 +31,10 @@ public class AssessmentTable {
   public static final String COLUMN_Q12 = "q12";
   public static final String COLUMN_Q13 = "q13";
   public static final String COLUMN_Q14 = "q14";
+  public static final String COLUMN_TOTAL = "total";
 
-  public static final String[] DEFAULT_PROJECTION = {
+
+    public static final String[] DEFAULT_PROJECTION = {
           AssessmentTable.COLUMN_PATIENT_ID,
           AssessmentTable.COLUMN_DATE,
           AssessmentTable.COLUMN_Q1,
@@ -50,6 +51,8 @@ public class AssessmentTable {
           AssessmentTable.COLUMN_Q12,
           AssessmentTable.COLUMN_Q13,
           AssessmentTable.COLUMN_Q14,
+          AssessmentTable.COLUMN_TOTAL
+
   };
 
     //TODO: Fix/combine these 2...
@@ -70,6 +73,7 @@ public class AssessmentTable {
             AssessmentTable.COLUMN_Q12,
             AssessmentTable.COLUMN_Q13,
             AssessmentTable.COLUMN_Q14,
+            AssessmentTable.COLUMN_TOTAL,
             AssessmentTable.COLUMN_ID
     };
 
@@ -93,12 +97,16 @@ public class AssessmentTable {
       + COLUMN_Q11 + " text,"
       + COLUMN_Q12 + " text,"
       + COLUMN_Q13 + " text,"
-      + COLUMN_Q14 + " text"
+          + COLUMN_Q14 + " text,"
+
+          + COLUMN_TOTAL + " text"
       + ");";
 
     public static void onCreate(SQLiteDatabase database) {
-	  Log.i("NJW","Creating database in table helper class with actual sql statement");
-      database.execSQL(DATABASE_CREATE);
+	  Log.i("NJW","Creating database in table helper class (assessment) with actual sql statement");
+        Log.i("NJW",DATABASE_CREATE);
+
+        database.execSQL(DATABASE_CREATE);
   }
 
   public static void onUpgrade(SQLiteDatabase database, int oldVersion,

@@ -38,7 +38,6 @@ public class PatientListActivity extends ListActivity implements
   private static final int ACTIVITY_CREATE = 0;
   private static final int ACTIVITY_EDIT = 1;
   private static final int DELETE_ID = Menu.FIRST + 1;
-  // private Cursor cursor;
   private SimpleCursorAdapter adapter;
     private Uri patientUri;
 
@@ -122,34 +121,17 @@ public class PatientListActivity extends ListActivity implements
                 //it has a uri so next time it can update is the idea
       //TODO: Date
   }
-  /* TODO for better design, and put the cursor stuff in the patient model object
-  private void insertPatient(Patient patient) {
-      ContentValues values = new ContentValues();
-      values.put(PatientTable.COLUMN_CATEGORY, category);
-      values.put(TodoTable.COLUMN_SUMMARY, summary);
-      values.put(TodoTable.COLUMN_DESCRIPTION, description);
-  }
-  */
 
   // Opens the second activity if an entry is clicked
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
-   // Intent i = new Intent(this, AssessmentActivity.class);
     TextView tvName = (TextView) v.findViewById(R.id.label);
       Log.i("NJW", tvName.getText().toString());
       String name=tvName.getText().toString();
- //   Uri uri = Uri.parse(MyPatientContentProvider.CONTENT_URI + "/" + id);
- //   i.putExtra(MyPatientContentProvider.CONTENT_ITEM_TYPE, uri);
-  //    i.putExtra("name",name);
-   // i.putExtra("name", tvName.getText().toString(),"");
- //   i.putStringExtra("patient_id", String.valueOf(id),"");
       String patientId = String.valueOf(id);
 
       Intent i = AssessmentActivity.newIntent(this, tvName.getText().toString(), patientId);
-//
-//      i.putExtra("name",tvName.getText());
-//      i.putExtra("patient_id", patientId);
     startActivity(i);
   }
 
