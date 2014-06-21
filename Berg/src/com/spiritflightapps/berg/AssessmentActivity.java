@@ -29,6 +29,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class AssessmentActivity extends Activity implements
@@ -125,12 +126,32 @@ public class AssessmentActivity extends Activity implements
             editBoxes.get(i).setText(answers.get(i));
         }
     }
-
-    private void saveColumn(int visitId, ArrayList<EditText> editBoxes, EditText editTextDate) {
+    //TODO: Make this part of Assessment class for readability or similar?
+    //or at least the calculation.
+    private void saveColumn(int visitId, ArrayList<EditText> editBoxes, EditText editTextDate, TextView tvTotal) {
         updateColumn(visitId, editBoxes, editTextDate);
+        String sTotal = calculateFromAnswers(editBoxes);
+        
+        tvTotal.setText(sTotal);
     }
 
-    private void updateColumn(int visitId, ArrayList<EditText> editBoxes, EditText editTextDate) {
+    private String calculateFromAnswers(ArrayList<EditText> answerFields) {
+    	int intTotal = 0;
+    	for (EditText e : answerFields) {
+    		String ans = e.getText().toString();
+    		if (ans.length() > 0 && TextUtils.isDigitsOnly(ans)) {
+    			intTotal += Integer.parseInt(ans);
+    		} else {
+    			Log.d("NJW", "Field blank??");
+    			return ""; //if any one missing don't calculate.
+    		}
+    	}
+    	
+    	
+    	return String.valueOf(intTotal);
+	}
+
+	private void updateColumn(int visitId, ArrayList<EditText> editBoxes, EditText editTextDate) {
         String title = mTitleText.getText().toString(); //TODO: Maybe allow them to save title here! (eventually..)
         String date = editTextDate.getText().toString();
         if ( title.length() == 0) {
@@ -239,8 +260,9 @@ public class AssessmentActivity extends Activity implements
                 if (mVisitIds.size() > 0) {
                     int currentVisitId = mVisitIds.get(mCurrentVisitIdIndex);
 
-                    saveColumn(currentVisitId, mNewEntryEditBoxes, mEditTextDate);
+                    saveColumn(currentVisitId, mNewEntryEditBoxes, mEditTextDate, tvTotal);
                     Log.i("NJW", "currentvisitid="+currentVisitId);
+                    Toast.makeText(getApplicationContext(), "Saved current column.", Toast.LENGTH_LONG).show();
                 }
 
         }
