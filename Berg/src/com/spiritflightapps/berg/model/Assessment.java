@@ -47,6 +47,11 @@ public class Assessment {
         return date;
     }
 
+    public String getTotal() {
+        return total;
+    }
+
+
     public ArrayList<String> getAnswers() {
         return answers;
     }

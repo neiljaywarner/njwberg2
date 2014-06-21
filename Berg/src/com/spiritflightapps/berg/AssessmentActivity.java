@@ -18,9 +18,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,7 +29,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class AssessmentActivity extends Activity implements
@@ -92,10 +89,6 @@ public class AssessmentActivity extends Activity implements
 
         }
 
-      //  calculateTotalIfAllFilledIn(mNewEntryEditBoxes, tvTotal);
-     //   calculateTotalIfAllFilledIn(mPreviousEntryEditBoxes, tvTotal2);
-
-
     }
 
     HashMap<String,Assessment> mAssessmentObjects;
@@ -110,8 +103,6 @@ public class AssessmentActivity extends Activity implements
         while (cursor.moveToNext()) {
             assessment = new Assessment(cursor);
 
-
-            //mAssessment.put(date,assessment);
             mAssessmentObjects.put(assessment.getVisitId(),assessment); //TODO: No need for hashmap like that.
             mIntPreviousVisitId = Integer.valueOf(assessment.getVisitId());
 
@@ -121,8 +112,12 @@ public class AssessmentActivity extends Activity implements
 
             Log.i("NJW", "loaded" + mAssessments.size());
             mCurrentVisitIdIndex = mVisitIds.size() -1;
-            fillAssessmentColumn(assessment); //eg last one.
+            fillCurrentAssessmentColumn(assessment); //eg last one.
 
+            if (mAssessmentObjects.size() > 1)  {
+                assessment = mAssessmentObjects.get(mAssessments.size()-2); //most recent one but not current
+                fillPastAssessmentColumn(assessment); //eg last one.
+            }
 
       //  setupEditBoxes(mNewEntryEditBoxes, tvTotal, mEditTextDate);
       //  setupEditBoxes(mPreviousEntryEditBoxes, tvTotal2, mEditTextDate2);
@@ -137,29 +132,8 @@ public class AssessmentActivity extends Activity implements
         }
     }
 
-
-
-
-
-
-
-    private void saveColumn(String visitId, ArrayList<EditText> editBoxes, EditText editTextDate) {
-        if (visitId.trim().length()==0) {
-            insertColumn(editBoxes, editTextDate);
-        } else {
-            int intVisitId = Integer.parseInt(visitId);
-            updateColumn(intVisitId, editBoxes, editTextDate);
-
-        }
-    }
-
     private void saveColumn(int visitId, ArrayList<EditText> editBoxes, EditText editTextDate) {
-        if (visitId == Integer.MIN_VALUE) {
-            insertColumn(editBoxes, editTextDate);
-        } else {
-            updateColumn(visitId, editBoxes, editTextDate);
-
-        }
+        updateColumn(visitId, editBoxes, editTextDate);
     }
 
     private void updateColumn(int visitId, ArrayList<EditText> editBoxes, EditText editTextDate) {
@@ -202,41 +176,6 @@ public class AssessmentActivity extends Activity implements
 
 
 
-    private void insertColumn(ArrayList<EditText> editBoxes, EditText editTextDate) {
-        Log.i("NJW", "trying to save/insert column");
-        String title = mTitleText.getText().toString(); //TODO: Maybe allow them to save title here! (eventually..)
-        String date = editTextDate.getText().toString();
-        if ( title.length() == 0) {
-            return;
-        }
-        //TODO: Make title so   it cannot be saved in the middle, etc
-        ContentValues values = new ContentValues();
-        values.put(AssessmentTable.COLUMN_PATIENT_ID, mPatientId);
-        values.put(AssessmentTable.COLUMN_DATE, date);
-        values.put(AssessmentTable.COLUMN_Q1, editBoxes.get(0).getText().toString().trim());
-        values.put(AssessmentTable.COLUMN_Q2, editBoxes.get(1).getText().toString().trim());
-        values.put(AssessmentTable.COLUMN_Q3, editBoxes.get(2).getText().toString().trim());
-        values.put(AssessmentTable.COLUMN_Q4, editBoxes.get(3).getText().toString().trim());
-        values.put(AssessmentTable.COLUMN_Q5, editBoxes.get(4).getText().toString().trim());
-        values.put(AssessmentTable.COLUMN_Q6, editBoxes.get(5).getText().toString().trim());
-        values.put(AssessmentTable.COLUMN_Q7, editBoxes.get(6).getText().toString().trim());
-        values.put(AssessmentTable.COLUMN_Q8, editBoxes.get(7).getText().toString().trim());
-        values.put(AssessmentTable.COLUMN_Q9, editBoxes.get(8).getText().toString().trim());
-        values.put(AssessmentTable.COLUMN_Q10, editBoxes.get(9).getText().toString().trim());
-        values.put(AssessmentTable.COLUMN_Q11, editBoxes.get(10).getText().toString().trim());
-        values.put(AssessmentTable.COLUMN_Q12, editBoxes.get(11).getText().toString().trim());
-        values.put(AssessmentTable.COLUMN_Q13, editBoxes.get(12).getText().toString().trim());
-        values.put(AssessmentTable.COLUMN_Q14, editBoxes.get(13).getText().toString().trim());
-
-
-
-        // New berg test
-        Log.i("NJW", "about to insert assessment");
-        getContentResolver().insert(AssessmentContentProvider.CONTENT_URI, values);
-
-    }
-
-
     ArrayList<EditText> mNewEntryEditBoxes;
     ArrayList<EditText> mPreviousEntryEditBoxes;
 
@@ -270,6 +209,9 @@ public class AssessmentActivity extends Activity implements
     // Reaction to the menu selection - next/previous
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //TODO: Disable state if nothing to go to... (or not there?)
+
+        //TODO: Autoinsert if it's a new day - actual day.
         switch (item.getItemId()) {
             case R.id.next:
                 this.setTitle("nvidx="+mCurrentVisitIdIndex);
@@ -277,10 +219,9 @@ public class AssessmentActivity extends Activity implements
                 if (mCurrentVisitIdIndex < mVisitIds.size() - 1) {
                     mCurrentVisitIdIndex = mCurrentVisitIdIndex + 1;
 
-                    //  fillAssessmentColumn(mDates.get(mCurrentDateIndex));
                     Assessment assessment = mAssessmentObjects.get(mCurrentVisitIdIndex);
 
-                    fillAssessmentColumn(assessment);
+                    fillPastAssessmentColumn(assessment);
                     mIntPreviousVisitId = mVisitIds.get(mCurrentDateIndex);
                 }
                 return true;
@@ -291,45 +232,50 @@ public class AssessmentActivity extends Activity implements
                     mCurrentVisitIdIndex = mCurrentVisitIdIndex - 1;
                     Assessment assessment = mAssessmentObjects.get(mCurrentVisitIdIndex);
 
-                    fillAssessmentColumn(assessment);
+                    fillPastAssessmentColumn(assessment);
 
-                    //   fillAssessmentColumn(mDates.get(mCurrentDateIndex));
                     mIntPreviousVisitId = mVisitIds.get(mCurrentDateIndex);
 
                 }
                 return true;
 
             case R.id.save:
+                //TODO: calculate when save if full.
+
                 if (mVisitIds.size() > 0) {
                     int currentVisitId = mVisitIds.get(mCurrentVisitIdIndex);
 
                     saveColumn(currentVisitId, mNewEntryEditBoxes, mEditTextDate);
                     Log.i("NJW", "currentvisitid="+currentVisitId);
                 }
-                else {
-                    insertColumn(mNewEntryEditBoxes,mEditTextDate);
-                }
+
         }
         return super.onOptionsItemSelected(item);
     }
 
 
-    public void fillAssessmentColumn(Assessment assessment) {
+    public void fillPastAssessmentColumn(Assessment assessment) {
         String date = assessment.getDate();
 
         if (!TextUtils.isEmpty(date)) {
-            //NOTE: In this method the left column is always new.
+            //NOTE: In this method the right column is old/previous visits/tests/assessments
 
-            //ArrayList<String> answers = mAssessments.get(date);
             ArrayList<String> answers = assessment.getAnswers();
             fillAnswerEditFields(mPreviousEntryEditBoxes, mEditTextDate2, date, answers);
-            mEditTextDate.setText(""); //TODO: Autofill this with something reasonable like 2e if 2nd one, etc.
-          //  mEditTextDate2.setTag(mIntPreviousVisitId); //TODO: Work this out!!
-          //  calculateTotalIfAllFilledIn(mPreviousEntryEditBoxes, tvTotal2);
 
         } else {
             ViewGroup viewGroup2 = (ViewGroup) findViewById(R.id.vgLastVisit2);
             viewGroup2.setVisibility(View.GONE); //don't show if empty
+        }
+    }
+
+    public void fillCurrentAssessmentColumn(Assessment assessment) {
+
+        if (assessment != null) {
+            //NOTE: In this method the left column is always new.
+            ArrayList<String> answers = assessment.getAnswers();
+            fillAnswerEditFields(mNewEntryEditBoxes, mEditTextDate, assessment.getDate(), answers);
+            tvTotal.setText(assessment.getTotal());
         }
     }
 
@@ -343,7 +289,6 @@ public class AssessmentActivity extends Activity implements
     int mCurrentDateIndex;
     private int mIntPreviousVisitId; //the id of the visit on teh right, the non-current one.
 
-    //TODO: Abstract some of this out into classes!!!
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
@@ -434,9 +379,8 @@ public class AssessmentActivity extends Activity implements
 
     private void doOnEntry(EditText editTextDate, ArrayList<EditText> editBoxes,  TextView textViewTotal) {
         Object tag = editTextDate.getTag();
-        if (tag == null) {
-            insertColumn(editBoxes,editTextDate);
-        } else {
+        if (tag != null) {
+
             String visitId = editTextDate.getTag().toString(); //TODO: BETTER PLACE TO GET THIS!
             updateColumn(Integer.parseInt(visitId), editBoxes, editTextDate);
         }
@@ -445,35 +389,10 @@ public class AssessmentActivity extends Activity implements
        //     EditText nextEditBox = editBoxes.get(next);
         //    nextEditBox.requestFocus();
         //}
-        //autocalculate
 
-       // calculateTotalIfAllFilledIn(editBoxes, textViewTotal);
-
-    }
-    protected void calculateTotalIfAllFilledIn(ArrayList<EditText> editBoxes, TextView tvTotal) {
-
-        int total = 0;
-        int score = 0;
-        try {
-            for (EditText editBox : editBoxes) {
-                score = Integer.parseInt(editBox.getText().toString());
-                if (score > 4) {
-                    throw (new Exception()); //TODO: Detail which one via tag in xml
-                }
-                total += score;
-            }
-            //  Toast.makeText(AssessmentActivity.this.getApplicationContext(), "Total Score=" + total, Toast.LENGTH_SHORT).show();
-            //TODO: Just remove? or use only the first time?
-            tvTotal.setText(String.valueOf(total));
-
-        } catch (Exception e) {
-            //Validation done in each field. if blank or one missing, do nothing
-
-        }
 
     }
 
-    //would an action bar ? icon be better if in the field?
     //TODO: Find by tag for more readable code, or child or something?
     private void initializeInstructionButtons() {
         instructionButtons = new ArrayList<View>();
