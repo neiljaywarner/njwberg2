@@ -578,11 +578,9 @@
                 <EditText
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
                     android:ems="10"
                     android:gravity="right"
                     android:tag="Date"
-                    android:text="2E"
                     android:id="@+id/editTextDateV2"
                     />
 

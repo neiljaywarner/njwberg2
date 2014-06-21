@@ -36,10 +36,15 @@ public class AssessmentActivity extends Activity implements
     private EditText mTitleText;
     private EditText mEditTextDate;
     private EditText mEditTextDate2;
-    private TextView mTextViewCurrentVisitId, mTextViewPreviousVisitId;
     public static final String EXTRA_NAME = "name";
     public static final String EXTRA_PATIENT_ID = "patient_id";
     public int mCurrentVisitIdIndex;
+    HashMap<String,ArrayList<String>> mAssessments; //date then questions
+
+    ArrayList<Integer> mVisitIds;
+
+    int mCurrentDateIndex;
+    private int mIntPreviousVisitId; //the id of the visit on teh right, the non-current one.
 
     public static Intent newIntent(Context context, String name, String patientId) {
         Intent i = new Intent(context, AssessmentActivity.class);
@@ -59,16 +64,10 @@ public class AssessmentActivity extends Activity implements
         super.onCreate(bundle);
         setContentView(R.layout.activity_main);
         mTitleText = (EditText) findViewById(R.id.todo_edit_summary);
-
-
         tvTotal = (EditText) findViewById(R.id.textViewTotal);
         tvTotal2 = (EditText) findViewById(R.id.textViewTotalV2);
-
         mEditTextDate = (EditText) findViewById(R.id.editTextDateV1);
         mEditTextDate2 = (EditText) findViewById(R.id.editTextDateV2);
-
-        mTextViewCurrentVisitId = (TextView) findViewById(R.id.textViewCurrentVisitId);
-        mTextViewPreviousVisitId = (TextView) findViewById(R.id.textViewOtherVisitId);
 
         initializeEditBoxes();
         initializeInstructionButtons();
@@ -77,11 +76,9 @@ public class AssessmentActivity extends Activity implements
         Bundle extras = getIntent().getExtras();
 
 
-        mPatientId = extras.getString("patient_id");
-
-        // Or passed from the other activity
+        // if passed from the other activity
         if (extras != null) {
-
+            mPatientId = extras.getString("patient_id");
 
             String name = extras.getString("name");
             mTitleText.setText(name);
@@ -94,11 +91,8 @@ public class AssessmentActivity extends Activity implements
     HashMap<String,Assessment> mAssessmentObjects;
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        mAssessments = new HashMap<String, ArrayList<String>>();
         mAssessmentObjects =  new HashMap<String, Assessment>(); //for now visitid to assessment
-        mDates = new ArrayList<String>();
         mVisitIds = new ArrayList<Integer>();
-        String date="";
         Assessment assessment = null;
         while (cursor.moveToNext()) {
             assessment = new Assessment(cursor);
@@ -110,7 +104,7 @@ public class AssessmentActivity extends Activity implements
         }
 
 
-            Log.i("NJW", "loaded" + mAssessments.size());
+            Log.i("NJW", "loaded" + mAssessmentObjects.size());
             mCurrentVisitIdIndex = mVisitIds.size() -1;
             fillCurrentAssessmentColumn(assessment); //eg last one.
 
@@ -222,7 +216,7 @@ public class AssessmentActivity extends Activity implements
                     Assessment assessment = mAssessmentObjects.get(mCurrentVisitIdIndex);
 
                     fillPastAssessmentColumn(assessment);
-                    mIntPreviousVisitId = mVisitIds.get(mCurrentDateIndex);
+                    mIntPreviousVisitId = mVisitIds.get(mCurrentVisitIdIndex);
                 }
                 return true;
             case R.id.previous:
@@ -234,7 +228,7 @@ public class AssessmentActivity extends Activity implements
 
                     fillPastAssessmentColumn(assessment);
 
-                    mIntPreviousVisitId = mVisitIds.get(mCurrentDateIndex);
+                    mIntPreviousVisitId = mVisitIds.get(mCurrentVisitIdIndex);
 
                 }
                 return true;
@@ -281,14 +275,7 @@ public class AssessmentActivity extends Activity implements
 
 
 
-    HashMap<String,ArrayList<String>> mAssessments; //date then questions
-
-    ArrayList<String> mDates;
-    ArrayList<Integer> mVisitIds;
-
-    int mCurrentDateIndex;
-    private int mIntPreviousVisitId; //the id of the visit on teh right, the non-current one.
-
+  
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
