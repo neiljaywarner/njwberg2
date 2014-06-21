@@ -249,16 +249,16 @@ public class AssessmentActivity extends Activity implements
 
 
     public void fillPastAssessmentColumn(Assessment assessment) {
-        String date = assessment.getDate();
+        ViewGroup viewGroup2 = (ViewGroup) findViewById(R.id.vgLastVisit2);
 
-        if (!TextUtils.isEmpty(date)) {
+        if (assessment != null) {
             //NOTE: In this method the right column is old/previous visits/tests/assessments
-
+            viewGroup2.setVisibility(View.VISIBLE); //don't show if empty
+            String date = assessment.getDate();
             ArrayList<String> answers = assessment.getAnswers();
             fillAnswerEditFields(mPreviousEntryEditBoxes, mEditTextDate2, date, answers);
 
         } else {
-            ViewGroup viewGroup2 = (ViewGroup) findViewById(R.id.vgLastVisit2);
             viewGroup2.setVisibility(View.GONE); //don't show if empty
         }
     }
